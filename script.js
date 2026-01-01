@@ -213,7 +213,7 @@ const HTMLContent = `
             <div class="modal-heading monospace">
                 <p>box một</p>
                 <p>
-                    <span class="file-number">Entry<b>001</b></span>
+                    <span class="file-number">hộp<b>1</b></span>
                     <span class="file-date">Day<b>1</b></span>
                 </p>
             </div>
