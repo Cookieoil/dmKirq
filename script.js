@@ -211,15 +211,14 @@ const HTMLContent = `
     <section class="page-flow" data-onshow="console.log('Phase 1 visible')">
         <div class="modal rec">
             <div class="modal-heading monospace">
-                <p>file://diary/entry_001</p>
+                <p>box một</p>
                 <p>
                     <span class="file-number">Entry<b>001</b></span>
                     <span class="file-date">Day<b>1</b></span>
                 </p>
             </div>
             <p class="name">Researcher Notes</p>
-            <p>This is where your first diary entry goes...</p>
-            <p>The experiment begins today. I don't know what to expect.</p>
+            <p>ghi lung tung thử nghiệm 0-90</p>
         </div>
     </section>
 
@@ -227,10 +226,10 @@ const HTMLContent = `
     <section class="page-flow">
         <div class="modal rec">
             <div class="modal-heading monospace">
-                <p>file://diary/entry_002</p>
+                <p>box 2</p>
             </div>
-            <p class="name">Day 30</p>
-            <p>One month has passed. Things are starting to change...</p>
+            <p class="name">Researcher Notes</p>
+            <p>ghi lung tung thử nghiệm 0-90</p>
         </div>
     </section>
 
@@ -245,10 +244,10 @@ const HTMLContent = `
     <section class="page-flow">
         <div class="modal rec">
             <div class="modal-heading monospace">
-                <p>file://diary/entry_090</p>
+                <p>ghi lung tung thử nghiệm </p>
             </div>
             <p class="name">Day 90</p>
-            <p>Three months. The first dimensional shift occurred today...</p>
+            <p>ghi lung tung thử nghiệm </p>
         </div>
     </section>
 
@@ -263,10 +262,10 @@ const HTMLContent = `
     <section class="page-flow">
         <div class="modal rec">
             <div class="modal-heading monospace">
-                <p>file://diary/entry_180</p>
+                <p>ghi lung tung thử nghiệm </p>
             </div>
             <p class="name">Day 180</p>
-            <p>Half a year. Reality feels different now...</p>
+            <p>ghi lung tung thử nghiệm </p>
         </div>
     </section>
 
