@@ -201,9 +201,9 @@ document.addEventListener("DOMContentLoaded", function() {
 const HTMLContent = `
     <!-- INTRO SECTION -->
     <section class="fullscreen intro-section">
-        <div class="intro-logo">
-            <h1>Năm mới như lồng</h1>
-            <span class="author">2026</span>
+    <div class="intro-logo">
+        <img src="cxyc_title.svg" alt="Title">
+        <span class="decofont author">2026</span>
         </div>
     </section>
 
