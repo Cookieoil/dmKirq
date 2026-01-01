@@ -9,11 +9,11 @@ const CONFIG = {
     // Theme change milestones (in days)
     // Each milestone triggers a theme change
     themeChanges: [
-        { days: 0, theme: 'theme-start', name: 'Phase 01', subtitle: 'The Beginning' },
-        { days: 90, theme: 'theme-3months', name: 'Phase 02', subtitle: '3 Months Later' },
-        { days: 180, theme: 'theme-6months', name: 'Phase 03', subtitle: '6 Months Later' },
-        { days: 270, theme: 'theme-9months', name: 'Phase 04', subtitle: '9 Months Later' },
-        { days: 365, theme: 'theme-end', name: 'Final Phase', subtitle: 'The End' }
+        { days: 0, theme: 'theme-start', name: 'Phase 01', subtitle: 'Tháng 2' },
+        { days: 90, theme: 'theme-3months', name: 'Phase 02', subtitle: 'Tháng 3' },
+        { days: 180, theme: 'theme-6months', name: 'Phase 03', subtitle: 'Tháng 6' },
+        { days: 270, theme: 'theme-9months', name: 'Phase 04', subtitle: 'Tháng vân vân' },
+        { days: 365, theme: 'theme-end', name: 'Final Phase', subtitle: 'Tháng 12' }
     ]
 };
 
