@@ -1,0 +1,346 @@
+/* ============================================
+   FONTS
+   ============================================ */
+
+@import url("https://fontsapi.zeoseven.com/161/main/result.css");
+
+:root {
+    --font-sans-serif: "Sarasa Gothic SC", sans-serif;
+    --font-mono: "JetBrains Mono", "Consolas", monospace;
+    --font-deco: "Alata", sans-serif;
+    
+    /* Base colors - will be overridden by themes */
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #0B0B0B;
+    --color-bg-tertiary: #262626;
+    --color-text-primary: #F2F2F2;
+    --color-text-secondary: #b1b1b1;
+    --color-accent: #8e7aff;
+    
+    --transition-duration: 0.5s;
+}
+
+/* ============================================
+   THEME DEFINITIONS
+   ============================================ */
+
+/* Theme 1: Start (Days 0-90) - Dark Purple */
+body.theme-start {
+    --color-bg-primary: #0a0012;
+    --color-bg-secondary: #120020;
+    --color-bg-tertiary: #1a0030;
+    --color-text-primary: #e8e0ff;
+    --color-text-secondary: #a090c0;
+    --color-accent: #8e7aff;
+}
+
+/* Theme 2: 3 Months (Days 90-180) - Dark Blue */
+body.theme-3months {
+    --color-bg-primary: #000a14;
+    --color-bg-secondary: #001428;
+    --color-bg-tertiary: #002040;
+    --color-text-primary: #e0f0ff;
+    --color-text-secondary: #80a0c0;
+    --color-accent: #4a90ff;
+}
+
+/* Theme 3: 6 Months (Days 180-270) - Dark Green */
+body.theme-6months {
+    --color-bg-primary: #000a08;
+    --color-bg-secondary: #001410;
+    --color-bg-tertiary: #002018;
+    --color-text-primary: #e0ffe8;
+    --color-text-secondary: #80c090;
+    --color-accent: #4aff7a;
+}
+
+/* Theme 4: 9 Months (Days 270-365) - Dark Red/Orange */
+body.theme-9months {
+    --color-bg-primary: #140800;
+    --color-bg-secondary: #281000;
+    --color-bg-tertiary: #401800;
+    --color-text-primary: #ffe8e0;
+    --color-text-secondary: #c09080;
+    --color-accent: #ff7a4a;
+}
+
+/* Theme 5: End (Day 365) - White/Inverted */
+body.theme-end {
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f0f0f0;
+    --color-bg-tertiary: #e0e0e0;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #505050;
+    --color-accent: #4a4aff;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: var(--font-sans-serif);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    transition: background-color var(--transition-duration) ease,
+                color var(--transition-duration) ease;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   OVERLAY (Time Display)
+   ============================================ */
+
+#overlay {
+    position: fixed;
+    z-index: 100;
+    pointer-events: none;
+}
+
+#overlay-number {
+    position: fixed;
+    top: 50vh;
+    left: 2rem;
+    transform: translateY(-50%);
+}
+
+#overlay-number span {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    transition: color var(--transition-duration) ease;
+}
+
+#overlay-number #time-display {
+    font-size: 2.5rem;
+    font-family: var(--font-deco);
+    font-weight: bold;
+    color: var(--color-text-primary);
+    letter-spacing: -0.1rem;
+    transition: color var(--transition-duration) ease;
+}
+
+#overlay-chapter {
+    position: fixed;
+    top: 1.5rem;
+    left: 2rem;
+}
+
+#overlay-chapter span {
+    display: block;
+    font-family: var(--font-deco);
+    transition: color var(--transition-duration) ease;
+}
+
+#overlay-chapter #chapter-name-en {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+#overlay-chapter #chapter-name {
+    font-size: 1.2rem;
+    color: var(--color-text-primary);
+    font-weight: bold;
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+
+section.fullscreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+section.page-flow {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* ============================================
+   INTRO SECTION
+   ============================================ */
+
+.intro-section {
+    flex-direction: column;
+    background: linear-gradient(180deg, 
+        var(--color-bg-primary) 0%, 
+        var(--color-bg-secondary) 100%);
+}
+
+.intro-logo h1 {
+    font-family: var(--font-deco);
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    color: var(--color-text-primary);
+}
+
+.intro-logo .author {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.3rem;
+}
+
+/* ============================================
+   MODAL (Diary Entry Box)
+   ============================================ */
+
+.modal {
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-bg-tertiary);
+    max-width: 40rem;
+    width: 100%;
+    transition: background-color var(--transition-duration) ease,
+                border-color var(--transition-duration) ease;
+}
+
+.modal .modal-heading {
+    background-color: var(--color-bg-tertiary);
+    padding: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    transition: background-color var(--transition-duration) ease;
+}
+
+.modal .modal-heading p {
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.modal .modal-heading span {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
+.modal .modal-heading b {
+    color: var(--color-accent);
+}
+
+.modal > p {
+    padding: 1rem 1.5rem;
+    line-height: 1.8;
+}
+
+.modal p.name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    border-bottom: 1px solid var(--color-bg-tertiary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   PHASE MARKERS
+   ============================================ */
+
+.phase-marker {
+    min-height: 50vh;
+}
+
+.phase-title {
+    text-align: center;
+}
+
+.phase-title h2 {
+    font-family: var(--font-deco);
+    font-size: 3rem;
+    color: var(--color-accent);
+    letter-spacing: 0.5rem;
+}
+
+.phase-title p {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   FINAL DISPLAY
+   ============================================ */
+
+.final-display {
+    text-align: center;
+}
+
+.final-display h1 {
+    font-size: 15vw;
+    font-family: var(--font-deco);
+    color: var(--color-accent);
+}
+
+.final-display p {
+    font-size: 2rem;
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   ENDING
+   ============================================ */
+
+.ending {
+    background-color: var(--color-bg-primary);
+}
+
+.endscreen {
+    text-align: center;
+}
+
+.endscreen p {
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+.endscreen span {
+    font-family: var(--font-deco);
+    font-size: 1.5rem;
+    letter-spacing: 0.5rem;
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+
+@media screen and (max-width: 768px) {
+    #overlay-number {
+        top: auto;
+        bottom: 2rem;
+        left: 1rem;
+    }
+    
+    #overlay-number #time-display {
+        font-size: 1.8rem;
+    }
+    
+    #overlay-chapter {
+        left: 1rem;
+        top: 1rem;
+    }
+    
+    .intro-logo h1 {
+        font-size: 1.8rem;
+        letter-spacing: 0.2rem;
+    }
+    
+    .phase-title h2 {
+        font-size: 2rem;
+    }
+    
+    .final-display h1 {
+        font-size: 20vw;
+    }
+}
