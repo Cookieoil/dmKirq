@@ -116,8 +116,8 @@ html, body {
         url("cxyc_general_bg_ruler.svg"), 
         url("cxyc_general_bg_2.svg"), 
         url("cxyc_general_bg_3.svg");
-    background-size: 95%, 0.75rem, 100vw, cover;
-    background-position: center center, calc(50% - 1.2rem) center, 25vw 15vh, center center;
+    background-size: 95%, 0.75rem, 100vw, 100vh;
+    background-position: center center, calc(50% - 1.2rem) center, 25vw 15vh, -25vw -25vh;
     background-repeat: no-repeat, repeat-y, no-repeat, no-repeat;
     background-attachment: fixed, scroll, fixed, fixed;
 }
