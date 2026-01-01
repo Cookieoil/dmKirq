@@ -202,8 +202,8 @@ const HTMLContent = `
     <!-- INTRO SECTION -->
     <section class="fullscreen intro-section">
         <div class="intro-logo">
-            <h1>DIMENSION DIARY</h1>
-            <span class="author">Your Name</span>
+            <h1>Năm mới như lồng</h1>
+            <span class="author">2026</span>
         </div>
     </section>
 
@@ -281,8 +281,8 @@ const HTMLContent = `
     <!-- ENDING -->
     <section class="fullscreen ending">
         <div class="endscreen">
-            <p>終</p>
-            <span>THE END</span>
+            <p>DM KIRQ</p>
+            <span>Lì xì đê</span>
         </div>
     </section>
 `;
