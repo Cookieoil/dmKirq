@@ -18,6 +18,13 @@
     --color-accent: #8e7aff;
     
     --transition-duration: 0.5s;
+
+    /* Background images - defaults */
+    --bg-main: url("cxyc_general_bg_1.png");
+    --bg-ruler: url("cxyc_general_bg_ruler.svg");
+    --bg-secondary: url("cxyc_general_bg_2.png");
+    --bg-tertiary: url("cxyc_general_bg_3.png");
+    --bg-text: url("cxyc_1_textbg.svg");
 }
 
 /* ============================================
