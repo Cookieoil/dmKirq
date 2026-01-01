@@ -112,12 +112,12 @@ html, body {
 #content-container {
     background-color: var(--color-dark-layer-1);
     background-image: 
-       /*  url("cxyc_general_bg_1.svg"), 
+        url("cxyc_general_bg_1.svg"), 
         url("cxyc_general_bg_ruler.svg"), 
         url("cxyc_general_bg_2.svg"), 
-        url("cxyc_general_bg_3.svg"); */
-    background-size: 95%, 0.75rem, 100vw, 100vh;
-    background-position: center center, calc(50% - 1.2rem) center, 25vw 15vh, -25vw -25vh;
+        url("flower background.pngpng"); 
+    background-size: 95%, 0.75rem, 100vw, cover;
+    background-position: center center, calc(50% - 1.2rem) center, 25vw 15vh, center center;
     background-repeat: no-repeat, repeat-y, no-repeat, no-repeat;
     background-attachment: fixed, scroll, fixed, fixed;
 }
@@ -144,7 +144,7 @@ section.page-flow {
    ============================================ */
 
 .intro-section {
-    background-image: url("cxyc_1_textbg.svg"), 
+    background-image: url("flwr-prdise.png"), 
                       linear-gradient(180deg, var(--color-dark-layer-1) 0%, #00000039 100%);
     background-size: cover;
     background-position: center;
