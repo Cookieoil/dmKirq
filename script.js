@@ -9,11 +9,11 @@ const CONFIG = {
     // Theme change milestones (in days)
     // Each milestone triggers a theme change
     themeChanges: [
-        { days: 0, theme: 'theme-start', name: 'Phase 01', subtitle: 'Tháng 2' },
-        { days: 90, theme: 'theme-3months', name: 'Phase 02', subtitle: 'Tháng 3' },
-        { days: 180, theme: 'theme-6months', name: 'Phase 03', subtitle: 'Tháng 6' },
-        { days: 270, theme: 'theme-9months', name: 'Phase 04', subtitle: 'Tháng vân vân' },
-        { days: 365, theme: 'theme-end', name: 'Final Phase', subtitle: 'Tháng 12' }
+        { days: 0, name: 'Phase 01', subtitle: 'Tháng 2' },
+        { days: 90, name: 'Phase 02', subtitle: 'Tháng 3' },
+        { days: 180, name: 'Phase 03', subtitle: 'Tháng 6' },
+        { days: 270, name: 'Phase 04', subtitle: 'Tháng vân vân' },
+        { days: 365, name: 'Final Phase', subtitle: 'Tháng 12' }
     ]
 };
 
@@ -68,14 +68,16 @@ function updateTimeDisplay() {
 // ============================================
 
 function updateTheme(days) {
-    let newTheme = CONFIG.themeChanges[0];
+    let currentMilestone = CONFIG.milestones[0];
     
-    // Find the appropriate theme for current day count
-    for (const themeConfig of CONFIG.themeChanges) {
-        if (days >= themeConfig.days) {
-            newTheme = themeConfig;
+    for (const milestone of CONFIG.milestones) {
+        if (days >= milestone.days) {
+            currentMilestone = milestone;
         }
     }
+    
+    updateChapterDisplay(currentMilestone.name, currentMilestone.subtitle);
+}
     
     // Only update if theme changed
     if (newTheme.theme !== currentTheme) {
