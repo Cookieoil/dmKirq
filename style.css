@@ -115,7 +115,7 @@ html, body {
         url("cxyc_general_bg_1.svg"), 
         url("cxyc_general_bg_ruler.svg"), 
         url("cxyc_general_bg_2.svg"), 
-        url("flower background.pngpng"); 
+        url("flower background.png"); 
     background-size: 95%, 0.75rem, 100vw, cover;
     background-position: center center, calc(50% - 1.2rem) center, 25vw 15vh, center center;
     background-repeat: no-repeat, repeat-y, no-repeat, no-repeat;
