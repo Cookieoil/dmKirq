@@ -144,7 +144,7 @@ section.page-flow {
    ============================================ */
 
 .intro-section {
-    background-image: url("flwr-prdise.png"), 
+    background-image: url("cxyc_1_textbg.svg"), 
                       linear-gradient(180deg, var(--color-dark-layer-1) 0%, #00000039 100%);
     background-size: cover;
     background-position: center;
