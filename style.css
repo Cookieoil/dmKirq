@@ -44,7 +44,7 @@
 
 html, body {
     font-family: var(--font-sans-serif);
-    background-color: var(--color-bg-primary);
+    background-color: var(--color-dark-layer-1);
     color: var(--color-text-primary);
     transition: background-color var(--transition-duration) ease,
                 color var(--transition-duration) ease;
@@ -313,7 +313,7 @@ section.dark + section::before {
    ============================================ */
 
 .ending {
-    background-color: var(--color-bg-primary);
+    background-color: var(--color-dark-layer-1);
 }
 
 .endscreen {
