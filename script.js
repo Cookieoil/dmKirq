@@ -217,7 +217,7 @@ const HTMLContent = `
                     <span class="file-date">Day<b>1</b></span>
                 </p>
             </div>
-            <p class="name">Researcher Notes</p>
+            <p class="name">Ghi lung tung thử nghiệm</p>
             <p>ghi lung tung thử nghiệm 0-90</p>
         </div>
     </section>
@@ -228,7 +228,7 @@ const HTMLContent = `
             <div class="modal-heading monospace">
                 <p>box 2</p>
             </div>
-            <p class="name">Researcher Notes</p>
+            <p class="name">Ghi lung tung thử nghiệm</p>
             <p>ghi lung tung thử nghiệm 0-90</p>
         </div>
     </section>
