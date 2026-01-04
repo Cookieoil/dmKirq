@@ -1,49 +1,111 @@
-/**
- * DIMENSION DIARY - Simplified
- */
-
 // ============================================
 // CONFIGURATION
 // ============================================
 
 const CONFIG = {
     maxDays: 365,
+    parallaxSpeed: 0.4, // Background moves at 40% of scroll speed
     
-    // Theme milestones with background images
-    themes: [
+    // Theme changes with background images
+    themeChanges: [
         { 
             days: 0, 
-            id: 'theme-1',
-            bgImage: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80'
+            name: 'Phase 01', 
+            subtitle: 'The Beginning',
+            bgClass: 'bg-theme-1'
         },
         { 
             days: 90, 
-            id: 'theme-2',
-            bgImage: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80'
+            name: 'Phase 02', 
+            subtitle: '3 Months Later',
+            bgClass: 'bg-theme-2'
         },
         { 
             days: 180, 
-            id: 'theme-3',
-            bgImage: 'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80'
+            name: 'Phase 03', 
+            subtitle: '6 Months Later',
+            bgClass: 'bg-theme-3'
         },
         { 
             days: 270, 
-            id: 'theme-4',
-            bgImage: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1920&q=80'
-        },
-        { 
-            days: 365, 
-            id: 'theme-5',
-            bgImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80'
+            name: 'Phase 04', 
+            subtitle: 'The Final Days',
+            bgClass: 'bg-theme-4'
         }
     ]
 };
 
 // ============================================
-// STATE
+// GLOBAL STATE
 // ============================================
 
 let currentDays = 0;
+let currentThemeIndex = 0;
+let lastScrollY = 0;
+
+// ============================================
+// PARALLAX SCROLLING
+// ============================================
+
+function updateParallax() {
+    const scrollY = window.scrollY;
+    const parallaxLayers = document.querySelectorAll('.parallax-layer');
+    
+    // Move all layers at parallax speed (slower than content)
+    const parallaxOffset = scrollY * CONFIG.parallaxSpeed;
+    
+    parallaxLayers.forEach(layer => {
+        // Use translate3d for GPU acceleration
+        layer.style.transform = `translate3d(0, ${-parallaxOffset}px, 0)`;
+    });
+    
+    lastScrollY = scrollY;
+}
+
+// ============================================
+// THEME/BACKGROUND SWITCHING
+// ============================================
+
+function updateTheme(days) {
+    let newThemeIndex = 0;
+    
+    // Find which theme should be active
+    for (let i = 0; i < CONFIG.themeChanges.length; i++) {
+        if (days >= CONFIG.themeChanges[i].days) {
+            newThemeIndex = i;
+        }
+    }
+    
+    // Only update if theme changed
+    if (newThemeIndex !== currentThemeIndex) {
+        currentThemeIndex = newThemeIndex;
+        
+        const theme = CONFIG.themeChanges[newThemeIndex];
+        
+        // Update background layers - activate current, deactivate others
+        const parallaxLayers = document.querySelectorAll('.parallax-layer');
+        parallaxLayers.forEach((layer, index) => {
+            if (index <= newThemeIndex) {
+                layer.classList.add('active');
+            } else {
+                layer.classList.remove('active');
+            }
+        });
+        
+        // Update chapter display
+        updateChapterDisplay(theme.name, theme.subtitle);
+        
+        console.log(`Theme changed to: ${theme.name} at ${days} days`);
+    }
+}
+
+function updateChapterDisplay(name, subtitle) {
+    const nameElement = document.getElementById("chapter-name-en");
+    const subtitleElement = document.getElementById("chapter-name");
+    
+    if (nameElement) nameElement.textContent = name + " /";
+    if (subtitleElement) subtitleElement.textContent = subtitle;
+}
 
 // ============================================
 // TIME DISPLAY
@@ -57,18 +119,29 @@ function updateTimeDisplay() {
     
     const zeroPosition = timeZero.offsetTop;
     const scrollY = window.scrollY;
+    
+    // Calculate scroll progress
     const scrollProgress = Math.min(1, Math.max(0, scrollY / zeroPosition));
     
+    // Calculate current days
     currentDays = Math.floor(CONFIG.maxDays * scrollProgress);
+    
+    // Update display
     timeDisplay.textContent = currentDays.toLocaleString();
+    
+    // Check for theme changes
+    updateTheme(currentDays);
 }
 
 // ============================================
-// SCROLL HANDLER
+// MAIN SCROLL HANDLER
 // ============================================
 
 function handleScroll() {
-    requestAnimationFrame(updateTimeDisplay);
+    requestAnimationFrame(() => {
+        updateParallax();
+        updateTimeDisplay();
+    });
 }
 
 // ============================================
@@ -76,176 +149,177 @@ function handleScroll() {
 // ============================================
 
 document.addEventListener("DOMContentLoaded", function() {
-    document.querySelector('main-content').innerHTML = HTMLContent;
+    // Create parallax container and layers
+    createParallaxLayers();
+    
+    // Create glass overlay
+    createGlassOverlay();
+    
+    // Add scroll listener
     window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial update
     handleScroll();
+    
+    // Set initial theme
+    const firstTheme = CONFIG.themeChanges[0];
+    updateChapterDisplay(firstTheme.name, firstTheme.subtitle);
+    
+    // Activate first background
+    const firstLayer = document.querySelector('.parallax-layer');
+    if (firstLayer) firstLayer.classList.add('active');
+    
+    console.log('Initialized with parallax scrolling');
 });
+
+// ============================================
+// CREATE PARALLAX LAYERS
+// ============================================
+
+function createParallaxLayers() {
+    const container = document.createElement('div');
+    container.id = 'parallax-container';
+    
+    // Create a layer for each theme
+    CONFIG.themeChanges.forEach((theme, index) => {
+        const layer = document.createElement('div');
+        layer.className = `parallax-layer ${theme.bgClass}`;
+        container.appendChild(layer);
+    });
+    
+    // Insert at beginning of body
+    document.body.insertBefore(container, document.body.firstChild);
+}
+
+// ============================================
+// CREATE GLASS OVERLAY
+// ============================================
+
+function createGlassOverlay() {
+    const overlay = document.createElement('div');
+    overlay.id = 'glass-overlay';
+    document.body.insertBefore(overlay, document.getElementById('content-container'));
+}
 
 // ============================================
 // HTML CONTENT
 // ============================================
 
 const HTMLContent = `
-
-    <!-- SECTION 1: Theme 1 Background -->
-    <section class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80')">
-        
-        <div class="content-layer">
-            <div class="intro">
-                <h1>DIMENSION DIARY</h1>
-                <p>A Journey Through Time</p>
-            </div>
+    <!-- INTRO -->
+    <section class="fullscreen intro-section">
+        <div class="intro-logo">
+            <h1>DIMENSION DIARY</h1>
+            <span class="author">Your Name</span>
         </div>
-        
-        <div class="content-layer">
-            <div class="entry">
-                <div class="entry-header">
-                    <span>file://diary/001</span>
-                    <span>Day 1</span>
-                </div>
-                <p class="speaker">Researcher's Log</p>
-                <p>The experiment began today. I don't know what to expect.</p>
-                <p>The portal stands ready. There's no turning back.</p>
-            </div>
-        </div>
-        
-        <div class="content-layer">
-            <div class="entry">
-                <div class="entry-header">
-                    <span>file://diary/030</span>
-                    <span>Day 30</span>
-                </div>
-                <p class="speaker">Researcher's Log</p>
-                <p>One month has passed. Something feels different.</p>
-                <p>The boundaries are thinner than I thought.</p>
-            </div>
-        </div>
-
     </section>
 
-    <!-- SECTION 2: Theme 2 Background (overlaps theme 1) -->
-    <section class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80')">
-        
-        <div class="content-layer">
-            <div class="phase-marker">
-                <span>02</span>
-                <h2>3 MONTHS LATER</h2>
+    <!-- PHASE 1 CONTENT -->
+    <section>
+        <div class="modal">
+            <div class="modal-heading">
+                <p>
+                    <span>Entry <b>001</b></span>
+                    <span>Day <b>1</b></span>
+                </p>
             </div>
+            <p class="name">The Beginning</p>
+            <p>First diary entry content here...</p>
+            <p>The experiment begins today.</p>
         </div>
-        
-        <div class="content-layer">
-            <div class="entry">
-                <div class="entry-header">
-                    <span>file://diary/090</span>
-                    <span>Day 90</span>
-                </div>
-                <p class="speaker">Researcher's Log</p>
-                <p>Three months. The first dimensional shift occurred.</p>
-                <p>I woke up in a room identical to mine, but everything was reversed.</p>
-            </div>
-        </div>
-        
-        <div class="content-layer">
-            <div class="entry">
-                <div class="entry-header">
-                    <span>file://diary/120</span>
-                    <span>Day 120</span>
-                </div>
-                <p class="speaker">Researcher's Log</p>
-                <p>The shifts are becoming more frequent now.</p>
-                <p>Sometimes I see two versions of objects overlapping.</p>
-            </div>
-        </div>
-
     </section>
 
-    <!-- SECTION 3: Theme 3 Background -->
-    <section class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80')">
-        
-        <div class="content-layer">
-            <div class="phase-marker">
-                <span>03</span>
-                <h2>6 MONTHS LATER</h2>
+    <section>
+        <div class="modal">
+            <div class="modal-heading">
+                <p>
+                    <span>Entry <b>030</b></span>
+                    <span>Day <b>30</b></span>
+                </p>
             </div>
+            <p class="name">One Month</p>
+            <p>One month has passed...</p>
         </div>
-        
-        <div class="content-layer">
-            <div class="entry">
-                <div class="entry-header">
-                    <span>file://diary/180</span>
-                    <span>Day 180</span>
-                </div>
-                <p class="speaker">Researcher's Log</p>
-                <p>Half a year. Reality feels different now.</p>
-                <p>The boundaries between dimensions are dissolving.</p>
-            </div>
-        </div>
-        
-        <div class="content-layer">
-            <div class="entry">
-                <div class="entry-header">
-                    <span>file://diary/210</span>
-                    <span>Day 210</span>
-                </div>
-                <p class="speaker">Researcher's Log</p>
-                <p>I've stopped counting the shifts.</p>
-                <p>Which version of me is writing this?</p>
-            </div>
-        </div>
-
     </section>
 
-    <!-- SECTION 4: Theme 4 Background -->
-    <section class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1920&q=80')">
-        
-        <div class="content-layer">
-            <div class="phase-marker">
-                <span>04</span>
-                <h2>9 MONTHS LATER</h2>
-            </div>
+    <!-- PHASE 2 TITLE -->
+    <section class="fullscreen">
+        <div class="phase-title">
+            <h2>PHASE 02</h2>
+            <p>3 Months Later</p>
         </div>
-        
-        <div class="content-layer">
-            <div class="entry warning">
-                <div class="entry-header">
-                    <span>file://diary/270</span>
-                    <span>Day 270</span>
-                </div>
-                <p class="speaker">???</p>
-                <p>Nine months. Or has it been nine years?</p>
-                <p>All the timelines are converging into one point.</p>
-            </div>
-        </div>
-        
-        <div class="content-layer">
-            <div class="entry warning">
-                <div class="entry-header">
-                    <span>file://diary/300</span>
-                    <span>Day 300</span>
-                </div>
-                <p class="speaker">???</p>
-                <p>I can see all of them now. All the versions.</p>
-                <p>The convergence is near.</p>
-            </div>
-        </div>
-
     </section>
 
-    <!-- SECTION 5: Theme 5 Background (Final) -->
-    <section class="parallax-bg" id="time-zero" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80')">
-        
-        <div class="content-layer">
-            <div class="final-display">
-                <span class="label">DAY</span>
-                <span class="number">365</span>
-                <span class="subtitle">THE END</span>
+    <section>
+        <div class="modal">
+            <div class="modal-heading">
+                <p>
+                    <span>Entry <b>090</b></span>
+                    <span>Day <b>90</b></span>
+                </p>
             </div>
+            <p class="name">Three Months</p>
+            <p>Something changed today...</p>
         </div>
-        
-        <div class="content-layer ending">
-            <p class="end-symbol">終</p>
-        </div>
-
     </section>
 
+    <!-- PHASE 3 TITLE -->
+    <section class="fullscreen">
+        <div class="phase-title">
+            <h2>PHASE 03</h2>
+            <p>6 Months Later</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="modal">
+            <div class="modal-heading">
+                <p>
+                    <span>Entry <b>180</b></span>
+                    <span>Day <b>180</b></span>
+                </p>
+            </div>
+            <p class="name">Half Year</p>
+            <p>Reality feels different now...</p>
+        </div>
+    </section>
+
+    <!-- PHASE 4 TITLE -->
+    <section class="fullscreen">
+        <div class="phase-title">
+            <h2>PHASE 04</h2>
+            <p>The Final Days</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="modal">
+            <div class="modal-heading">
+                <p>
+                    <span>Entry <b>270</b></span>
+                    <span>Day <b>270</b></span>
+                </p>
+            </div>
+            <p class="name">Nine Months</p>
+            <p>Almost there...</p>
+        </div>
+    </section>
+
+    <!-- TIME ZERO -->
+    <section class="fullscreen" id="time-zero">
+        <div class="phase-title">
+            <h2>DAY 365</h2>
+            <p>The End</p>
+        </div>
+    </section>
+
+    <!-- ENDING -->
+    <section class="fullscreen">
+        <div class="endscreen">
+            <p>終</p>
+            <span>THE END</span>
+        </div>
+    </section>
 `;
+
+document.querySelector('main-content').innerHTML = HTMLContent;
