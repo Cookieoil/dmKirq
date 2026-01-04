@@ -3,60 +3,65 @@
    ============================================ */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
 :root {
-    --font-sans: 'Space Grotesk', -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
     
-    /* Colors */
-    --color-text: #f0f0f0;
-    --color-text-dim: #888888;
+    /* Text Colors */
+    --color-text: #ffffff;
+    --color-text-dim: rgba(255, 255, 255, 0.6);
     --color-accent: #8e7aff;
     
-    /* Glass */
-    --glass-bg: rgba(0, 0, 0, 0.5);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    /* Glass Effect */
+    --glass-bg: rgba(0, 0, 0, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass-blur: 16px;
     
-    /* Overlay colors per theme */
-    --overlay-color: rgba(17, 0, 34, 0.5);
+    /* Overlay */
+    --overlay-color: rgba(20, 0, 40, 0.55);
+    
+    /* Transitions */
+    --transition: 0.4s ease;
 }
 
 /* ============================================
    THEME VARIATIONS
    ============================================ */
-
 body.theme-start {
     --color-accent: #8e7aff;
-    --overlay-color: rgba(17, 0, 34, 0.5);
+    --overlay-color: rgba(20, 0, 40, 0.55);
 }
 
 body.theme-3months {
     --color-accent: #4a9fff;
-    --overlay-color: rgba(0, 20, 40, 0.5);
+    --overlay-color: rgba(0, 20, 50, 0.55);
 }
 
 body.theme-6months {
     --color-accent: #4aff9f;
-    --overlay-color: rgba(0, 40, 20, 0.5);
+    --overlay-color: rgba(0, 40, 30, 0.55);
 }
 
 body.theme-9months {
     --color-accent: #ff9f4a;
-    --overlay-color: rgba(40, 20, 0, 0.5);
+    --overlay-color: rgba(50, 25, 0, 0.55);
 }
 
 body.theme-end {
-    --color-accent: #4a4aff;
     --color-text: #1a1a1a;
-    --color-text-dim: #555555;
-    --glass-bg: rgba(255, 255, 255, 0.7);
+    --color-text-dim: rgba(0, 0, 0, 0.6);
+    --color-accent: #4a4aff;
+    --glass-bg: rgba(255, 255, 255, 0.85);
     --glass-border: rgba(0, 0, 0, 0.1);
-    --overlay-color: rgba(255, 255, 255, 0.3);
+    --overlay-color: rgba(255, 255, 255, 0.4);
 }
 
 /* ============================================
-   RESET
+   RESET & BASE
    ============================================ */
-
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -65,42 +70,62 @@ body.theme-end {
 
 html {
     scroll-behavior: smooth;
+    font-size: 16px;
 }
 
 body {
     font-family: var(--font-sans);
     color: var(--color-text);
     line-height: 1.7;
+    background-color: #000;
     overflow-x: hidden;
-    background: #000;
+    min-height: 100vh;
+    transition: color var(--transition);
 }
 
+/* ============================================
+   MAIN CONTENT AREA
+   ============================================ */
 #main-content-area {
+    display: block;
+    width: 100%;
     position: relative;
 }
 
 /* ============================================
    BACKGROUND PANEL SYSTEM
    
-   Each panel has:
-   - A fixed background that stays in place
-   - An overlay for the "glass" effect
-   - Content that scrolls normally
-   
-   The "reveal" effect happens because:
-   - Each panel clips its own fixed background
-   - Next panel's background appears to slide over
+   Structure:
+   .bg-panel (creates clip mask)
+     └── .bg-layer (contains all background elements)
+           ├── .bg-fixed (the actual background image)
+           ├── .bg-overlay (color tint)
+           └── .bg-noise (texture)
+     └── .content-wrapper (contains all content)
+           └── .panel-content (each content block)
    ============================================ */
 
 .bg-panel {
     position: relative;
-    /* This clips the fixed background to this section */
+    width: 100%;
+    /* CRITICAL: This creates the "window" that clips the fixed background */
     clip-path: inset(0);
-    /* Minimum height ensures background is visible */
+    /* Ensure panel takes up at least full viewport */
     min-height: 100vh;
 }
 
-/* The fixed background image */
+/* Background Layer Container */
+.bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* The Fixed Background Image */
 .bg-fixed {
     position: fixed;
     top: 0;
@@ -108,12 +133,16 @@ body {
     width: 100vw;
     height: 100vh;
     background-size: cover;
-    background-position: center;
+    background-position: center center;
     background-repeat: no-repeat;
-    z-index: -2;
+    /* CRITICAL: Must be behind everything */
+    z-index: -10;
+    /* GPU acceleration */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
-/* Glass overlay */
+/* Color Overlay (Glass Tint) */
 .bg-overlay {
     position: fixed;
     top: 0;
@@ -121,76 +150,103 @@ body {
     width: 100vw;
     height: 100vh;
     background: var(--overlay-color);
-    z-index: -1;
-    transition: background 0.5s ease;
+    z-index: -9;
+    transition: background var(--transition);
 }
 
-.bg-overlay.overlay-light {
-    background: rgba(255, 255, 255, 0.4);
+.bg-overlay--light {
+    background: rgba(255, 255, 255, 0.5);
 }
 
-/* Noise texture for glass effect */
-.bg-overlay::after {
-    content: '';
-    position: absolute;
+/* Noise Texture */
+.bg-noise {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    width: 100vw;
+    height: 100vh;
+    z-index: -8;
+    opacity: 0.04;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
 /* ============================================
-   PANEL CONTENT
+   CONTENT WRAPPER & PANEL CONTENT
    ============================================ */
+
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
 
 .panel-content {
     position: relative;
-    z-index: 1;
+    z-index: 10;
+    width: 100%;
     min-height: 100vh;
+    padding: 4rem 2rem;
+    
+    /* CRITICAL: Flexbox centering */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 4rem 2rem;
 }
 
-/* Hero specific */
-.hero-content {
-    flex-direction: column;
+/* Shorter content blocks (not full height) */
+.panel-content--short {
+    min-height: 60vh;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.panel-content--hero {
+    min-height: 100vh;
     text-align: center;
 }
 
-.hero-title h1 {
+.hero-box {
+    text-align: center;
+}
+
+.hero-title {
     font-size: clamp(2rem, 8vw, 5rem);
     font-weight: 700;
-    letter-spacing: 0.2em;
-    text-shadow: 0 0 60px rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.15em;
+    text-shadow: 
+        0 0 40px rgba(255, 255, 255, 0.2),
+        0 4px 20px rgba(0, 0, 0, 0.5);
     margin-bottom: 1rem;
+    color: var(--color-text);
 }
 
-.hero-title .subtitle {
-    font-size: 1rem;
+.hero-subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
     letter-spacing: 0.4em;
-    color: var(--color-text-dim);
     text-transform: uppercase;
+    color: var(--color-text-dim);
 }
 
-/* Scroll hint */
-.scroll-hint {
+/* Scroll Indicator */
+.scroll-indicator {
     position: absolute;
     bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
-.scroll-hint span {
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    color: var(--color-text-dim);
+.scroll-indicator span {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
+    color: var(--color-text-dim);
 }
 
 .scroll-arrow {
@@ -199,109 +255,136 @@ body {
     border-right: 2px solid var(--color-text-dim);
     border-bottom: 2px solid var(--color-text-dim);
     transform: rotate(45deg);
-    animation: bounce 2s infinite;
+    animation: scrollArrowBounce 2s ease-in-out infinite;
 }
 
-@keyframes bounce {
-    0%, 100% { transform: rotate(45deg) translateY(0); }
-    50% { transform: rotate(45deg) translateY(10px); }
+@keyframes scrollArrowBounce {
+    0%, 100% { 
+        transform: rotate(45deg) translateY(0); 
+        opacity: 1;
+    }
+    50% { 
+        transform: rotate(45deg) translateY(8px); 
+        opacity: 0.4;
+    }
 }
 
 /* ============================================
-   DIARY ENTRIES (Glass Cards)
+   DIARY CARDS (Glass Effect)
    ============================================ */
-
-.diary-entry {
-    max-width: 40rem;
+.diary-card {
     width: 100%;
-}
-
-.glass-card {
+    max-width: 42rem;
+    padding: 2rem 2.5rem;
+    
+    /* Glass Effect */
     background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    
+    transition: 
+        background var(--transition),
+        border-color var(--transition);
 }
 
-.glass-light {
-    background: rgba(255, 255, 255, 0.8);
+.diary-card--light {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.diary-card--light .diary-card__header,
+.diary-card--light .diary-card__title,
+.diary-card--light p {
     color: #1a1a1a;
 }
 
-.glass-light .entry-header,
-.glass-light .entry-title {
-    color: #1a1a1a;
+.diary-card--light .diary-card__file,
+.diary-card--light .diary-card__day {
+    color: #555;
 }
 
-.glass-light p {
-    color: #333;
-}
-
-.entry-header {
+.diary-card__header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--glass-border);
     font-family: var(--font-mono);
     font-size: 0.8rem;
-    color: var(--color-text-dim);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--glass-border);
 }
 
-.entry-title {
+.diary-card__file {
+    color: var(--color-text-dim);
+}
+
+.diary-card__day {
+    color: var(--color-accent);
+    font-weight: 500;
+    transition: color var(--transition);
+}
+
+.diary-card__title {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--color-accent);
     margin-bottom: 1rem;
-    transition: color 0.5s ease;
+    transition: color var(--transition);
 }
 
-.diary-entry p {
-    margin-bottom: 1rem;
+.diary-card p {
     color: var(--color-text);
+    margin-bottom: 1rem;
+    transition: color var(--transition);
 }
 
-.diary-entry p:last-child {
+.diary-card p:last-child {
     margin-bottom: 0;
 }
 
-.diary-entry .italic {
-    font-style: italic;
+.diary-card em {
     color: var(--color-text-dim);
+    font-style: italic;
 }
 
 /* ============================================
    FLOATING QUOTES
    ============================================ */
-
 .floating-quote {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     font-weight: 300;
     font-style: italic;
     text-align: center;
     max-width: 800px;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
     color: var(--color-text);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    transition: color var(--transition);
+}
+
+.floating-quote::before,
+.floating-quote::after {
+    color: var(--color-accent);
+    transition: color var(--transition);
 }
 
 .floating-quote::before {
     content: '"';
-    color: var(--color-accent);
 }
 
 .floating-quote::after {
     content: '"';
-    color: var(--color-accent);
 }
 
 /* ============================================
    PHASE MARKERS
    ============================================ */
-
-.phase-intro {
+.panel-content--phase {
     min-height: 100vh;
 }
 
@@ -309,36 +392,37 @@ body {
     text-align: center;
 }
 
-.phase-number {
+.phase-marker__number {
     display: block;
-    font-size: clamp(6rem, 15vw, 10rem);
+    font-size: clamp(6rem, 20vw, 12rem);
     font-weight: 700;
     line-height: 1;
     color: transparent;
     -webkit-text-stroke: 2px var(--color-accent);
-    opacity: 0.4;
-    transition: -webkit-text-stroke-color 0.5s ease;
+    opacity: 0.35;
+    transition: -webkit-text-stroke-color var(--transition);
 }
 
-.phase-marker h2 {
+.phase-marker__title {
     font-size: clamp(2rem, 6vw, 4rem);
     font-weight: 700;
-    letter-spacing: 0.2em;
-    margin: -1.5rem 0 0.5rem;
+    letter-spacing: 0.15em;
+    margin-top: -1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
 }
 
-.phase-marker p {
-    font-size: 1.2rem;
-    color: var(--color-text-dim);
-    letter-spacing: 0.1em;
+.phase-marker__subtitle {
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    color: var(--color-text-dim);
 }
 
 /* ============================================
-   FINAL DISPLAY
+   FINAL DISPLAY (Day 365)
    ============================================ */
-
-.final-content {
+.panel-content--final {
     min-height: 100vh;
 }
 
@@ -346,57 +430,63 @@ body {
     text-align: center;
 }
 
-.final-label {
+.final-display__label {
     display: block;
     font-size: 1.5rem;
-    letter-spacing: 0.5em;
+    letter-spacing: 0.6em;
     color: var(--color-text-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
 }
 
-.final-number {
-    font-size: clamp(10rem, 30vw, 20rem);
+.final-display__number {
+    font-size: clamp(10rem, 35vw, 22rem);
     font-weight: 700;
-    line-height: 0.9;
-    text-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
+    line-height: 0.85;
+    color: var(--color-text);
+    text-shadow: 0 0 80px rgba(255, 255, 255, 0.2);
+    transition: color var(--transition);
 }
 
-.final-subtitle {
+.final-display__subtitle {
     font-size: 1.5rem;
     letter-spacing: 0.3em;
-    color: var(--color-accent);
     text-transform: uppercase;
+    color: var(--color-accent);
     margin-top: 1rem;
+    transition: color var(--transition);
 }
 
 /* ============================================
-   ENDING
+   ENDING DISPLAY
    ============================================ */
-
-.ending-content {
+.panel-content--ending {
     min-height: 100vh;
 }
 
-.endscreen {
+.ending-display {
     text-align: center;
 }
 
-.end-symbol {
-    font-size: 10rem;
-    font-weight: 100;
-    color: var(--color-accent);
-    line-height: 1;
-    transition: color 0.5s ease;
-}
-
-.end-text {
+.ending-display__symbol {
     display: block;
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 0.3em;
-    margin-top: 2rem;
+    font-size: clamp(8rem, 25vw, 12rem);
+    font-weight: 100;
+    line-height: 1;
+    color: var(--color-accent);
+    transition: color var(--transition);
 }
 
-.end-subtext {
+.ending-display__text {
+    display: block;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    margin-top: 2rem;
+    color: var(--color-text);
+}
+
+.ending-display__subtext {
     display: block;
     font-size: 0.9rem;
     letter-spacing: 0.2em;
@@ -405,12 +495,11 @@ body {
 }
 
 /* ============================================
-   TIME COUNTER OVERLAY
+   TIME COUNTER OVERLAY (Fixed UI)
    ============================================ */
-
 #overlay {
     position: fixed;
-    z-index: 1000;
+    z-index: 9999;
     pointer-events: none;
 }
 
@@ -419,41 +508,46 @@ body {
     top: 50%;
     left: 2rem;
     transform: translateY(-50%);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 #overlay-number span {
     display: block;
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    transition: color var(--transition);
+}
+
+#overlay-number .monospace {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
     color: var(--color-text-dim);
-    letter-spacing: 0.1em;
 }
 
 #overlay-number #time-display {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
     font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
     color: var(--color-text);
-    letter-spacing: -0.05em;
-    line-height: 1.2;
 }
 
 #overlay-chapter {
     position: fixed;
     top: 1.5rem;
     left: 2rem;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 #overlay-chapter span {
     display: block;
+    transition: color var(--transition);
 }
 
 #overlay-chapter #chapter-name-en {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--color-text-dim);
+    font-size: 0.75rem;
     letter-spacing: 0.1em;
+    color: var(--color-text-dim);
 }
 
 #overlay-chapter #chapter-name {
@@ -463,16 +557,18 @@ body {
 }
 
 /* ============================================
-   MOBILE RESPONSIVE
+   RESPONSIVE DESIGN
    ============================================ */
-
 @media screen and (max-width: 768px) {
     .panel-content {
         padding: 3rem 1.5rem;
         min-height: 80vh;
     }
     
-    .hero-content {
+    .panel-content--hero,
+    .panel-content--phase,
+    .panel-content--final,
+    .panel-content--ending {
         min-height: 100vh;
     }
     
@@ -480,10 +576,11 @@ body {
         top: auto;
         bottom: 2rem;
         left: 1.5rem;
+        transform: none;
     }
     
     #overlay-number #time-display {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
     
     #overlay-chapter {
@@ -491,25 +588,70 @@ body {
         left: 1.5rem;
     }
     
-    .glass-card {
+    .diary-card {
         padding: 1.5rem;
+        border-radius: 12px;
     }
     
-    .phase-number {
+    .phase-marker__number {
         font-size: 5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero-title {
+        letter-spacing: 0.08em;
+    }
+    
+    .diary-card__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
     }
 }
 
 /* ============================================
    ACCESSIBILITY
    ============================================ */
-
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
     .scroll-arrow {
         animation: none;
     }
     
-    html {
-        scroll-behavior: auto;
+    * {
+        transition-duration: 0.01ms !important;
     }
 }
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .bg-overlay {
+        background: rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    .diary-card {
+        background: rgba(0, 0, 0, 0.95);
+        border: 2px solid white;
+    }
+}
+
+/* ============================================
+   DEBUG HELPERS (Remove in production)
+   ============================================ */
+/*
+.bg-panel {
+    outline: 2px solid red;
+}
+
+.panel-content {
+    outline: 2px solid blue;
+}
+
+.bg-fixed {
+    outline: 2px solid green;
+}
+*/
