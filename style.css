@@ -2,11 +2,8 @@
    FONTS - Same as SCP-CN-4000
    ============================================ */
 @import url("https://fontsapi.zeoseven.com/161/main/result.css");
-/* Sarasa Gothic SC */
 @import url("data:text/css,%40font-face%7Bfont-family%3A%22ZSFT-hk%22%3Bsrc%3Aurl(%22https%3A%2F%2Ffontsapi.zeoseven.com%2Fhk%2Fmain.woff2%22)%20format(%22woff2%22)%2Curl(%22https%3A%2F%2Ffontsapi-storage.zeoseven.com%2Fhk%2Fmain.woff2%22)%20format(%22woff2%22)%3Bfont-style%3Anormal%3Bfont-weight%3A100%20900%3Bfont-display%3Aswap%3B%7D");
-/* ZSFT-hk (JetBrains Mono) */
 @import url("data:text/css,%40font-face%7Bfont-family%3A%22ZSFT-gc%22%3Bsrc%3Aurl(%22https%3A%2F%2Ffontsapi.zeoseven.com%2Fgc%2Fmain.woff2%22)%20format(%22woff2%22)%2Curl(%22https%3A%2F%2Ffontsapi-storage.zeoseven.com%2Fgc%2Fmain.woff2%22)%20format(%22woff2%22)%3Bfont-style%3Anormal%3Bfont-weight%3A400%3Bfont-display%3Aswap%3B%7D");
-/* ZSFT-gc (Alata) */
 
 /* ============================================
    CSS VARIABLES
@@ -28,29 +25,29 @@
     --transition-duration: 0.3s;
     --transition-duration-fast: 0.15s;
 
-    /* Dark Layer Colors */
+    /* Dark Layer Colors - FIXED, no theme changes */
     --color-dark-layer-1: #000000;
     --color-dark-layer-2: #0B0B0B;
     --color-dark-layer-3: #262626;
     --color-dark-layer-4: #404040;
     --color-dark-overlay: rgba(15, 15, 15, 0.95);
 
-    /* Light Layer Colors */
+    /* Light Layer Colors - FIXED, no theme changes */
     --color-light-layer-1: #FFFFFF;
     --color-light-layer-2: #F2F2F2;
     --color-light-layer-3: #b1b1b1;
     --color-light-layer-4: #878787;
 
-    /* Theme Colors */
+    /* Theme Colors - FIXED, no theme changes */
     --color-theme-bright: #8e7aff;
     --color-theme-medium: #7B68EE;
     --color-theme-dark: #5141ab;
 
-    /* Text Colors */
+    /* Text Colors - FIXED, no theme changes */
     --color-text-layer-1: var(--color-light-layer-2);
     --color-text-layer-2: var(--color-light-layer-3);
 
-    /* Background Overlay - FIXED, no theme changes */
+    /* Background Overlay - FIXED */
     --overlay-color: rgba(0, 0, 0, 0.45);
 
     /* Icons */
@@ -59,32 +56,8 @@
 }
 
 /* ============================================
-   THEME VARIATIONS - ACCENT ONLY
+   NO THEME VARIATIONS - Colors stay fixed
    ============================================ */
-body.theme-start {
-    --color-theme-bright: #8e7aff;
-}
-
-body.theme-3months {
-    --color-theme-bright: #4a9fff;
-}
-
-body.theme-6months {
-    --color-theme-bright: #4aff9f;
-}
-
-body.theme-9months {
-    --color-theme-bright: #ff9f4a;
-}
-
-body.theme-end {
-    --color-theme-bright: #4a4aff;
-    --color-text-layer-1: #1a1a1a;
-    --color-text-layer-2: #555555;
-    --color-dark-overlay: rgba(255, 255, 255, 0.95);
-    --color-dark-layer-3: #eeeeee;
-    --color-dark-layer-4: #d8d8d8;
-}
 
 /* ============================================
    RESET & BASE
@@ -583,7 +556,7 @@ a:hover {
         0 0 40px rgba(255, 255, 255, 0.2),
         0 4px 20px rgba(0, 0, 0, 0.5);
     margin-bottom: 1rem;
-    color: var(--color-text-layer-1);
+    color: var(--color-light-layer-2);
 }
 
 .hero-subtitle {
@@ -591,7 +564,7 @@ a:hover {
     font-family: var(--font-deco);
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    color: var(--color-text-layer-2);
+    color: var(--color-light-layer-3);
 }
 
 /* ============================================
@@ -613,7 +586,7 @@ div.modal div.modal-heading p:first-child {
     font-size: 0.75rem;
     padding: 0.1rem 0.2rem;
     border: 0.1rem solid var(--color-dark-layer-4);
-    color: var(--color-text-layer-2);
+    color: var(--color-light-layer-3);
     background-color: var(--color-dark-layer-3);
     font-family: var(--font-mono);
 }
@@ -653,7 +626,7 @@ div.modal.rec div.modal-heading :is(span.file-type, span.file-number, span.file-
     display: inline-flex;
     justify-content: space-between;
     font-family: var(--font-mono);
-    color: var(--color-text-layer-2);
+    color: var(--color-light-layer-3);
     align-items: center;
     font-size: 0.85rem;
 }
@@ -691,41 +664,6 @@ p.name::before {
     flex: 0.1 1 auto;
 }
 
-/* Light theme modal for final section */
-div.modal--light {
-    background-color: rgba(255, 255, 255, 0.95);
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-div.modal--light div.modal-heading p:first-child {
-    background-color: #e0e0e0;
-    border-color: #ccc;
-    color: #555;
-}
-
-div.modal--light div.modal.rec div.modal-heading p:nth-child(2) {
-    background-color: #f5f5f5;
-}
-
-div.modal--light div.modal.rec div.modal-heading :is(span.file-type, span.file-number, span.file-date) {
-    background-color: #f5f5f5;
-    border-color: #ddd;
-    color: #555;
-}
-
-div.modal--light > p {
-    color: #1a1a1a;
-}
-
-div.modal--light > p.name {
-    color: #1a1a1a;
-}
-
-div.modal--light p.name::before,
-div.modal--light p.name::after {
-    border-color: #ccc;
-}
-
 @media screen and (max-width: 800px) {
     div.modal.rec div.modal-heading p:nth-child(2) {
         flex-wrap: wrap;
@@ -734,6 +672,47 @@ div.modal--light p.name::after {
         margin: 0.5rem 0;
         width: 100%;
     }
+}
+
+/* ============================================
+   LIGHT MODAL (White box like Arkring)
+   ============================================ */
+div.modal.modal--light {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 0.1rem solid #d8d8d8;
+}
+
+div.modal.modal--light div.modal-heading p:first-child {
+    background-color: #eeeeee;
+    border-color: #d8d8d8;
+    color: #4e4e4e;
+}
+
+div.modal.modal--light div.modal-heading p:nth-child(2) {
+    background-color: #ffffff;
+}
+
+div.modal.modal--light div.modal-heading :is(span.file-type, span.file-number, span.file-date) {
+    background-color: #ffffff;
+    border-color: #eeeeee;
+    color: #4e4e4e;
+}
+
+div.modal.modal--light div.modal-heading :is(span.file-type, span.file-number, span.file-date) b {
+    color: #5141ab;
+}
+
+div.modal.modal--light > p {
+    color: #1f1f1f;
+}
+
+div.modal.modal--light > p.name {
+    color: #000000;
+}
+
+div.modal.modal--light p.name::before,
+div.modal.modal--light p.name::after {
+    border-color: #d8d8d8;
 }
 
 /* ============================================
@@ -757,10 +736,8 @@ div.modal--light p.name::after {
     font-family: var(--font-deco);
     font-weight: 700;
     line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 2px var(--color-theme-bright);
+    color: var(--color-light-layer-2);
     opacity: 0.35;
-    transition: -webkit-text-stroke-color var(--transition);
 }
 
 .phase-marker__title {
@@ -770,7 +747,7 @@ div.modal--light p.name::after {
     letter-spacing: 0.15em;
     margin-top: -1rem;
     margin-bottom: 0.5rem;
-    color: var(--color-text-layer-1);
+    color: var(--color-light-layer-2);
 }
 
 .phase-marker__subtitle {
@@ -778,7 +755,7 @@ div.modal--light p.name::after {
     font-family: var(--font-deco);
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-text-layer-2);
+    color: var(--color-light-layer-3);
 }
 
 /* ============================================
@@ -801,7 +778,7 @@ div.modal--light p.name::after {
     font-size: 1.5rem;
     font-family: var(--font-deco);
     letter-spacing: 0.6em;
-    color: var(--color-text-layer-2);
+    color: var(--color-light-layer-3);
     text-transform: uppercase;
     margin-bottom: 0.5rem;
 }
@@ -811,9 +788,8 @@ div.modal--light p.name::after {
     font-family: var(--font-deco);
     font-weight: 700;
     line-height: 0.85;
-    color: var(--color-text-layer-1);
+    color: var(--color-light-layer-2);
     text-shadow: 0 0 80px rgba(255, 255, 255, 0.2);
-    transition: color var(--transition);
 }
 
 .final-display__subtitle {
@@ -823,51 +799,6 @@ div.modal--light p.name::after {
     text-transform: uppercase;
     color: var(--color-theme-bright);
     margin-top: 1rem;
-    transition: color var(--transition);
-}
-
-/* ============================================
-   ENDING DISPLAY
-   ============================================ */
-.panel-content--ending {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.ending-display {
-    text-align: center;
-}
-
-.ending-display__symbol {
-    display: block;
-    font-size: clamp(8rem, 25vw, 12rem);
-    font-family: var(--font-deco);
-    font-weight: 100;
-    line-height: 1;
-    color: var(--color-theme-bright);
-    transition: color var(--transition);
-}
-
-.ending-display__text {
-    display: block;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    font-family: var(--font-deco);
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    margin-top: 2rem;
-    color: var(--color-text-layer-1);
-}
-
-.ending-display__subtext {
-    display: block;
-    font-size: 0.9rem;
-    font-family: var(--font-deco);
-    letter-spacing: 0.2em;
-    margin-top: 1rem;
-    color: var(--color-text-layer-2);
 }
 
 /* ============================================
@@ -881,62 +812,54 @@ div.modal--light p.name::after {
 
 #overlay-number {
     position: fixed;
-    top: 50%;
+    top: calc(50vh - 2.5rem);
     left: 2rem;
-    transform: translateY(-50%);
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
     text-align: right;
     width: 8rem;
-    margin-left: 2.5rem;
 }
 
 #overlay-number span {
     display: block;
-    transition: color var(--transition);
+    color: var(--color-light-layer-4);
+    font-size: 1rem;
+    letter-spacing: -0.1rem;
+    width: 8rem;
 }
 
 #overlay-number .monospace {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    color: var(--color-light-layer-4);
 }
 
 #overlay-number #time-display {
     font-size: 2rem;
     font-family: var(--font-deco);
-    font-weight: 700;
+    font-weight: bolder;
     letter-spacing: -0.15rem;
-    line-height: 1.1;
-    color: var(--color-light-layer-2);
     margin-top: -1rem;
+    color: var(--color-light-layer-2);
 }
 
 #overlay-chapter {
     position: fixed;
-    top: 1.5rem;
+    top: 1.25rem;
     left: 0;
     margin-left: 2.5rem;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-#overlay-chapter span {
-    display: block;
-    transition: color var(--transition);
-}
-
-#overlay-chapter #chapter-name-en {
+#overlay-chapter span.monospace {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    font-size: 1rem;
+    letter-spacing: -0.1rem;
     color: var(--color-light-layer-4);
 }
 
-#overlay-chapter #chapter-name {
-    font-size: 1.1rem;
+#overlay-chapter span#chapter-name {
+    font-size: 1rem;
     font-family: var(--font-deco);
-    font-weight: 600;
-    color: var(--color-text-layer-2);
+    font-weight: bolder;
+    letter-spacing: -0.05rem;
+    margin-top: -1rem;
+    color: var(--color-light-layer-3);
 }
 
 /* ============================================
@@ -978,24 +901,44 @@ div.modal--light p.name::after {
     }
     
     #overlay-number {
-        top: auto;
-        bottom: 5rem;
-        left: 1.5rem;
-        transform: none;
-        margin-left: 0;
+        top: 3.25rem;
+        left: 2rem;
         text-align: left;
         width: auto;
+        display: inline-block;
+        z-index: 99;
+        filter: opacity(0.5);
     }
-    
+
+    #overlay-number span.monospace {
+        display: inline;
+    }
+
+    #overlay-number span.monospace::after {
+        content: " / ";
+    }
+
     #overlay-number #time-display {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         margin-top: -0.5rem;
+        color: var(--color-light-layer-3);
+        display: inline;
     }
     
     #overlay-chapter {
-        top: 1rem;
-        left: 1.5rem;
+        top: 3.25rem;
+        right: 2rem;
+        left: unset;
+        text-align: right;
+        width: auto;
+        margin-right: 0;
         margin-left: 0;
+    }
+
+    #overlay-chapter span#chapter-name {
+        font-size: 1.25rem;
+        margin-top: -0.5rem;
+        color: var(--color-light-layer-3);
     }
     
     .phase-marker__number {
