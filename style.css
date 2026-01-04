@@ -5,66 +5,56 @@
 
 :root {
     --font-sans: 'Space Grotesk', -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+    --font-mono: 'JetBrains Mono', monospace;
     
-    /* Base Colors */
-    --color-bg-primary: #000000;
-    --color-bg-secondary: #0a0a0a;
-    --color-bg-tertiary: #1a1a1a;
-    --color-text-primary: #f0f0f0;
-    --color-text-secondary: #888888;
+    /* Colors */
+    --color-text: #f0f0f0;
+    --color-text-dim: #888888;
     --color-accent: #8e7aff;
     
-    /* Glass Effect */
-    --glass-bg: rgba(10, 10, 10, 0.7);
+    /* Glass */
+    --glass-bg: rgba(0, 0, 0, 0.5);
     --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     
-    /* Dynamic Overlay */
-    --current-overlay-color: rgba(17, 0, 34, 0.6);
-    
-    /* Transitions */
-    --transition-slow: 0.6s ease;
-    --transition-medium: 0.3s ease;
-    --transition-fast: 0.15s ease;
+    /* Overlay colors per theme */
+    --overlay-color: rgba(17, 0, 34, 0.5);
 }
 
 /* ============================================
-   THEMES
+   THEME VARIATIONS
    ============================================ */
 
 body.theme-start {
     --color-accent: #8e7aff;
-    --current-overlay-color: rgba(17, 0, 34, 0.6);
+    --overlay-color: rgba(17, 0, 34, 0.5);
 }
 
 body.theme-3months {
     --color-accent: #4a9fff;
-    --current-overlay-color: rgba(0, 20, 40, 0.6);
+    --overlay-color: rgba(0, 20, 40, 0.5);
 }
 
 body.theme-6months {
     --color-accent: #4aff9f;
-    --current-overlay-color: rgba(0, 30, 20, 0.6);
+    --overlay-color: rgba(0, 40, 20, 0.5);
 }
 
 body.theme-9months {
     --color-accent: #ff9f4a;
-    --current-overlay-color: rgba(40, 20, 0, 0.6);
+    --overlay-color: rgba(40, 20, 0, 0.5);
 }
 
 body.theme-end {
-    --color-bg-primary: #f0f0f0;
-    --color-bg-secondary: #ffffff;
-    --color-text-primary: #0a0a0a;
-    --color-text-secondary: #555555;
     --color-accent: #4a4aff;
-    --glass-bg: rgba(255, 255, 255, 0.8);
-    --current-overlay-color: rgba(255, 255, 255, 0.3);
+    --color-text: #1a1a1a;
+    --color-text-dim: #555555;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --overlay-color: rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
-   RESET & BASE
+   RESET
    ============================================ */
 
 *, *::before, *::after {
@@ -79,174 +69,115 @@ html {
 
 body {
     font-family: var(--font-sans);
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
+    color: var(--color-text);
     line-height: 1.7;
     overflow-x: hidden;
-    min-height: 100vh;
-    transition: background-color var(--transition-slow),
-                color var(--transition-slow);
-}
-
-/* ============================================
-   CRITICAL: Content Container Structure
-   ============================================ */
-
-#content-container {
-    min-height: 100vh;
-    width: 100%;
-    display: block;
+    background: #000;
 }
 
 #main-content-area {
-    min-height: 100vh;
-    width: 100%;
-    display: block;
-}
-
-/* ============================================
-   SECTIONS - Ensure they have height
-   ============================================ */
-
-section {
-    width: 100%;
-    display: block;
     position: relative;
 }
 
-section.fullscreen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-section.page-flow {
-    min-height: auto;
-    padding: 4rem 2rem;
-    display: flex;
-    justify-content: center;
-}
-
 /* ============================================
-   PARALLAX SYSTEM
+   BACKGROUND PANEL SYSTEM
+   
+   Each panel has:
+   - A fixed background that stays in place
+   - An overlay for the "glass" effect
+   - Content that scrolls normally
+   
+   The "reveal" effect happens because:
+   - Each panel clips its own fixed background
+   - Next panel's background appears to slide over
    ============================================ */
 
-.parallax-section {
+.bg-panel {
     position: relative;
-    overflow: hidden;
+    /* This clips the fixed background to this section */
+    clip-path: inset(0);
+    /* Minimum height ensures background is visible */
+    min-height: 100vh;
 }
 
-.parallax-section.medium {
-    min-height: 60vh;
-}
-
-.parallax-background {
-    position: absolute;
-    top: -20%;
-    left: 0;
-    width: 100%;
-    height: 140%;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.parallax-image {
-    position: absolute;
+/* The fixed background image */
+.bg-fixed {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
+    z-index: -2;
 }
 
-.parallax-overlay {
+/* Glass overlay */
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--overlay-color);
+    z-index: -1;
+    transition: background 0.5s ease;
+}
+
+.bg-overlay.overlay-light {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Noise texture for glass effect */
+.bg-overlay::after {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--current-overlay-color);
-    transition: background var(--transition-slow);
-    z-index: 1;
-}
-
-.parallax-noise {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
     opacity: 0.03;
-    pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
 /* ============================================
-   GLASS CONTENT
+   PANEL CONTENT
    ============================================ */
 
-.glass-content {
+.panel-content {
     position: relative;
-    z-index: 10;
-    padding: 2rem;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
 }
 
-.title-background {
+/* Hero specific */
+.hero-content {
+    flex-direction: column;
     text-align: center;
 }
 
-.glass-text {
+.hero-title h1 {
     font-size: clamp(2rem, 8vw, 5rem);
     font-weight: 700;
-    letter-spacing: 0.3em;
-    color: var(--color-text-primary);
-    text-shadow: 
-        0 0 40px rgba(255, 255, 255, 0.3),
-        0 0 80px rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 60px rgba(255, 255, 255, 0.3);
+    margin-bottom: 1rem;
 }
 
-/* ============================================
-   GLASS CARD
-   ============================================ */
-
-.glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    box-shadow: var(--glass-shadow);
-    max-width: 42rem;
-    width: 100%;
-    transition: background var(--transition-slow),
-                border-color var(--transition-slow);
-}
-
-/* ============================================
-   INTRO SECTION
-   ============================================ */
-
-.intro-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.intro-logo .author {
+.hero-title .subtitle {
     font-size: 1rem;
     letter-spacing: 0.4em;
-    color: var(--color-text-secondary);
+    color: var(--color-text-dim);
     text-transform: uppercase;
 }
 
-.scroll-indicator {
+/* Scroll hint */
+.scroll-hint {
     position: absolute;
     bottom: 3rem;
     display: flex;
@@ -255,89 +186,330 @@ section.page-flow {
     gap: 0.5rem;
 }
 
-.scroll-indicator span {
+.scroll-hint span {
     font-size: 0.75rem;
     letter-spacing: 0.2em;
-    color: var(--color-text-secondary);
+    color: var(--color-text-dim);
     text-transform: uppercase;
 }
 
 .scroll-arrow {
-    width: 24px;
-    height: 24px;
-    border-right: 2px solid var(--color-text-secondary);
-    border-bottom: 2px solid var(--color-text-secondary);
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid var(--color-text-dim);
+    border-bottom: 2px solid var(--color-text-dim);
     transform: rotate(45deg);
-    animation: scrollBounce 2s ease-in-out infinite;
+    animation: bounce 2s infinite;
 }
 
-@keyframes scrollBounce {
-    0%, 100% { transform: rotate(45deg) translateY(0); opacity: 1; }
-    50% { transform: rotate(45deg) translateY(10px); opacity: 0.5; }
-}
-
-/* ============================================
-   CONTENT SECTIONS
-   ============================================ */
-
-.content-section {
-    background: var(--color-bg-primary);
-    transition: background var(--transition-slow);
+@keyframes bounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(45deg) translateY(10px); }
 }
 
 /* ============================================
-   MODAL
+   DIARY ENTRIES (Glass Cards)
    ============================================ */
 
-.modal {
-    overflow: hidden;
+.diary-entry {
+    max-width: 40rem;
+    width: 100%;
 }
 
-.modal .modal-heading {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 0.75rem 1.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--glass-border);
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.modal .modal-heading p {
-    margin: 0;
+.glass-light {
+    background: rgba(255, 255, 255, 0.8);
+    color: #1a1a1a;
+}
+
+.glass-light .entry-header,
+.glass-light .entry-title {
+    color: #1a1a1a;
+}
+
+.glass-light p {
+    color: #333;
+}
+
+.entry-header {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--glass-border);
 }
 
-.modal .modal-heading b {
-    color: var(--color-accent);
-    transition: color var(--transition-slow);
-}
-
-.modal > p {
-    padding: 1rem 1.5rem;
-    margin: 0;
-}
-
-.modal p.name {
-    font-size: 1.3rem;
+.entry-title {
+    font-size: 1.5rem;
     font-weight: 600;
     color: var(--color-accent);
-    padding: 1.5rem 1.5rem 0.5rem;
-    border-bottom: 1px solid var(--glass-border);
-    margin-bottom: 0.5rem;
-    transition: color var(--transition-slow);
+    margin-bottom: 1rem;
+    transition: color 0.5s ease;
+}
+
+.diary-entry p {
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+.diary-entry p:last-child {
+    margin-bottom: 0;
+}
+
+.diary-entry .italic {
+    font-style: italic;
+    color: var(--color-text-dim);
 }
 
 /* ============================================
-   PHASE TITLES
+   FLOATING QUOTES
    ============================================ */
 
-.phase-title {
+.floating-quote {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 300;
+    font-style: italic;
+    text-align: center;
+    max-width: 800px;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    color: var(--color-text);
+}
+
+.floating-quote::before {
+    content: '"';
+    color: var(--color-accent);
+}
+
+.floating-quote::after {
+    content: '"';
+    color: var(--color-accent);
+}
+
+/* ============================================
+   PHASE MARKERS
+   ============================================ */
+
+.phase-intro {
+    min-height: 100vh;
+}
+
+.phase-marker {
     text-align: center;
 }
 
 .phase-number {
     display: block;
-    font-size: 8
+    font-size: clamp(6rem, 15vw, 10rem);
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--color-accent);
+    opacity: 0.4;
+    transition: -webkit-text-stroke-color 0.5s ease;
+}
+
+.phase-marker h2 {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    margin: -1.5rem 0 0.5rem;
+}
+
+.phase-marker p {
+    font-size: 1.2rem;
+    color: var(--color-text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   FINAL DISPLAY
+   ============================================ */
+
+.final-content {
+    min-height: 100vh;
+}
+
+.final-display {
+    text-align: center;
+}
+
+.final-label {
+    display: block;
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+    color: var(--color-text-dim);
+}
+
+.final-number {
+    font-size: clamp(10rem, 30vw, 20rem);
+    font-weight: 700;
+    line-height: 0.9;
+    text-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
+}
+
+.final-subtitle {
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    margin-top: 1rem;
+}
+
+/* ============================================
+   ENDING
+   ============================================ */
+
+.ending-content {
+    min-height: 100vh;
+}
+
+.endscreen {
+    text-align: center;
+}
+
+.end-symbol {
+    font-size: 10rem;
+    font-weight: 100;
+    color: var(--color-accent);
+    line-height: 1;
+    transition: color 0.5s ease;
+}
+
+.end-text {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    margin-top: 2rem;
+}
+
+.end-subtext {
+    display: block;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    margin-top: 1rem;
+    color: var(--color-text-dim);
+}
+
+/* ============================================
+   TIME COUNTER OVERLAY
+   ============================================ */
+
+#overlay {
+    position: fixed;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+#overlay-number {
+    position: fixed;
+    top: 50%;
+    left: 2rem;
+    transform: translateY(-50%);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+#overlay-number span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+    letter-spacing: 0.1em;
+}
+
+#overlay-number #time-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.05em;
+    line-height: 1.2;
+}
+
+#overlay-chapter {
+    position: fixed;
+    top: 1.5rem;
+    left: 2rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+#overlay-chapter span {
+    display: block;
+}
+
+#overlay-chapter #chapter-name-en {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    letter-spacing: 0.1em;
+}
+
+#overlay-chapter #chapter-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+
+@media screen and (max-width: 768px) {
+    .panel-content {
+        padding: 3rem 1.5rem;
+        min-height: 80vh;
+    }
+    
+    .hero-content {
+        min-height: 100vh;
+    }
+    
+    #overlay-number {
+        top: auto;
+        bottom: 2rem;
+        left: 1.5rem;
+    }
+    
+    #overlay-number #time-display {
+        font-size: 1.8rem;
+    }
+    
+    #overlay-chapter {
+        top: 1rem;
+        left: 1.5rem;
+    }
+    
+    .glass-card {
+        padding: 1.5rem;
+    }
+    
+    .phase-number {
+        font-size: 5rem;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-arrow {
+        animation: none;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
+}
