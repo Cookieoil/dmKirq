@@ -1,3 +1,9 @@
+/**
+ * ============================================
+ * DIMENSION DIARY - Main Script
+ * ============================================
+ */
+
 // ============================================
 // CONFIGURATION
 // ============================================
@@ -11,99 +17,47 @@ const CONFIG = {
             theme: 'theme-start', 
             name: 'Phase 01', 
             subtitle: 'The Beginning',
-            bgImages: [
-                'https://picsum.photos/seed/cosmic1/1920/1080',
-                'https://picsum.photos/seed/stars1/1920/1080',
-                'https://picsum.photos/seed/nebula1/1920/1080'
-            ]
+            // Unsplash placeholder images for each phase
+            bgImage: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80'
         },
         { 
             days: 90, 
             theme: 'theme-3months', 
             name: 'Phase 02', 
             subtitle: '3 Months Later',
-            bgImages: [
-                'https://picsum.photos/seed/ocean1/1920/1080',
-                'https://picsum.photos/seed/deep1/1920/1080',
-                'https://picsum.photos/seed/abyss1/1920/1080'
-            ]
+            bgImage: 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80'
         },
         { 
             days: 180, 
             theme: 'theme-6months', 
             name: 'Phase 03', 
             subtitle: '6 Months Later',
-            bgImages: [
-                'https://picsum.photos/seed/forest1/1920/1080',
-                'https://picsum.photos/seed/nature1/1920/1080',
-                'https://picsum.photos/seed/green1/1920/1080'
-            ]
+            bgImage: 'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80'
         },
         { 
             days: 270, 
             theme: 'theme-9months', 
             name: 'Phase 04', 
             subtitle: '9 Months Later',
-            bgImages: [
-                'https://picsum.photos/seed/fire1/1920/1080',
-                'https://picsum.photos/seed/sunset1/1920/1080',
-                'https://picsum.photos/seed/ember1/1920/1080'
-            ]
+            bgImage: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1920&q=80'
         },
         { 
             days: 365, 
             theme: 'theme-end', 
             name: 'Final Phase', 
             subtitle: 'The End',
-            bgImages: [
-                'https://picsum.photos/seed/light1/1920/1080',
-                'https://picsum.photos/seed/white1/1920/1080',
-                'https://picsum.photos/seed/sky1/1920/1080'
-            ]
+            bgImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80'
         }
-    ],
-    
-    parallax: {
-        speed1: 0.3,  // Slowest layer
-        speed2: 0.5,  // Medium layer
-        speed3: 0.7   // Fastest layer
-    }
+    ]
 };
 
 // ============================================
-// GLOBAL VARIABLES
+// GLOBAL STATE
 // ============================================
 
 let currentDays = 0;
 let currentTheme = 'theme-start';
-let scrollY = 0;
-let ticking = false;
-
-// ============================================
-// PARALLAX SYSTEM
-// ============================================
-
-function updateParallax() {
-    const scrolled = window.scrollY;
-    
-    // Update CSS custom property for parallax layers
-    document.documentElement.style.setProperty('--scroll-y', `${scrolled}px`);
-    
-    // Direct transform updates for smoother parallax
-    const layer1 = document.querySelector('.parallax-bg-1');
-    const layer2 = document.querySelector('.parallax-bg-2');
-    const layer3 = document.querySelector('.parallax-bg-3');
-    
-    if (layer1) {
-        layer1.style.transform = `translateY(${scrolled * CONFIG.parallax.speed1}px)`;
-    }
-    if (layer2) {
-        layer2.style.transform = `translateY(${scrolled * CONFIG.parallax.speed2}px)`;
-    }
-    if (layer3) {
-        layer3.style.transform = `translateY(${scrolled * CONFIG.parallax.speed3}px)`;
-    }
-}
+let parallaxEngine = null;
 
 // ============================================
 // TIME DISPLAY UPDATE
@@ -116,21 +70,12 @@ function updateTimeDisplay() {
     if (!timeZero || !timeDisplay) return;
     
     const zeroPosition = timeZero.offsetTop;
-    const scrolled = window.scrollY;
-    const viewportHeight = window.innerHeight;
+    const scrollY = window.scrollY;
+    const scrollProgress = Math.min(1, Math.max(0, scrollY / zeroPosition));
     
-    // Calculate progress considering viewport
-    const effectiveScroll = Math.max(0, scrolled);
-    const effectiveTotal = Math.max(1, zeroPosition - viewportHeight * 0.5);
-    const scrollProgress = Math.min(1, effectiveScroll / effectiveTotal);
-    
-    // Calculate current days
     currentDays = Math.floor(CONFIG.maxDays * scrollProgress);
-    
-    // Update display with animation
     timeDisplay.textContent = currentDays.toLocaleString();
     
-    // Update theme
     updateTheme(currentDays);
 }
 
@@ -139,32 +84,25 @@ function updateTimeDisplay() {
 // ============================================
 
 function updateTheme(days) {
-    let newThemeConfig = CONFIG.themeChanges[0];
+    let newTheme = CONFIG.themeChanges[0];
     
-    for (const config of CONFIG.themeChanges) {
-        if (days >= config.days) {
-            newThemeConfig = config;
+    for (const themeConfig of CONFIG.themeChanges) {
+        if (days >= themeConfig.days) {
+            newTheme = themeConfig;
         }
     }
     
-    if (newThemeConfig.theme !== currentTheme) {
-        currentTheme = newThemeConfig.theme;
+    if (newTheme.theme !== currentTheme) {
+        currentTheme = newTheme.theme;
         
         // Remove all theme classes
-        CONFIG.themeChanges.forEach(t => {
-            document.body.classList.remove(t.theme);
-        });
-        
-        // Add new theme class
-        document.body.classList.add(newThemeConfig.theme);
+        document.body.classList.remove(...CONFIG.themeChanges.map(t => t.theme));
+        document.body.classList.add(newTheme.theme);
         
         // Update chapter display
-        updateChapterDisplay(newThemeConfig.name, newThemeConfig.subtitle);
+        updateChapterDisplay(newTheme.name, newTheme.subtitle);
         
-        // Update parallax backgrounds
-        updateParallaxBackgrounds(newThemeConfig.bgImages);
-        
-        console.log(`Theme: ${newThemeConfig.theme} | Days: ${days}`);
+        console.log(`Theme: ${newTheme.theme} at ${days} days`);
     }
 }
 
@@ -172,82 +110,58 @@ function updateChapterDisplay(name, subtitle) {
     const nameElement = document.getElementById("chapter-name-en");
     const subtitleElement = document.getElementById("chapter-name");
     
-    if (nameElement) {
-        nameElement.style.opacity = '0';
-        setTimeout(() => {
-            nameElement.textContent = name + " /";
-            nameElement.style.opacity = '1';
-        }, 200);
-    }
-    
-    if (subtitleElement) {
-        subtitleElement.style.opacity = '0';
-        setTimeout(() => {
-            subtitleElement.textContent = subtitle;
-            subtitleElement.style.opacity = '1';
-        }, 300);
-    }
+    if (nameElement) nameElement.textContent = name + " /";
+    if (subtitleElement) subtitleElement.textContent = subtitle;
 }
 
-function updateParallaxBackgrounds(images) {
-    const layers = [
-        document.querySelector('.parallax-bg-1'),
-        document.querySelector('.parallax-bg-2'),
-        document.querySelector('.parallax-bg-3')
-    ];
-    
-    layers.forEach((layer, index) => {
-        if (layer && images[index]) {
-            layer.style.backgroundImage = `url('${images[index]}')`;
-        }
+// ============================================
+// SCROLL HANDLER
+// ============================================
+
+function handleScroll() {
+    requestAnimationFrame(() => {
+        updateTimeDisplay();
     });
 }
 
 // ============================================
-// SCROLL HANDLER (Optimized)
-// ============================================
-
-function onScroll() {
-    scrollY = window.scrollY;
-    
-    if (!ticking) {
-        requestAnimationFrame(() => {
-            updateParallax();
-            updateTimeDisplay();
-            ticking = false;
-        });
-        ticking = true;
-    }
-}
-
-// ============================================
-// SECTION VISIBILITY OBSERVER
+// SECTION OBSERVER
 // ============================================
 
 function initSectionObserver() {
     const options = {
         root: null,
-        rootMargin: '-10% 0px -10% 0px',
+        rootMargin: '0px',
         threshold: 0.1
     };
+    
+    const shownElements = new Set();
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+            const section = entry.target;
+            
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                
-                // Execute data-onshow
-                const onShow = entry.target.getAttribute('data-onshow');
-                if (onShow) {
-                    try { eval(onShow); } catch (e) { console.error(e); }
+                const onShow = section.getAttribute('data-onshow');
+                if (onShow && !shownElements.has(section)) {
+                    try {
+                        eval(onShow);
+                        shownElements.add(section);
+                    } catch (e) {
+                        console.error('data-onshow error:', e);
+                    }
                 }
+                // Add visible class for CSS animations
+                section.classList.add('section-visible');
             } else {
-                entry.target.classList.remove('visible');
-                
-                // Execute data-onleave
-                const onLeave = entry.target.getAttribute('data-onleave');
-                if (onLeave) {
-                    try { eval(onLeave); } catch (e) { console.error(e); }
+                const onLeave = section.getAttribute('data-onleave');
+                if (onLeave && shownElements.has(section)) {
+                    try {
+                        eval(onLeave);
+                    } catch (e) {
+                        console.error('data-onleave error:', e);
+                    }
+                    shownElements.delete(section);
                 }
             }
         });
@@ -259,48 +173,31 @@ function initSectionObserver() {
 }
 
 // ============================================
-// PRELOAD IMAGES
-// ============================================
-
-function preloadImages() {
-    CONFIG.themeChanges.forEach(theme => {
-        theme.bgImages.forEach(url => {
-            const img = new Image();
-            img.src = url;
-        });
-    });
-}
-
-// ============================================
 // INITIALIZATION
 // ============================================
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Set initial theme
-    document.body.classList.add(CONFIG.themeChanges[0].theme);
+    // Inject HTML content first
+    document.querySelector('main-content').innerHTML = HTMLContent;
     
-    // Initialize parallax backgrounds
-    updateParallaxBackgrounds(CONFIG.themeChanges[0].bgImages);
-    
-    // Preload theme images
-    preloadImages();
-    
-    // Initialize observers
-    initSectionObserver();
-    
-    // Scroll listener with passive for performance
-    window.addEventListener('scroll', onScroll, { passive: true });
-    
-    // Resize listener
-    window.addEventListener('resize', () => {
-        updateParallax();
-        updateTimeDisplay();
+    // Initialize parallax engine
+    parallaxEngine = new ParallaxEngine({
+        defaultSpeed: 0.5,
+        enableOnMobile: false,
+        smoothFactor: 0.08
     });
     
-    // Initial updates
-    onScroll();
+    // Initialize scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
-    console.log('Dimension Diary initialized with parallax effects');
+    // Initialize section observer
+    initSectionObserver();
+    
+    // Initial updates
+    handleScroll();
+    document.body.classList.add(CONFIG.themeChanges[0].theme);
+    
+    console.log('Dimension Diary initialized');
 });
 
 // ============================================
@@ -308,118 +205,235 @@ document.addEventListener("DOMContentLoaded", function() {
 // ============================================
 
 const HTMLContent = `
-    <!-- INTRO SECTION -->
-    <section class="fullscreen intro-section">
-        <div class="intro-logo">
-            <h1>DIMENSION DIARY</h1>
-            <span class="author">Your Name Here</span>
-        </div>
-        <div class="scroll-hint">↓ SCROLL TO BEGIN ↓</div>
-    </section>
-
-    <!-- PHASE 1: Days 0-90 -->
-    <section class="page-flow">
-        <div class="modal">
-            <div class="modal-heading">
-                <p>
-                    <span>file://diary/entry_001</span>
-                    <span>Entry <b>001</b></span>
-                    <span>Day <b>1</b></span>
-                </p>
+    <!-- ==========================================
+         SECTION 1: INTRO (Fullscreen Parallax)
+         ========================================== -->
+    <section class="fullscreen parallax-section" 
+             data-parallax-image="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80"
+             data-parallax-speed="0.4"
+             data-parallax-overlay="rgba(0, 0, 20, 0.6)">
+        <div class="parallax-content">
+            <div class="intro-hero">
+                <h1 class="glass-title">DIMENSION DIARY</h1>
+                <p class="glass-subtitle">A Journey Through Time and Space</p>
+                <span class="scroll-indicator">↓ Scroll to Begin</span>
             </div>
-            <p class="name">First Entry</p>
-            <p>The experiment begins today. I've been assigned to document the dimensional anomalies occurring in Sector 7.</p>
-            <p>Everything seems normal for now, but the instruments are picking up strange readings...</p>
-            <em><p>Note: All personnel are advised to remain within designated safe zones.</p></em>
         </div>
     </section>
 
-    <!-- ILLUSTRATION BREAK -->
-    <section class="illustration-section" style="background-image: url('https://picsum.photos/seed/scene1/1920/1080');">
-        <div class="illustration-caption">
-            <p>"The first dimensional rift appeared without warning..."</p>
-        </div>
-    </section>
-
-    <section class="page-flow">
-        <div class="modal">
-            <div class="modal-heading">
-                <p>
-                    <span>file://diary/entry_030</span>
-                    <span>Entry <b>030</b></span>
-                    <span>Day <b>30</b></span>
-                </p>
+    <!-- ==========================================
+         SECTION 2: PHASE 1 INTRO
+         ========================================== -->
+    <section class="phase-header parallax-section"
+             data-parallax-image="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
+             data-parallax-speed="0.3"
+             data-parallax-overlay="linear-gradient(180deg, rgba(10,0,18,0.8) 0%, rgba(10,0,18,0.95) 100%)">
+        <div class="parallax-content">
+            <div class="phase-title-container glass-panel">
+                <span class="phase-number">01</span>
+                <h2>THE BEGINNING</h2>
+                <p>Days 0 - 90</p>
             </div>
-            <p class="name">One Month</p>
-            <p>A full month has passed. The anomalies are becoming more frequent.</p>
-            <p>I've started to notice patterns in the dimensional shifts...</p>
         </div>
     </section>
 
-    <!-- PHASE 2 MARKER -->
-    <section class="fullscreen phase-marker">
-        <div class="phase-title">
-            <h2>PHASE 02</h2>
-            <p>3 Months Later</p>
-        </div>
-    </section>
-
-    <section class="page-flow">
-        <div class="modal">
+    <!-- ==========================================
+         SECTION 3: DIARY ENTRIES (Glass Cards)
+         ========================================== -->
+    <section class="page-flow content-section">
+        <div class="glass-card modal">
             <div class="modal-heading">
-                <p>
-                    <span>file://diary/entry_090</span>
-                    <span>Entry <b>090</b></span>
-                    <span>Day <b>90</b></span>
-                </p>
+                <span class="file-path">file://diary/entry_001</span>
+                <div class="file-meta">
+                    <span class="file-number">Entry <b>001</b></span>
+                    <span class="file-date">Day <b>1</b></span>
+                </div>
             </div>
-            <p class="name">Three Months</p>
-            <p>The first major breakthrough occurred today. We've managed to stabilize a dimensional pocket.</p>
-            <p>But something else came through with us...</p>
-        </div>
-    </section>
-
-    <!-- ILLUSTRATION -->
-    <section class="illustration-section" style="background-image: url('https://picsum.photos/seed/scene2/1920/1080');">
-        <div class="illustration-caption">
-            <p>"Through the rift, we glimpsed another world..."</p>
-        </div>
-    </section>
-
-    <!-- PHASE 3 MARKER -->
-    <section class="fullscreen phase-marker">
-        <div class="phase-title">
-            <h2>PHASE 03</h2>
-            <p>6 Months Later</p>
-        </div>
-    </section>
-
-    <section class="page-flow">
-        <div class="modal">
-            <div class="modal-heading">
-                <p>
-                    <span>file://diary/entry_180</span>
-                    <span>Entry <b>180</b></span>
-                    <span>Day <b>180</b></span>
-                </p>
+            <div class="modal-content">
+                <p class="speaker-name">Researcher's Log</p>
+                <p>The experiment began today at 0600 hours. I don't know what to expect from this journey through the dimensional rifts.</p>
+                <p>The equipment is calibrated. The portal stands ready. There's no turning back now.</p>
+                <p><em>Initial readings are stable. Dimensional variance: 0.003%</em></p>
             </div>
-            <p class="name">Half Year Mark</p>
-            <p>Reality itself seems to be changing. The boundaries between dimensions are becoming thinner.</p>
-            <p>I can no longer tell which world is the "real" one anymore...</p>
         </div>
     </section>
 
-    <!-- PHASE 4 MARKER -->
-    <section class="fullscreen phase-marker">
-        <div class="phase-title">
-            <h2>PHASE 04</h2>
-            <p>9 Months Later</p>
-        </div>
-    </section>
-
-    <section class="page-flow">
-        <div class="modal">
+    <section class="page-flow content-section">
+        <div class="glass-card modal">
             <div class="modal-heading">
-                <p>
-                    <span>file://diary/entry_270</span>
-                    <span>Entry
+                <span class="file-path">file://diary/entry_015</span>
+                <div class="file-meta">
+                    <span class="file-number">Entry <b>015</b></span>
+                    <span class="file-date">Day <b>15</b></span>
+                </div>
+            </div>
+            <div class="modal-content">
+                <p class="speaker-name">Researcher's Log</p>
+                <p>Two weeks in. The boundaries between dimensions are thinner than I thought.</p>
+                <p>Last night I saw something in the mirror that wasn't my reflection.</p>
+                <p><em>Dimensional variance increasing: 0.12%</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 4: VISUAL BREAK (Parallax)
+         ========================================== -->
+    <section class="fullscreen parallax-section visual-break"
+             data-parallax-image="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
+             data-parallax-speed="0.6"
+             data-parallax-overlay="rgba(0, 20, 40, 0.5)">
+        <div class="parallax-content">
+            <div class="quote-container glass-panel-light">
+                <blockquote>
+                    "Between dimensions, time flows like water through broken glass."
+                </blockquote>
+                <cite>— Unknown Entity, Day 45</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 5: PHASE 2 (3 MONTHS)
+         ========================================== -->
+    <section class="phase-header parallax-section" id="phase-2"
+             data-parallax-image="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80"
+             data-parallax-speed="0.35"
+             data-parallax-overlay="linear-gradient(180deg, rgba(0,10,20,0.7) 0%, rgba(0,10,20,0.95) 100%)">
+        <div class="parallax-content">
+            <div class="phase-title-container glass-panel">
+                <span class="phase-number">02</span>
+                <h2>3 MONTHS LATER</h2>
+                <p>Days 90 - 180</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-flow content-section">
+        <div class="glass-card modal">
+            <div class="modal-heading">
+                <span class="file-path">file://diary/entry_090</span>
+                <div class="file-meta">
+                    <span class="file-number">Entry <b>090</b></span>
+                    <span class="file-date">Day <b>90</b></span>
+                </div>
+            </div>
+            <div class="modal-content">
+                <p class="speaker-name">Researcher's Log</p>
+                <p>Three months. The first dimensional shift occurred today.</p>
+                <p>I woke up in a room that was identical to mine, but everything was reversed. Left became right. The clock ran backwards.</p>
+                <p><em>Warning: Dimensional variance critical: 2.7%</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 6: PHASE 3 (6 MONTHS)
+         ========================================== -->
+    <section class="phase-header parallax-section" id="phase-3"
+             data-parallax-image="https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80"
+             data-parallax-speed="0.4"
+             data-parallax-overlay="linear-gradient(180deg, rgba(0,20,10,0.7) 0%, rgba(0,20,10,0.95) 100%)">
+        <div class="parallax-content">
+            <div class="phase-title-container glass-panel">
+                <span class="phase-number">03</span>
+                <h2>6 MONTHS LATER</h2>
+                <p>Days 180 - 270</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-flow content-section">
+        <div class="glass-card modal">
+            <div class="modal-heading">
+                <span class="file-path">file://diary/entry_180</span>
+                <div class="file-meta">
+                    <span class="file-number">Entry <b>180</b></span>
+                    <span class="file-date">Day <b>180</b></span>
+                </div>
+            </div>
+            <div class="modal-content">
+                <p class="speaker-name">Researcher's Log</p>
+                <p>Half a year. I've stopped counting the shifts.</p>
+                <p>Reality feels different now. Sometimes I see two versions of objects overlapping. The boundaries are dissolving.</p>
+                <p><em>Dimensional variance: 8.4% — Containment breach imminent</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 7: DRAMATIC PARALLAX BREAK
+         ========================================== -->
+    <section class="fullscreen parallax-section dramatic-break"
+             data-parallax-image="https://images.unsplash.com/photo-1464802686167-b939a6910659?w=1920&q=80"
+             data-parallax-speed="0.7"
+             data-parallax-overlay="radial-gradient(ellipse at center, rgba(40,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%)">
+        <div class="parallax-content">
+            <div class="dramatic-text">
+                <span class="glitch" data-text="REALITY">REALITY</span>
+                <span class="glitch" data-text="FRACTURING">FRACTURING</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 8: PHASE 4 (9 MONTHS)
+         ========================================== -->
+    <section class="phase-header parallax-section" id="phase-4"
+             data-parallax-image="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1920&q=80"
+             data-parallax-speed="0.35"
+             data-parallax-overlay="linear-gradient(180deg, rgba(20,8,0,0.7) 0%, rgba(20,8,0,0.95) 100%)">
+        <div class="parallax-content">
+            <div class="phase-title-container glass-panel">
+                <span class="phase-number">04</span>
+                <h2>9 MONTHS LATER</h2>
+                <p>Days 270 - 365</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-flow content-section">
+        <div class="glass-card modal warning">
+            <div class="modal-heading">
+                <span class="file-path">file://diary/entry_270</span>
+                <div class="file-meta">
+                    <span class="file-number">Entry <b>270</b></span>
+                    <span class="file-date">Day <b>270</b></span>
+                </div>
+            </div>
+            <div class="modal-content">
+                <p class="speaker-name">???</p>
+                <p>Nine months. Or has it been nine years? Nine seconds?</p>
+                <p>I can see all of them now. All the versions. All the timelines converging into one point.</p>
+                <p><em class="critical">CRITICAL: Dimensional variance exceeds measurable limits</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 9: TIME ZERO (The End Point)
+         ========================================== -->
+    <section class="fullscreen parallax-section time-zero-section" id="time-zero"
+             data-parallax-image="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80"
+             data-parallax-speed="0.2"
+             data-parallax-overlay="linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(255,255,255,1) 100%)">
+        <div class="parallax-content">
+            <div class="time-zero-display">
+                <span class="day-label">DAY</span>
+                <span class="day-number">365</span>
+                <span class="day-subtitle">THE CONVERGENCE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SECTION 10: ENDING
+         ========================================== -->
+    <section class="fullscreen ending-section">
+        <div class="ending-content glass-panel-inverted">
+            <p class="ending-symbol">終</p>
+            <span class="ending-text">THE END</span>
+            <p class="ending-quote">"Every dimension tells the same story, in infinite variations."</p>
+        </div>
+    </section>
+`;
