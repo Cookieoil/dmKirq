@@ -399,7 +399,6 @@ function handleScroll() {
     requestAnimationFrame(updateTimeDisplay);
     
     // Parallax background movement
-    const scrollY = window.scrollY;
     const panels = document.querySelectorAll('.bg-panel');
     
     panels.forEach(panel => {
@@ -407,11 +406,13 @@ function handleScroll() {
         const bgFixed = panel.querySelector('.bg-fixed');
         
         if (bgFixed && rect.top < window.innerHeight && rect.bottom > 0) {
-            // Calculate how far through the panel we've scrolled (0 to 1)
             const progress = -rect.top / (rect.height + window.innerHeight);
-            // Adjust multiplier (20-50) for more/less movement
-            const offset = progress * 10; 
-            bgFixed.style.transform = `translate3d(0, ${offset}vh, 0)`;
+            const offset = (progress - 0.5) * 20;  // Centered movement, smaller range
+            
+            // Clamp offset to prevent black space (-15 to 15 matches our CSS buffer)
+            const clampedOffset = Math.max(-15, Math.min(15, offset));
+            
+            bgFixed.style.transform = `translate3d(0, ${clampedOffset}vh, 0)`;
         }
     });
 }
