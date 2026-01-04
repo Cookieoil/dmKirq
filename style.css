@@ -280,4 +280,399 @@ section.page-flow {
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Inverted Glass (for
+/* Inverted Glass (for light backgrounds) */
+.glass-panel-inverted {
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Glass Card (for content) */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: var(--glass-shadow);
+    max-width: 700px;
+    width: 100%;
+    overflow: hidden;
+    transition: 
+        background var(--transition-theme),
+        border-color var(--transition-theme),
+        transform var(--transition-fast);
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        var(--glass-shadow),
+        0 0 40px var(--color-accent-glow);
+}
+
+/* ============================================
+   INTRO SECTION
+   ============================================ */
+.intro-hero {
+    text-align: center;
+    padding: 2rem;
+}
+
+.glass-title {
+    font-size: clamp(2rem, 8vw, 5rem);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-text-primary);
+    text-shadow: 0 0 60px var(--color-accent-glow);
+    margin-bottom: 1rem;
+}
+
+.glass-subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    color: var(--color-text-secondary);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+}
+
+.scroll-indicator {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* ============================================
+   PHASE HEADERS
+   ============================================ */
+.phase-header {
+    min-height: 60vh;
+}
+
+.phase-title-container {
+    text-align: center;
+    padding: 3rem 4rem;
+}
+
+.phase-number {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+}
+
+.phase-title-container h2 {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.phase-title-container p {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   MODAL / DIARY ENTRY
+   ============================================ */
+.modal .modal-heading {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.modal .file-path {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: 0.75rem;
+    opacity: 0.7;
+}
+
+.modal .file-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.modal .file-meta span {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+.modal .file-meta b {
+    color: var(--color-accent);
+    margin-left: 0.5rem;
+}
+
+.modal .modal-content {
+    padding: 1.5rem;
+}
+
+.modal .speaker-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.modal .modal-content p {
+    margin-bottom: 1rem;
+    color: var(--color-text-primary);
+}
+
+.modal .modal-content em {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-left: 3px solid var(--color-accent);
+    margin-top: 1.5rem;
+}
+
+.modal.warning .modal-content em.critical {
+    color: #f87171;
+    border-left-color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* ============================================
+   QUOTE SECTION
+   ============================================ */
+.quote-container {
+    max-width: 600px;
+    padding: 3rem;
+    text-align: center;
+}
+
+.quote-container blockquote {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.quote-container cite {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   DRAMATIC BREAK
+   ============================================ */
+.dramatic-break .dramatic-text {
+    text-align: center;
+}
+
+.dramatic-text .glitch {
+    display: block;
+    font-size: clamp(2rem, 10vw, 6rem);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-text-primary);
+    position: relative;
+}
+
+.dramatic-text .glitch:first-child {
+    margin-bottom: 1rem;
+}
+
+/* Glitch effect */
+.glitch {
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+    0%, 90%, 100% {
+        text-shadow: none;
+    }
+    91% {
+        text-shadow: 
+            -2px 0 var(--color-accent),
+            2px 0 #ff0000;
+    }
+    92% {
+        text-shadow: 
+            2px 0 var(--color-accent),
+            -2px 0 #00ff00;
+    }
+    93% {
+        text-shadow: none;
+    }
+}
+
+/* ============================================
+   TIME ZERO SECTION
+   ============================================ */
+.time-zero-section .time-zero-display {
+    text-align: center;
+}
+
+.time-zero-display .day-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.3em;
+}
+
+.time-zero-display .day-number {
+    display: block;
+    font-size: clamp(5rem, 20vw, 15rem);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1;
+    text-shadow: 0 0 100px var(--color-accent-glow);
+}
+
+.time-zero-display .day-subtitle {
+    display: block;
+    font-size: 1.2rem;
+    color: var(--color-accent);
+    letter-spacing: 0.5em;
+    margin-top: 1rem;
+}
+
+/* ============================================
+   ENDING SECTION
+   ============================================ */
+.ending-section {
+    background: var(--color-bg-primary);
+    transition: background-color var(--transition-theme);
+}
+
+.ending-content {
+    text-align: center;
+    padding: 4rem;
+}
+
+.ending-symbol {
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+}
+
+.ending-text {
+    display: block;
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+}
+
+.ending-quote {
+    font-style: italic;
+    color: var(--color-text-secondary);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   SECTION VISIBILITY ANIMATIONS
+   ============================================ */
+section:not(.section-visible) .glass-card,
+section:not(.section-visible) .glass-panel,
+section:not(.section-visible) .phase-title-container {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+section.section-visible .glass-card,
+section.section-visible .glass-panel,
+section.section-visible .phase-title-container {
+    opacity: 1;
+    transform: translateY(0);
+    transition: 
+        opacity 0.6s ease,
+        transform 0.6s ease;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    section.page-flow {
+        padding: 2rem 1rem;
+    }
+    
+    .phase-title-container {
+        padding: 2rem;
+    }
+    
+    .glass-card {
+        border-radius: 8px;
+    }
+    
+    .quote-container {
+        padding: 2rem;
+    }
+    
+    .quote-container blockquote {
+        font-size: 1.2rem;
+    }
+    
+    .ending-content {
+        padding: 2rem;
+    }
+    
+    .ending-symbol {
+        font-size: 4rem;
+    }
+}
+
+/* ============================================
+   BACKDROP FILTER FALLBACK
+   ============================================ */
+@supports not (backdrop-filter: blur(20px)) {
+    .glass-panel,
+    .glass-panel-light,
+    .glass-card {
+        background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .glass-panel-inverted {
+        background: rgba(255, 255, 255, 0.9);
+    }
+}
