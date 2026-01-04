@@ -3,26 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Năm mới như lồng</title>
+    <title>Dimension Diary</title>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Preload critical background images -->
+    <link rel="preload" as="image" href="images/bg-phase-1.jpg">
+    <link rel="preload" as="image" href="images/bg-phase-2.jpg">
 </head>
 <body>
+
+    <!-- ============================================
+         FIXED NAVIGATION (Floats above everything)
+         ============================================ -->
+    <nav id="fixed-nav">
+        <div class="nav-logo">DIMENSION DIARY</div>
+        <div class="nav-links">
+            <a href="#phase-1">Phase 1</a>
+            <a href="#phase-2">Phase 2</a>
+            <a href="#phase-3">Phase 3</a>
+            <a href="#phase-4">Phase 4</a>
+            <a href="#ending">End</a>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         TIME COUNTER OVERLAY (Fixed position)
+         ============================================ -->
     <div id="overlay">
         <div id="overlay-number">
-            <span class="monospace">Lịch</span>
+            <span class="label">ELAPSED TIME</span>
             <span id="time-display">0</span>
-            <span class="monospace">Ngày</span>
+            <span class="unit">DAYS</span>
         </div>
+        
         <div id="overlay-chapter">
-            <span class="monospace" id="chapter-name-en">Phase 01 /</span>
-            <span id="chapter-name">Tháng 2</span>
+            <span id="chapter-name-en">Phase 01 /</span>
+            <span id="chapter-name">The Beginning</span>
+        </div>
+        
+        <div id="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow"></div>
         </div>
     </div>
 
-    <div id="content-container">
-        <main-content>
-        </main-content>
-    </div>
+    <!-- ============================================
+         MAIN CONTENT - STACKING SECTIONS
+         ============================================ -->
+    <main id="content-container">
+        
+        <!-- SECTION 1: Introduction (z-index: 1) -->
+        <section class="parallax-section" id="phase-1" data-bg="images/bg-phase-1.jpg" style="--section-index: 1;">
+            <div class="section-background"></div>
+            <div class="glass-container">
+                <div class="glass-content">
+                    <h1 class="section-title">DIMENSION DIARY</h1>
+                    <p class="section-subtitle">A journey through time and space</p>
+                    <div class="divider"></div>
+                    <p class="section-description">
+                        Day 1. The experiment begins. I don't know what awaits me 
+                        on the other side of this dimensional rift.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: 3 Months (z-index: 2) -->
+        <section class="parallax-section" id="phase-2" data-bg="images/bg-phase-2.jpg" style="--section-index: 2;">
+            <div class="section-background"></div>
+            <div class="glass-container">
+                <div class="glass-content">
+                    <span class="phase-label">PHASE 02</span>
+                    <h2 class="section-title">3 MONTHS LATER</h2>
+                    <div class="divider"></div>
+                    <p class="section-description">
+                        Day 90. The first dimensional shift occurred today. 
+                        Reality feels... thinner here. Colors bleed into sounds.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: 6 Months (z-index: 3) -->
+        <section class="parallax-section" id="phase-3" data-bg="images/bg-phase-3.jpg" style="--section-index: 3;">
+            <div class="section-background"></div>
+            <div class="glass-container">
+                <div class="glass-content">
+                    <span class="phase-label">PHASE 03</span>
+                    <h2 class="section-title">6 MONTHS LATER</h2>
+                    <div class="divider"></div>
+                    <p class="section-description">
+                        Day 180. I've learned to navigate between layers now.
+                        Each dimension has its own rules, its own physics.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: 9 Months (z-index: 4) -->
+        <section class="parallax-section" id="phase-4" data-bg="images/bg-phase-4.jpg" style="--section-index: 4;">
+            <div class="section-background"></div>
+            <div class="glass-container">
+                <div class="glass-content">
+                    <span class="phase-label">PHASE 04</span>
+                    <h2 class="section-title">9 MONTHS LATER</h2>
+                    <div class="divider"></div>
+                    <p class="section-description">
+                        Day 270. I met another traveler today. Or was it myself 
+                        from another timeline? The boundaries blur.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Ending (z-index: 5) -->
+        <section class="parallax-section" id="ending" data-bg="images/bg-phase-5.jpg" style="--section-index: 5;">
+            <div class="section-background"></div>
+            <div class="glass-container final">
+                <div class="glass-content">
+                    <span class="phase-label">FINAL PHASE</span>
+                    <h2 class="section-title giant">365</h2>
+                    <p class="section-subtitle">Days in the Void</p>
+                    <div class="divider"></div>
+                    <p class="section-description">
+                        One year. I've seen things no human was meant to see.
+                        Now I understand: time is just another dimension to traverse.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIME ZERO MARKER (for scroll calculation) -->
+        <div id="time-zero"></div>
+
+        <!-- CREDITS SECTION -->
+        <section class="credits-section" style="--section-index: 6;">
+            <div class="credits-content">
+                <h2>終</h2>
+                <p>THE END</p>
+                <div class="credits-divider"></div>
+                <p class="credits-author">Created by Your Name</p>
+            </div>
+        </section>
+
+    </main>
 
     <script src="script.js"></script>
 </body>
