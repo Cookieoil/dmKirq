@@ -1,176 +1,258 @@
 // ============================================
-// CONFIGURATION - EDIT THESE VALUES
+// CONFIGURATION
 // ============================================
 
 const CONFIG = {
-    // Maximum time in days (e.g., 365 days = 1 year)
+    // Maximum time in days
     maxDays: 365,
     
-    // Theme change milestones (in days)
-    // Each milestone triggers a theme change
-    themeChanges: [
-        { days: 0, theme: 'theme-start', name: 'Phase 01', subtitle: 'The Beginning' },
-        { days: 90, theme: 'theme-3months', name: 'Phase 02', subtitle: '3 Months Later' },
-        { days: 180, theme: 'theme-6months', name: 'Phase 03', subtitle: '6 Months Later' },
-        { days: 270, theme: 'theme-9months', name: 'Phase 04', subtitle: '9 Months Later' },
-        { days: 365, theme: 'theme-end', name: 'Final Phase', subtitle: 'The End' }
+    // Phase milestones with background images
+    phases: [
+        { 
+            days: 0, 
+            name: 'Phase 01', 
+            subtitle: 'The Beginning',
+            background: 'images/bg-phase-1.jpg'
+        },
+        { 
+            days: 90, 
+            name: 'Phase 02', 
+            subtitle: '3 Months Later',
+            background: 'images/bg-phase-2.jpg'
+        },
+        { 
+            days: 180, 
+            name: 'Phase 03', 
+            subtitle: '6 Months Later',
+            background: 'images/bg-phase-3.jpg'
+        },
+        { 
+            days: 270, 
+            name: 'Phase 04', 
+            subtitle: '9 Months Later',
+            background: 'images/bg-phase-4.jpg'
+        },
+        { 
+            days: 365, 
+            name: 'Final Phase', 
+            subtitle: 'The End',
+            background: 'images/bg-phase-5.jpg'
+        }
     ]
 };
 
 // ============================================
-// GLOBAL VARIABLES
+// GLOBAL STATE
 // ============================================
 
 let currentDays = 0;
-let currentTheme = 'theme-start';
-let timeZeroPosition = null;
+let currentPhaseIndex = 0;
 let timeZeroElement = null;
+let isInitialized = false;
 
 // ============================================
-// SCROLL DATA
+// INITIALIZE BACKGROUND IMAGES
 // ============================================
 
-window.scrollData = {
-    scrollY: 0,
-    scrollPercent: 0,
-    viewportHeight: window.innerHeight,
-    documentHeight: document.documentElement.scrollHeight
-};
+function initBackgrounds() {
+    const sections = document.querySelectorAll('.parallax-section');
+    
+    sections.forEach(section => {
+        const bgImage = section.getAttribute('data-bg');
+        const bgElement = section.querySelector('.section-background');
+        
+        if (bgImage && bgElement) {
+            bgElement.style.backgroundImage = `url('${bgImage}')`;
+        }
+    });
+}
 
 // ============================================
 // TIME DISPLAY UPDATE
 // ============================================
 
 function updateTimeDisplay() {
-    const timeDisplay = document.getElementById("time-display");
-    const timeZero = document.getElementById("time-zero");
+    const timeDisplay = document.getElementById('time-display');
+    const timeZero = document.getElementById('time-zero');
     
     if (!timeZero || !timeDisplay) return;
     
     const zeroPosition = timeZero.offsetTop;
     const scrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
     
-    // Calculate scroll progress (0 at top, 1 at time-zero element)
-    const scrollProgress = Math.min(1, Math.max(0, scrollY / zeroPosition));
+    // Calculate scroll progress
+    // We want time to reach max when scrolling to time-zero element
+    const maxScroll = zeroPosition - viewportHeight;
+    const scrollProgress = Math.min(1, Math.max(0, scrollY / maxScroll));
     
-    // Calculate current days based on scroll
+    // Calculate current days
     currentDays = Math.floor(CONFIG.maxDays * scrollProgress);
     
-    // Update display
+    // Update display with animation
     timeDisplay.textContent = currentDays.toLocaleString();
     
-    // Check for theme changes
-    updateTheme(currentDays);
+    // Update phase/chapter display
+    updatePhaseDisplay(currentDays);
 }
 
 // ============================================
-// THEME SWITCHING
+// PHASE DISPLAY UPDATE
 // ============================================
 
-function updateTheme(days) {
-    let newTheme = CONFIG.themeChanges[0];
+function updatePhaseDisplay(days) {
+    let newPhaseIndex = 0;
     
-    // Find the appropriate theme for current day count
-    for (const themeConfig of CONFIG.themeChanges) {
-        if (days >= themeConfig.days) {
-            newTheme = themeConfig;
+    // Find current phase based on days
+    for (let i = 0; i < CONFIG.phases.length; i++) {
+        if (days >= CONFIG.phases[i].days) {
+            newPhaseIndex = i;
         }
     }
     
-    // Only update if theme changed
-    if (newTheme.theme !== currentTheme) {
-        currentTheme = newTheme.theme;
+    // Only update if phase changed
+    if (newPhaseIndex !== currentPhaseIndex) {
+        currentPhaseIndex = newPhaseIndex;
+        const phase = CONFIG.phases[currentPhaseIndex];
         
-        // Remove all theme classes
-        document.body.classList.remove(...CONFIG.themeChanges.map(t => t.theme));
+        // Update chapter display with transition
+        const nameEn = document.getElementById('chapter-name-en');
+        const name = document.getElementById('chapter-name');
         
-        // Add new theme class
-        document.body.classList.add(newTheme.theme);
+        if (nameEn && name) {
+            // Fade out
+            nameEn.style.opacity = '0';
+            name.style.opacity = '0';
+            
+            setTimeout(() => {
+                nameEn.textContent = phase.name + ' /';
+                name.textContent = phase.subtitle;
+                
+                // Fade in
+                nameEn.style.opacity = '1';
+                name.style.opacity = '1';
+            }, 200);
+        }
         
-        // Update chapter display
-        updateChapterDisplay(newTheme.name, newTheme.subtitle);
-        
-        console.log(`Theme changed to: ${newTheme.theme} at ${days} days`);
+        console.log(`Phase changed to: ${phase.name} at ${days} days`);
     }
 }
 
-function updateChapterDisplay(name, subtitle) {
-    const nameElement = document.getElementById("chapter-name-en");
-    const subtitleElement = document.getElementById("chapter-name");
+// ============================================
+// GLASS CONTAINER VISIBILITY (Intersection Observer)
+// ============================================
+
+function initGlassObserver() {
+    const options = {
+        root: null,
+        rootMargin: '-10% 0px -10% 0px',
+        threshold: 0.3
+    };
     
-    if (nameElement) nameElement.textContent = name + " /";
-    if (subtitleElement) subtitleElement.textContent = subtitle;
-}
-
-// ============================================
-// SCROLL EVENT HANDLER
-// ============================================
-
-function handleScroll() {
-    requestAnimationFrame(() => {
-        // Update scroll data
-        window.scrollData.scrollY = window.scrollY;
-        window.scrollData.documentHeight = Math.max(
-            document.body.scrollHeight,
-            document.documentElement.scrollHeight
-        );
-        window.scrollData.scrollPercent = 
-            (window.scrollY / (window.scrollData.documentHeight - window.innerHeight)) * 100;
-        
-        // Update time display
-        updateTimeDisplay();
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const glass = entry.target;
+            
+            if (entry.isIntersecting) {
+                glass.classList.add('visible');
+            } else {
+                // Optional: Remove visibility when scrolling away
+                // glass.classList.remove('visible');
+            }
+        });
+    }, options);
+    
+    // Observe all glass containers
+    document.querySelectorAll('.glass-container').forEach(container => {
+        observer.observe(container);
     });
 }
 
 // ============================================
-// SECTION VISIBILITY (Intersection Observer)
+// SCROLL INDICATOR HIDE
 // ============================================
 
-let sectionObserver;
-let shownElements = new Set();
+function handleScrollIndicator() {
+    if (window.scrollY > 100) {
+        document.body.classList.add('scrolled');
+    } else {
+        document.body.classList.remove('scrolled');
+    }
+}
 
-function initSectionObserver() {
-    const options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+// ============================================
+// SMOOTH SCROLL FOR NAV LINKS
+// ============================================
 
-    sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            const section = entry.target;
-            
-            if (entry.isIntersecting) {
-                // Execute data-onshow callback
-                const onShow = section.getAttribute('data-onshow');
-                if (onShow && !shownElements.has(section)) {
-                    try {
-                        eval(onShow);
-                        shownElements.add(section);
-                    } catch (error) {
-                        console.error('Error executing data-onshow:', error);
-                    }
-                }
-            } else {
-                // Execute data-onleave callback
-                if (shownElements.has(section)) {
-                    const onLeave = section.getAttribute('data-onleave');
-                    if (onLeave) {
-                        try {
-                            eval(onLeave);
-                        } catch (error) {
-                            console.error('Error executing data-onleave:', error);
-                        }
-                    }
-                    shownElements.delete(section);
-                }
+function initSmoothScroll() {
+    document.querySelectorAll('#fixed-nav a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         });
-    }, options);
+    });
+}
 
-    // Observe all sections
-    document.querySelectorAll('section').forEach(section => {
-        sectionObserver.observe(section);
+// ============================================
+// PARALLAX BACKGROUND MOVEMENT (Optional enhancement)
+// ============================================
+
+function initParallaxMovement() {
+    // This adds subtle movement to backgrounds based on scroll
+    let ticking = false;
+    
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrollY = window.scrollY;
+                
+                document.querySelectorAll('.section-background').forEach((bg, index) => {
+                    // Subtle vertical shift for parallax depth
+                    const shift = scrollY * 0.1 * (index + 1) * 0.1;
+                    bg.style.transform = `translateY(${shift}px)`;
+                });
+                
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+}
+
+// ============================================
+// MAIN SCROLL HANDLER
+// ============================================
+
+function handleScroll() {
+    requestAnimationFrame(() => {
+        updateTimeDisplay();
+        handleScrollIndicator();
+    });
+}
+
+// ============================================
+// RESIZE HANDLER
+// ============================================
+
+function handleResize() {
+    // Recalculate positions on resize
+    timeZeroElement = document.getElementById('time-zero');
+}
+
+// ============================================
+// PRELOAD IMAGES
+// ============================================
+
+function preloadImages() {
+    CONFIG.phases.forEach(phase => {
+        const img = new Image();
+        img.src = phase.background;
     });
 }
 
@@ -178,114 +260,57 @@ function initSectionObserver() {
 // INITIALIZATION
 // ============================================
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Initialize scroll listener
+function init() {
+    if (isInitialized) return;
+    isInitialized = true;
+    
+    console.log('Dimension Diary: Initializing...');
+    
+    // Preload background images
+    preloadImages();
+    
+    // Initialize backgrounds from data attributes
+    initBackgrounds();
+    
+    // Initialize glass container observer
+    initGlassObserver();
+    
+    // Initialize smooth scroll
+    initSmoothScroll();
+    
+    // Optional: Initialize parallax movement
+    // initParallaxMovement();
+    
+    // Add scroll listener
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Initialize section observer
-    initSectionObserver();
+    // Add resize listener
+    window.addEventListener('resize', handleResize);
+    
+    // Add transition to chapter display
+    const chapterElements = document.querySelectorAll('#overlay-chapter span');
+    chapterElements.forEach(el => {
+        el.style.transition = 'opacity 0.2s ease';
+    });
     
     // Initial update
     handleScroll();
     
-    // Set initial theme
-    document.body.classList.add(CONFIG.themeChanges[0].theme);
+    // Mark first glass container as visible immediately
+    const firstGlass = document.querySelector('.parallax-section:first-child .glass-container');
+    if (firstGlass) {
+        setTimeout(() => firstGlass.classList.add('visible'), 500);
+    }
     
-    console.log('Dimension Diary initialized');
-});
+    console.log('Dimension Diary: Ready!');
+}
 
 // ============================================
-// HTML CONTENT - Your story content goes here
+// DOM READY
 // ============================================
 
-const HTMLContent = `
-    <!-- INTRO SECTION -->
-    <section class="fullscreen intro-section">
-        <div class="intro-logo">
-            <h1>DIMENSION DIARY</h1>
-            <span class="author">Your Name</span>
-        </div>
-    </section>
-
-    <!-- PHASE 1: The Beginning (Days 0-90) -->
-    <section class="page-flow" data-onshow="console.log('Phase 1 visible')">
-        <div class="modal rec">
-            <div class="modal-heading monospace">
-                <p>file://diary/entry_001</p>
-                <p>
-                    <span class="file-number">Entry<b>001</b></span>
-                    <span class="file-date">Day<b>1</b></span>
-                </p>
-            </div>
-            <p class="name">Researcher Notes</p>
-            <p>This is where your first diary entry goes...</p>
-            <p>The experiment begins today. I don't know what to expect.</p>
-        </div>
-    </section>
-
-    <!-- More entries... -->
-    <section class="page-flow">
-        <div class="modal rec">
-            <div class="modal-heading monospace">
-                <p>file://diary/entry_002</p>
-            </div>
-            <p class="name">Day 30</p>
-            <p>One month has passed. Things are starting to change...</p>
-        </div>
-    </section>
-
-    <!-- PHASE 2: 3 Months (Days 90-180) -->
-    <section class="page-flow phase-marker" id="phase-2-start">
-        <div class="phase-title">
-            <h2>PHASE 02</h2>
-            <p>3 Months Later</p>
-        </div>
-    </section>
-
-    <section class="page-flow">
-        <div class="modal rec">
-            <div class="modal-heading monospace">
-                <p>file://diary/entry_090</p>
-            </div>
-            <p class="name">Day 90</p>
-            <p>Three months. The first dimensional shift occurred today...</p>
-        </div>
-    </section>
-
-    <!-- PHASE 3: 6 Months (Days 180-270) -->
-    <section class="page-flow phase-marker" id="phase-3-start">
-        <div class="phase-title">
-            <h2>PHASE 03</h2>
-            <p>6 Months Later</p>
-        </div>
-    </section>
-
-    <section class="page-flow">
-        <div class="modal rec">
-            <div class="modal-heading monospace">
-                <p>file://diary/entry_180</p>
-            </div>
-            <p class="name">Day 180</p>
-            <p>Half a year. Reality feels different now...</p>
-        </div>
-    </section>
-
-    <!-- TIME ZERO - The final point -->
-    <section class="fullscreen" id="time-zero">
-        <div class="final-display">
-            <h1>DAY 365</h1>
-            <p>The End</p>
-        </div>
-    </section>
-
-    <!-- ENDING -->
-    <section class="fullscreen ending">
-        <div class="endscreen">
-            <p>終</p>
-            <span>THE END</span>
-        </div>
-    </section>
-`;
-
-// Inject content
-document.querySelector('main-content').innerHTML = HTMLContent;
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
