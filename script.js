@@ -74,7 +74,7 @@ let currentTheme = 'theme-start';
 let contentLoaded = false;
 
 // ============================================
-// HTML CONTENT
+// HTML CONTENT (SCP-CN-4000 style boxes)
 // ============================================
 
 const HTMLContent = `
@@ -88,10 +88,8 @@ const HTMLContent = `
         
         <div class="content-wrapper">
             <div class="panel-content panel-content--hero">
-                <div class="hero-box">
-                    <h1 class="hero-title">DIMENSION DIARY</h1>
-                    <p class="hero-subtitle">A Journey Through Time</p>
-                </div>
+                <h1 class="hero-title">DIMENSION DIARY</h1>
+                <p class="hero-subtitle">A Journey Through Time</p>
             </div>
             
             <div class="panel-content">
@@ -99,12 +97,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_001</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-001</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 1</b></span>
+                            <span class="file-number">File No.<b>LOG-001</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">First Entry</p>
+                    <p class="name">Day 1</p>
                     <p>The dimensional rift opened today. What I saw on the other side... defies description.</p>
                     <p>Time moves differently here. Or perhaps it's my perception that has changed.</p>
                 </div>
@@ -115,12 +112,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_030</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-030</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 30</b></span>
+                            <span class="file-number">File No.<b>LOG-030</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">One Month</p>
+                    <p class="name">Day 30 - One Month</p>
                     <p>The boundaries between dimensions grow thinner each day.</p>
                     <p>I've started to see echoes of other timelines overlapping with this one.</p>
                 </div>
@@ -131,12 +127,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_060</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-060</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 60</b></span>
+                            <span class="file-number">File No.<b>LOG-060</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Two Months</p>
+                    <p class="name">Day 60 - Two Months</p>
                     <p>I've learned to recognize the shimmer at the edges of reality.</p>
                     <p>Each dimension has its own color, its own taste.</p>
                 </div>
@@ -166,12 +161,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_090</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-090</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 90</b></span>
+                            <span class="file-number">File No.<b>LOG-090</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Quarter Year</p>
+                    <p class="name">Day 90 - Quarter Year</p>
                     <p>I've learned to navigate the shifts now. Each dimension has its own frequency, its own rhythm.</p>
                     <p>The key is synchronization.</p>
                 </div>
@@ -182,15 +176,13 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_120</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-120</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 120</b></span>
+                            <span class="file-number">File No.<b>LOG-120</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Contact</p>
+                    <p class="name">Day 120 - Contact</p>
                     <p>Met another traveler today. She's been jumping for years.</p>
-                    <p class="name">Unknown Traveler</p>
-                    <p><em>"The longer you stay, the less you remember who you were."</em></p>
+                    <p><em>"The longer you stay," she said, "the less you remember who you were."</em></p>
                 </div>
             </div>
         </div>
@@ -218,12 +210,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_180</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-180</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 180</b></span>
+                            <span class="file-number">File No.<b>LOG-180</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Halfway</p>
+                    <p class="name">Day 180 - Halfway</p>
                     <p>Half a year. I can no longer remember my mother's face.</p>
                     <p>But I can see seventeen versions of this room simultaneously.</p>
                 </div>
@@ -234,12 +225,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_210</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-210</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 210</b></span>
+                            <span class="file-number">File No.<b>LOG-210</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Fragmentation</p>
+                    <p class="name">Day 210 - Fragmentation</p>
                     <p>Which memories are mine? Which belong to the other versions of me?</p>
                     <p>The boundaries are dissolving.</p>
                 </div>
@@ -269,12 +259,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_270</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-270</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 270</b></span>
+                            <span class="file-number">File No.<b>LOG-270</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Convergence</p>
+                    <p class="name">Day 270 - Convergence</p>
                     <p>The timelines are collapsing into one. I can feel the convergence.</p>
                     <p>All paths lead to a single point.</p>
                 </div>
@@ -285,12 +274,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_300</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-300</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 300</b></span>
+                            <span class="file-number">File No.<b>LOG-300</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Understanding</p>
+                    <p class="name">Day 300 - Understanding</p>
                     <p>I understand now. The journey was never about reaching a destination.</p>
                     <p>It was about becoming something that could exist in all dimensions at once.</p>
                 </div>
@@ -301,12 +289,11 @@ const HTMLContent = `
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_330</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-330</b></span>
-                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 330</b></span>
+                            <span class="file-number">File No.<b>LOG-330</b></span>
+                            <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Preparation</p>
+                    <p class="name">Day 330 - Preparation</p>
                     <p>The final transformation is near. I am ready.</p>
                     <p>Or rather, all versions of me are ready.</p>
                 </div>
@@ -332,16 +319,15 @@ const HTMLContent = `
             </div>
             
             <div class="panel-content">
-                <div class="modal rec">
+                <div class="modal rec modal--light">
                     <div class="modal-heading monospace">
                         <p>file://dimension/log_365</p>
                         <p>
-                            <span class="file-number">File No. <b>LOG-365</b></span>
-                            <span class="file-type">Type <b>FINAL ENTRY</b></span>
-                            <span class="file-date">Date <b>Day 365</b></span>
+                            <span class="file-number">File No.<b>LOG-365</b></span>
+                            <span class="file-type">Type<b>Final Entry</b></span>
                         </p>
                     </div>
-                    <p class="title">Final Entry</p>
+                    <p class="name">Day 365 - Final Entry</p>
                     <p>It is done.</p>
                     <p>I am no longer bound by a single thread of time. I exist in all moments, all places, all possibilities.</p>
                     <p>This diary ends here. But I continue everywhere.</p>
@@ -369,7 +355,9 @@ function updateTimeDisplay() {
     const timeDisplay = document.getElementById("time-display");
     const timeZero = document.getElementById("time-zero");
     
-    if (!timeZero || !timeDisplay) return;
+    if (!timeZero || !timeDisplay) {
+        return;
+    }
     
     const zeroPosition = timeZero.offsetTop;
     if (zeroPosition <= 0) return;
