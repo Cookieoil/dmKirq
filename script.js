@@ -398,3 +398,56 @@ const HTMLContent = `
     </section>
 
     <section class="page-flow content-section">
+        <div class="modal rec glass-card">
+            <div class="modal-heading monospace">
+                <p>file://dimension/log_270</p>
+            </div>
+            <p class="name">Day 270</p>
+            <p>The timelines are collapsing into one. I can feel the convergence.</p>
+            <p>All paths lead to a single point.</p>
+        </div>
+    </section>
+
+    <section class="page-flow content-section">
+        <div class="modal rec glass-card">
+            <div class="modal-heading monospace">
+                <p>file://dimension/log_300</p>
+            </div>
+            <p class="name">Day 300</p>
+            <p>I understand now. The journey was never about reaching a destination.</p>
+            <p>It was about becoming something that could exist in all dimensions at once.</p>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FINAL: DAY 365
+         ========================================== -->
+    <section class="fullscreen parallax-section" data-parallax data-parallax-speed="0.3" id="time-zero">
+        <div class="parallax-background">
+            <div class="parallax-image" style="background-image: url('https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1920&q=80')"></div>
+            <div class="parallax-overlay" style="background: rgba(255, 255, 255, 0.2)"></div>
+            <div class="parallax-noise"></div>
+        </div>
+        <div class="glass-content title-background">
+            <div class="final-display">
+                <span class="final-label">DAY</span>
+                <h1 class="final-number">365</h1>
+                <p class="final-subtitle">The Convergence</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ENDING
+         ========================================== -->
+    <section class="fullscreen ending-section">
+        <div class="endscreen">
+            <p class="end-symbol">∞</p>
+            <span class="end-text">I AM EVERYWHERE</span>
+            <span class="end-subtext">THE END IS THE BEGINNING</span>
+        </div>
+    </section>
+`;
+
+// Inject content
+document.querySelector('main-content').innerHTML = HTMLContent;
