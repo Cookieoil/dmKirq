@@ -410,7 +410,7 @@ function handleScroll() {
             // Calculate how far through the panel we've scrolled (0 to 1)
             const progress = -rect.top / (rect.height + window.innerHeight);
             // Adjust multiplier (20-50) for more/less movement
-            const offset = progress * 40; 
+            const offset = progress * 10; 
             bgFixed.style.transform = `translate3d(0, ${offset}vh, 0)`;
         }
     });
