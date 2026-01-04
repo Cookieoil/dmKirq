@@ -16,48 +16,59 @@
     --font-size: 16px;
     --line-height: 1.75;
     
-    /* Layout */
     --nav-height: 3.25rem;
     --sidebar-width: min(22rem, 75vw);
 
-    /* Transitions */
     --transition: 0.4s ease;
     --transition-duration: 0.3s;
     --transition-duration-fast: 0.15s;
 
-    /* Dark Layer Colors - FIXED, no theme changes */
     --color-dark-layer-1: #000000;
     --color-dark-layer-2: #0B0B0B;
     --color-dark-layer-3: #262626;
     --color-dark-layer-4: #404040;
     --color-dark-overlay: rgba(15, 15, 15, 0.95);
 
-    /* Light Layer Colors - FIXED, no theme changes */
     --color-light-layer-1: #FFFFFF;
     --color-light-layer-2: #F2F2F2;
     --color-light-layer-3: #b1b1b1;
     --color-light-layer-4: #878787;
 
-    /* Theme Colors - FIXED, no theme changes */
     --color-theme-bright: #8e7aff;
     --color-theme-medium: #7B68EE;
     --color-theme-dark: #5141ab;
 
-    /* Text Colors - FIXED, no theme changes */
     --color-text-layer-1: var(--color-light-layer-2);
     --color-text-layer-2: var(--color-light-layer-3);
 
-    /* Background Overlay - FIXED */
     --overlay-color: rgba(0, 0, 0, 0.45);
 
-    /* Icons */
     --icon-menu: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktbGlzdCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yLjUgMTJhLjUuNSAwIDAgMSAuNS0uNWgxMGEuNS41IDAgMCAxIDAgMUgzYS41LjUgMCAwIDEtLjUtLjV6bTAtNGEuNS41IDAgMCAxIC41LS41aDEwYS41LjUgMCAwIDEgMCAxSDNhLjUuNSAwIDAgMS0uNS0uNXptMC00YS41LjUgMCAwIDEgLjUtLjVoMTBhLjUuNSAwIDAgMSAwIDFIM2EuNS41IDAgMCAxLS41LS41eiIvPgo8L3N2Zz4=");
     --darkmode-filter: invert(1) hue-rotate(180deg);
 }
 
 /* ============================================
-   NO THEME VARIATIONS - Colors stay fixed
+   THEME VARIATIONS - ACCENT ONLY, NO TEXT COLOR CHANGES
    ============================================ */
+body.theme-start {
+    --color-theme-bright: #8e7aff;
+}
+
+body.theme-3months {
+    --color-theme-bright: #4a9fff;
+}
+
+body.theme-6months {
+    --color-theme-bright: #4aff9f;
+}
+
+body.theme-9months {
+    --color-theme-bright: #ff9f4a;
+}
+
+body.theme-end {
+    --color-theme-bright: #4a4aff;
+}
 
 /* ============================================
    RESET & BASE
@@ -664,6 +675,45 @@ p.name::before {
     flex: 0.1 1 auto;
 }
 
+/* Light Modal (White box, black text) - for final section */
+div.modal--light {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: #d8d8d8;
+}
+
+div.modal--light div.modal-heading p:first-child {
+    background-color: #eeeeee;
+    border-color: #d8d8d8;
+    color: #555555;
+}
+
+div.modal--light div.modal-heading p:nth-child(2) {
+    background-color: #ffffff;
+}
+
+div.modal--light div.modal-heading :is(span.file-type, span.file-number, span.file-date) {
+    background-color: #ffffff;
+    border-color: #eeeeee;
+    color: #555555;
+}
+
+div.modal--light div.modal-heading :is(span.file-type, span.file-number, span.file-date) b {
+    color: #4a4aff;
+}
+
+div.modal--light > p {
+    color: #1a1a1a;
+}
+
+div.modal--light > p.name {
+    color: #1a1a1a;
+}
+
+div.modal--light p.name::before,
+div.modal--light p.name::after {
+    border-color: #d8d8d8;
+}
+
 @media screen and (max-width: 800px) {
     div.modal.rec div.modal-heading p:nth-child(2) {
         flex-wrap: wrap;
@@ -675,48 +725,7 @@ p.name::before {
 }
 
 /* ============================================
-   LIGHT MODAL (White box like Arkring)
-   ============================================ */
-div.modal.modal--light {
-    background-color: rgba(255, 255, 255, 0.95);
-    border: 0.1rem solid #d8d8d8;
-}
-
-div.modal.modal--light div.modal-heading p:first-child {
-    background-color: #eeeeee;
-    border-color: #d8d8d8;
-    color: #4e4e4e;
-}
-
-div.modal.modal--light div.modal-heading p:nth-child(2) {
-    background-color: #ffffff;
-}
-
-div.modal.modal--light div.modal-heading :is(span.file-type, span.file-number, span.file-date) {
-    background-color: #ffffff;
-    border-color: #eeeeee;
-    color: #4e4e4e;
-}
-
-div.modal.modal--light div.modal-heading :is(span.file-type, span.file-number, span.file-date) b {
-    color: #5141ab;
-}
-
-div.modal.modal--light > p {
-    color: #1f1f1f;
-}
-
-div.modal.modal--light > p.name {
-    color: #000000;
-}
-
-div.modal.modal--light p.name::before,
-div.modal.modal--light p.name::after {
-    border-color: #d8d8d8;
-}
-
-/* ============================================
-   PHASE MARKERS
+   PHASE MARKERS - Same font as 365
    ============================================ */
 .panel-content--phase {
     min-height: 100vh;
@@ -737,7 +746,7 @@ div.modal.modal--light p.name::after {
     font-weight: 700;
     line-height: 1;
     color: var(--color-light-layer-2);
-    opacity: 0.35;
+    opacity: 0.25;
 }
 
 .phase-marker__title {
@@ -759,7 +768,7 @@ div.modal.modal--light p.name::after {
 }
 
 /* ============================================
-   FINAL DISPLAY (Day 365)
+   FINAL DISPLAY (Day 365) - Colors change to dark
    ============================================ */
 .panel-content--final {
     min-height: 100vh;
@@ -778,7 +787,7 @@ div.modal.modal--light p.name::after {
     font-size: 1.5rem;
     font-family: var(--font-deco);
     letter-spacing: 0.6em;
-    color: var(--color-light-layer-3);
+    color: #555555;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
 }
@@ -788,8 +797,8 @@ div.modal.modal--light p.name::after {
     font-family: var(--font-deco);
     font-weight: 700;
     line-height: 0.85;
-    color: var(--color-light-layer-2);
-    text-shadow: 0 0 80px rgba(255, 255, 255, 0.2);
+    color: #1a1a1a;
+    text-shadow: 0 0 80px rgba(0, 0, 0, 0.1);
 }
 
 .final-display__subtitle {
@@ -797,7 +806,7 @@ div.modal.modal--light p.name::after {
     font-family: var(--font-deco);
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--color-theme-bright);
+    color: #4a4aff;
     margin-top: 1rem;
 }
 
@@ -812,54 +821,80 @@ div.modal.modal--light p.name::after {
 
 #overlay-number {
     position: fixed;
-    top: calc(50vh - 2.5rem);
+    top: 50%;
     left: 2rem;
-    text-align: right;
-    width: 8rem;
+    transform: translateY(-50%);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 #overlay-number span {
     display: block;
-    color: var(--color-light-layer-4);
-    font-size: 1rem;
-    letter-spacing: -0.1rem;
-    width: 8rem;
 }
 
 #overlay-number .monospace {
     font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--color-light-layer-4);
+    transition: color var(--transition);
 }
 
 #overlay-number #time-display {
     font-size: 2rem;
     font-family: var(--font-deco);
-    font-weight: bolder;
+    font-weight: 700;
     letter-spacing: -0.15rem;
-    margin-top: -1rem;
+    line-height: 1.1;
     color: var(--color-light-layer-2);
+    transition: color var(--transition);
 }
 
 #overlay-chapter {
     position: fixed;
-    top: 1.25rem;
-    left: 0;
-    margin-left: 2.5rem;
+    top: 1.5rem;
+    left: 2rem;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
-#overlay-chapter span.monospace {
+#overlay-chapter span {
+    display: block;
+}
+
+#overlay-chapter #chapter-name-en {
     font-family: var(--font-mono);
-    font-size: 1rem;
-    letter-spacing: -0.1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
     color: var(--color-light-layer-4);
+    transition: color var(--transition);
 }
 
-#overlay-chapter span#chapter-name {
-    font-size: 1rem;
+#overlay-chapter #chapter-name {
+    font-size: 1.1rem;
     font-family: var(--font-deco);
-    font-weight: bolder;
-    letter-spacing: -0.05rem;
-    margin-top: -1rem;
+    font-weight: 600;
     color: var(--color-light-layer-3);
+    transition: color var(--transition);
+}
+
+/* Overlay colors change to dark on theme-end */
+body.theme-end #overlay-number .monospace {
+    color: #878787;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+}
+
+body.theme-end #overlay-number #time-display {
+    color: #1a1a1a;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+}
+
+body.theme-end #overlay-chapter #chapter-name-en {
+    color: #878787;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+}
+
+body.theme-end #overlay-chapter #chapter-name {
+    color: #555555;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
@@ -901,44 +936,19 @@ div.modal.modal--light p.name::after {
     }
     
     #overlay-number {
-        top: 3.25rem;
-        left: 2rem;
-        text-align: left;
-        width: auto;
-        display: inline-block;
-        z-index: 99;
-        filter: opacity(0.5);
+        top: auto;
+        bottom: 5rem;
+        left: 1.5rem;
+        transform: none;
     }
-
-    #overlay-number span.monospace {
-        display: inline;
-    }
-
-    #overlay-number span.monospace::after {
-        content: " / ";
-    }
-
+    
     #overlay-number #time-display {
-        font-size: 1.25rem;
-        margin-top: -0.5rem;
-        color: var(--color-light-layer-3);
-        display: inline;
+        font-size: 1.5rem;
     }
     
     #overlay-chapter {
-        top: 3.25rem;
-        right: 2rem;
-        left: unset;
-        text-align: right;
-        width: auto;
-        margin-right: 0;
-        margin-left: 0;
-    }
-
-    #overlay-chapter span#chapter-name {
-        font-size: 1.25rem;
-        margin-top: -0.5rem;
-        color: var(--color-light-layer-3);
+        top: 1rem;
+        left: 1.5rem;
     }
     
     .phase-marker__number {
