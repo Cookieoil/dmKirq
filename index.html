@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimension Diary</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <!-- Overlay UI -->
+<body class="parallax-enabled transparent-header">
+    
+    <!-- OVERLAY UI -->
     <div id="overlay">
         <div id="overlay-number">
             <span class="monospace">ELAPSED TIME</span>
@@ -20,11 +21,14 @@
         </div>
     </div>
 
-    <!-- Content -->
+    <!-- MAIN CONTENT -->
     <div id="content-container">
-        <main-content></main-content>
+        <main-content>
+            <!-- Content injected by JavaScript -->
+        </main-content>
     </div>
 
+    <script src="parallax.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
