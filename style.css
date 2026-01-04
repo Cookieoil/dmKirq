@@ -1,8 +1,20 @@
 /* ============================================
-   BASE
+   FONTS
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400&display=swap');
+@import url("https://fontsapi.zeoseven.com/161/main/result.css");
+
+:root {
+    --font-sans-serif: "Sarasa Gothic SC", sans-serif;
+    --font-mono: "JetBrains Mono", "Consolas", monospace;
+    --font-deco: "Alata", sans-serif;
+    
+    --color-text-primary: #F2F2F2;
+    --color-text-secondary: #b1b1b1;
+    --color-accent: #8e7aff;
+    
+    --parallax-speed: 0.4; /* Background moves at 40% of scroll speed */
+}
 
 * {
     box-sizing: border-box;
@@ -10,23 +22,135 @@
     padding: 0;
 }
 
-:root {
-    --font-sans: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --accent: #a78bfa;
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: var(--font-sans);
-    color: var(--text-primary);
-    line-height: 1.7;
+    font-family: var(--font-sans-serif);
+    color: var(--color-text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
     background: #000;
 }
 
 /* ============================================
-   OVERLAY (Fixed Time Display)
+   PARALLAX BACKGROUND SYSTEM
+   ============================================ */
+
+/* Container for all parallax backgrounds */
+#parallax-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+/* Individual parallax layer */
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%; /* Extra height for parallax movement */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: transform;
+    transition: opacity 0.8s ease;
+}
+
+/* Theme backgrounds - stacked, controlled by opacity */
+.parallax-layer.bg-theme-1 {
+    background-image: url('https://picsum.photos/id/1018/1920/1080'); /* Mountain lake */
+    z-index: 1;
+}
+
+.parallax-layer.bg-theme-2 {
+    background-image: url('https://picsum.photos/id/1015/1920/1080'); /* River */
+    z-index: 2;
+    opacity: 0;
+}
+
+.parallax-layer.bg-theme-3 {
+    background-image: url('https://picsum.photos/id/1039/1920/1080'); /* Waterfall */
+    z-index: 3;
+    opacity: 0;
+}
+
+.parallax-layer.bg-theme-4 {
+    background-image: url('https://picsum.photos/id/1036/1920/1080'); /* Ocean */
+    z-index: 4;
+    opacity: 0;
+}
+
+/* Active state - layer becomes visible */
+.parallax-layer.active {
+    opacity: 1;
+}
+
+/* ============================================
+   GLASS EFFECT (Depth Perception)
+   ============================================ */
+
+/*
+   This creates depth by:
+   1. Very subtle blur (not frosted, just enough for depth)
+   2. Slight color shift for atmospheric perspective
+   3. Thin highlight edge suggesting glass surface
+*/
+
+#glass-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    
+    /* Subtle depth effect */
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.05) 50%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+    
+    /* Very light blur - creates depth without losing detail */
+    backdrop-filter: blur(0.5px);
+    -webkit-backdrop-filter: blur(0.5px);
+}
+
+/* Optional: subtle refraction effect at edges */
+#glass-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 60%,
+        rgba(255, 255, 255, 0.02) 100%
+    );
+}
+
+/* ============================================
+   CONTENT LAYER
+   ============================================ */
+
+#content-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* ============================================
+   TIME OVERLAY
    ============================================ */
 
 #overlay {
@@ -37,287 +161,212 @@ body {
 
 #overlay-number {
     position: fixed;
-    bottom: 2rem;
+    top: 50vh;
     left: 2rem;
+    transform: translateY(-50%);
 }
 
 #overlay-number span {
     display: block;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.1em;
 }
 
 #overlay-number #time-display {
     font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1;
-    margin: 0.25rem 0;
+    font-family: var(--font-deco);
+    font-weight: bold;
+    color: var(--color-text-primary);
+    letter-spacing: -0.1rem;
+}
+
+#overlay-chapter {
+    position: fixed;
+    top: 1.5rem;
+    left: 2rem;
+}
+
+#overlay-chapter span {
+    display: block;
+    font-family: var(--font-deco);
+}
+
+#overlay-chapter #chapter-name-en {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+#overlay-chapter #chapter-name {
+    font-size: 1.2rem;
+    color: var(--color-text-primary);
+    font-weight: bold;
 }
 
 /* ============================================
-   PARALLAX BACKGROUND SECTIONS
-   
-   Key: background-attachment: fixed
-   - Background stays in place
-   - Content scrolls over it
-   - Next section's background overlaps previous
+   SECTIONS
    ============================================ */
 
-.parallax-bg {
-    position: relative;
-    
-    /* Fixed background - creates parallax effect */
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    /* Ensure section covers its content */
+section {
     min-height: 100vh;
-}
-
-/* ============================================
-   DEPTH EFFECT OVERLAY
-   
-   Creates visual depth perception:
-   - Gradient darkening at edges (vignette)
-   - Subtle color tint
-   - Layered transparency
-   ============================================ */
-
-.parallax-bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    /* Depth effect: vignette + color overlay */
-    background: 
-        /* Vignette - darkens edges, creates depth */
-        radial-gradient(
-            ellipse at center,
-            transparent 0%,
-            transparent 40%,
-            rgba(0, 0, 0, 0.3) 100%
-        ),
-        /* Color tint - adds atmosphere */
-        linear-gradient(
-            180deg,
-            rgba(0, 0, 0, 0.2) 0%,
-            rgba(0, 0, 0, 0.4) 50%,
-            rgba(0, 0, 0, 0.6) 100%
-        );
-    
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* ============================================
-   CONTENT LAYER
-   
-   Sits above the background + depth overlay
-   ============================================ */
-
-.content-layer {
-    position: relative;
-    z-index: 2;
-    min-height: 100vh;
+    padding: 4rem 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4rem 2rem;
+}
+
+section.fullscreen {
+    min-height: 100vh;
+}
+
+/* ============================================
+   MODAL (Diary Entry)
+   ============================================ */
+
+.modal {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 40rem;
+    width: 100%;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.modal .modal-heading {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal .modal-heading p {
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.modal .modal-heading span {
+    display: inline-flex;
+    gap: 0.5rem;
+}
+
+.modal .modal-heading b {
+    color: var(--color-accent);
+}
+
+.modal > p {
+    padding: 1rem 1.5rem;
+    line-height: 1.8;
+}
+
+.modal p.name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-accent);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+    margin: 0 1.5rem;
+}
+
+/* ============================================
+   TITLE SECTIONS (Simple, no box)
+   ============================================ */
+
+.phase-title {
+    text-align: center;
+    color: var(--color-text-primary);
+}
+
+.phase-title h2 {
+    font-family: var(--font-deco);
+    font-size: 4rem;
+    font-weight: bold;
+    letter-spacing: 0.3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.phase-title p {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================
    INTRO
    ============================================ */
 
-.intro {
+.intro-section {
+    flex-direction: column;
     text-align: center;
 }
 
-.intro h1 {
-    font-size: clamp(2rem, 8vw, 5rem);
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    margin-bottom: 1rem;
+.intro-logo h1 {
+    font-family: var(--font-deco);
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
 }
 
-.intro p {
+.intro-logo .author {
     font-size: 1rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-}
-
-/* ============================================
-   PHASE MARKER (Simple)
-   ============================================ */
-
-.phase-marker {
-    text-align: center;
-}
-
-.phase-marker span {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--accent);
-    letter-spacing: 0.2em;
-    margin-bottom: 0.5rem;
-}
-
-.phase-marker h2 {
-    font-size: clamp(1.5rem, 5vw, 3rem);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-}
-
-/* ============================================
-   ENTRY (Diary Card)
-   
-   Depth effect on cards:
-   - Semi-transparent background
-   - Subtle shadow for floating effect
-   - Border with transparency
-   ============================================ */
-
-.entry {
-    max-width: 600px;
-    width: 100%;
-    padding: 2rem;
-    
-    /* Semi-transparent - shows background through */
-    background: rgba(0, 0, 0, 0.5);
-    
-    /* Subtle border adds definition */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    
-    /* Shadow creates floating/depth effect */
-    box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.05);
-}
-
-.entry-header {
-    display: flex;
-    justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.entry .speaker {
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 1rem;
-}
-
-.entry p {
-    margin-bottom: 0.75rem;
-}
-
-.entry.warning {
-    border-color: rgba(248, 113, 113, 0.3);
-}
-
-.entry.warning .speaker {
-    color: #f87171;
-}
-
-/* ============================================
-   FINAL DISPLAY
-   ============================================ */
-
-.final-display {
-    text-align: center;
-}
-
-.final-display .label {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.3em;
-}
-
-.final-display .number {
-    display: block;
-    font-size: clamp(6rem, 20vw, 15rem);
-    font-weight: 700;
-    line-height: 1;
-}
-
-.final-display .subtitle {
-    display: block;
-    font-size: 1rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.5em;
-    margin-top: 1rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.3rem;
 }
 
 /* ============================================
    ENDING
    ============================================ */
 
-.ending {
-    min-height: 50vh;
+.endscreen {
+    text-align: center;
 }
 
-.end-symbol {
+.endscreen p {
     font-size: 5rem;
-    font-weight: 700;
+    font-weight: bold;
+}
+
+.endscreen span {
+    font-family: var(--font-deco);
+    font-size: 1.5rem;
+    letter-spacing: 0.5rem;
+    color: var(--color-text-secondary);
 }
 
 /* ============================================
    MOBILE
    ============================================ */
 
-@media (max-width: 768px) {
-    /* Fixed backgrounds don't work well on mobile */
-    .parallax-bg {
-        background-attachment: scroll;
-    }
-    
-    .content-layer {
-        padding: 3rem 1rem;
-        min-height: auto;
-    }
-    
-    .entry {
-        padding: 1.5rem;
-    }
-    
+@media screen and (max-width: 768px) {
     #overlay-number {
-        bottom: 1rem;
+        top: auto;
+        bottom: 2rem;
         left: 1rem;
     }
     
     #overlay-number #time-display {
         font-size: 1.8rem;
     }
-}
-
-/* ============================================
-   SCROLLBAR
-   ============================================ */
-
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: #111;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #444;
+    
+    #overlay-chapter {
+        left: 1rem;
+        top: 1rem;
+    }
+    
+    .intro-logo h1 {
+        font-size: 1.8rem;
+        letter-spacing: 0.2rem;
+    }
+    
+    .phase-title h2 {
+        font-size: 2.5rem;
+    }
+    
+    section {
+        padding: 2rem 1rem;
+    }
 }
