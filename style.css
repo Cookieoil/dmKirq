@@ -20,7 +20,7 @@
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     
-    /* Dynamic Overlay (changed by JS) */
+    /* Dynamic Overlay */
     --current-overlay-color: rgba(17, 0, 34, 0.6);
     
     /* Transitions */
@@ -30,7 +30,7 @@
 }
 
 /* ============================================
-   THEME VARIATIONS
+   THEMES
    ============================================ */
 
 body.theme-start {
@@ -64,7 +64,7 @@ body.theme-end {
 }
 
 /* ============================================
-   BASE RESET
+   RESET & BASE
    ============================================ */
 
 *, *::before, *::after {
@@ -83,8 +83,49 @@ body {
     color: var(--color-text-primary);
     line-height: 1.7;
     overflow-x: hidden;
+    min-height: 100vh;
     transition: background-color var(--transition-slow),
                 color var(--transition-slow);
+}
+
+/* ============================================
+   CRITICAL: Content Container Structure
+   ============================================ */
+
+#content-container {
+    min-height: 100vh;
+    width: 100%;
+    display: block;
+}
+
+#main-content-area {
+    min-height: 100vh;
+    width: 100%;
+    display: block;
+}
+
+/* ============================================
+   SECTIONS - Ensure they have height
+   ============================================ */
+
+section {
+    width: 100%;
+    display: block;
+    position: relative;
+}
+
+section.fullscreen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+section.page-flow {
+    min-height: auto;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
 }
 
 /* ============================================
@@ -94,31 +135,22 @@ body {
 .parallax-section {
     position: relative;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.parallax-section.fullscreen {
-    min-height: 100vh;
 }
 
 .parallax-section.medium {
     min-height: 60vh;
 }
 
-/* Parallax Background Container */
 .parallax-background {
     position: absolute;
-    top: -20%; /* Extra space for parallax movement */
+    top: -20%;
     left: 0;
     width: 100%;
-    height: 140%; /* Extra height for parallax movement */
+    height: 140%;
     z-index: 0;
     pointer-events: none;
 }
 
-/* The Actual Image - This gets transformed by JS */
 .parallax-image {
     position: absolute;
     top: 0;
@@ -128,11 +160,10 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    will-change: transform; /* GPU hint */
-    transform: translate3d(0, 0, 0); /* Force GPU layer */
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
 }
 
-/* Glass Overlay - The "behind glass" effect */
 .parallax-overlay {
     position: absolute;
     top: 0;
@@ -144,7 +175,6 @@ body {
     z-index: 1;
 }
 
-/* Noise/Grain Texture - Reduces banding */
 .parallax-noise {
     position: absolute;
     top: 0;
@@ -154,13 +184,11 @@ body {
     z-index: 2;
     opacity: 0.03;
     pointer-events: none;
-    /* CSS noise pattern - no image needed */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
 }
 
 /* ============================================
-   GLASS CONTENT (Floating above parallax)
+   GLASS CONTENT
    ============================================ */
 
 .glass-content {
@@ -173,7 +201,6 @@ body {
     text-align: center;
 }
 
-/* Glass Text Effect */
 .glass-text {
     font-size: clamp(2rem, 8vw, 5rem);
     font-weight: 700;
@@ -182,16 +209,10 @@ body {
     text-shadow: 
         0 0 40px rgba(255, 255, 255, 0.3),
         0 0 80px rgba(255, 255, 255, 0.1);
-    animation: glassTextGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes glassTextGlow {
-    from { text-shadow: 0 0 40px rgba(255, 255, 255, 0.3), 0 0 80px rgba(255, 255, 255, 0.1); }
-    to { text-shadow: 0 0 60px rgba(255, 255, 255, 0.4), 0 0 120px rgba(255, 255, 255, 0.2); }
 }
 
 /* ============================================
-   GLASS CARD (Modal with glass effect)
+   GLASS CARD
    ============================================ */
 
 .glass-card {
@@ -203,19 +224,12 @@ body {
     box-shadow: var(--glass-shadow);
     max-width: 42rem;
     width: 100%;
-    transition: 
-        background var(--transition-slow),
-        border-color var(--transition-slow),
-        transform var(--transition-medium);
-}
-
-.glass-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
+    transition: background var(--transition-slow),
+                border-color var(--transition-slow);
 }
 
 /* ============================================
-   INTRO / HERO SECTION
+   INTRO SECTION
    ============================================ */
 
 .intro-logo {
@@ -225,10 +239,6 @@ body {
     gap: 1rem;
 }
 
-.intro-logo h1 {
-    margin: 0;
-}
-
 .intro-logo .author {
     font-size: 1rem;
     letter-spacing: 0.4em;
@@ -236,7 +246,6 @@ body {
     text-transform: uppercase;
 }
 
-/* Scroll Indicator */
 .scroll-indicator {
     position: absolute;
     bottom: 3rem;
@@ -244,7 +253,6 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    animation: fadeInUp 1s ease 1s both;
 }
 
 .scroll-indicator span {
@@ -268,25 +276,17 @@ body {
     50% { transform: rotate(45deg) translateY(10px); opacity: 0.5; }
 }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 /* ============================================
    CONTENT SECTIONS
    ============================================ */
 
 .content-section {
-    padding: 4rem 2rem;
-    display: flex;
-    justify-content: center;
     background: var(--color-bg-primary);
     transition: background var(--transition-slow);
 }
 
 /* ============================================
-   MODAL STYLING
+   MODAL
    ============================================ */
 
 .modal {
@@ -310,12 +310,6 @@ body {
     gap: 1rem;
 }
 
-.modal .modal-heading span {
-    display: inline-flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
 .modal .modal-heading b {
     color: var(--color-accent);
     transition: color var(--transition-slow);
@@ -336,18 +330,9 @@ body {
     transition: color var(--transition-slow);
 }
 
-.modal p.italic {
-    font-style: italic;
-    color: var(--color-text-secondary);
-}
-
 /* ============================================
-   PHASE TRANSITIONS
+   PHASE TITLES
    ============================================ */
-
-.phase-transition {
-    /* Special styling for phase break sections */
-}
 
 .phase-title {
     text-align: center;
@@ -355,276 +340,4 @@ body {
 
 .phase-number {
     display: block;
-    font-size: 8rem;
-    font-weight: 700;
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 2px var(--color-accent);
-    opacity: 0.3;
-    transition: -webkit-text-stroke-color var(--transition-slow);
-}
-
-.phase-title h2 {
-    font-size: clamp(2rem, 6vw, 4rem);
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    margin: -2rem 0 1rem;
-    color: var(--color-text-primary);
-}
-
-.phase-title p {
-    font-size: 1.2rem;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
-/* ============================================
-   PARALLAX QUOTES
-   ============================================ */
-
-.parallax-quote {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    font-weight: 300;
-    font-style: italic;
-    text-align: center;
-    color: var(--color-text-primary);
-    max-width: 800px;
-    padding: 2rem;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-}
-
-.parallax-quote::before,
-.parallax-quote::after {
-    content: '"';
-    color: var(--color-accent);
-    transition: color var(--transition-slow);
-}
-
-/* ============================================
-   FINAL DISPLAY
-   ============================================ */
-
-.final-display {
-    text-align: center;
-}
-
-.final-label {
-    display: block;
-    font-size: 1.5rem;
-    letter-spacing: 0.5em;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-}
-
-.final-number {
-    font-size: clamp(8rem, 25vw, 20rem);
-    font-weight: 700;
-    line-height: 0.9;
-    color: var(--color-text-primary);
-    text-shadow: 0 0 100px rgba(255, 255, 255, 0.3);
-}
-
-.final-subtitle {
-    font-size: 1.5rem;
-    letter-spacing: 0.3em;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    margin-top: 1rem;
-}
-
-/* ============================================
-   ENDING SECTION
-   ============================================ */
-
-.ending-section {
-    background: var(--color-bg-primary);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background var(--transition-slow);
-}
-
-.endscreen {
-    text-align: center;
-}
-
-.end-symbol {
-    font-size: 10rem;
-    font-weight: 100;
-    color: var(--color-accent);
-    line-height: 1;
-    transition: color var(--transition-slow);
-}
-
-.end-text {
-    display: block;
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 0.3em;
-    margin-top: 2rem;
-    color: var(--color-text-primary);
-}
-
-.end-subtext {
-    display: block;
-    font-size: 0.9rem;
-    letter-spacing: 0.2em;
-    margin-top: 1rem;
-    color: var(--color-text-secondary);
-}
-
-/* ============================================
-   OVERLAY UI
-   ============================================ */
-
-#overlay {
-    position: fixed;
-    z-index: 1000;
-    pointer-events: none;
-}
-
-#overlay-number {
-    position: fixed;
-    top: 50%;
-    left: 2rem;
-    transform: translateY(-50%);
-}
-
-#overlay-number span {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.1em;
-    transition: color var(--transition-slow);
-}
-
-#overlay-number #time-display {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    letter-spacing: -0.05em;
-    line-height: 1.2;
-    transition: color var(--transition-slow);
-}
-
-#overlay-chapter {
-    position: fixed;
-    top: 1.5rem;
-    left: 2rem;
-}
-
-#overlay-chapter span {
-    display: block;
-    transition: color var(--transition-slow);
-}
-
-#overlay-chapter #chapter-name-en {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.1em;
-}
-
-#overlay-chapter #chapter-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--color-text-primary);
-}
-
-/* ============================================
-   TRANSPARENT HEADER MODE
-   ============================================ */
-
-body.transparent-header #overlay-chapter {
-    mix-blend-mode: difference;
-}
-
-/* ============================================
-   SECTION VISIBILITY ANIMATIONS
-   ============================================ */
-
-.content-section .glass-card {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: 
-        opacity 0.8s ease,
-        transform 0.8s ease;
-}
-
-.content-section.section-visible .glass-card {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ============================================
-   MOBILE RESPONSIVE
-   ============================================ */
-
-@media screen and (max-width: 768px) {
-    #overlay-number {
-        top: auto;
-        bottom: 2rem;
-        left: 1.5rem;
-    }
-    
-    #overlay-number #time-display {
-        font-size: 1.8rem;
-    }
-    
-    #overlay-chapter {
-        top: 1rem;
-        left: 1.5rem;
-    }
-    
-    .content-section {
-        padding: 3rem 1rem;
-    }
-    
-    .glass-card {
-        border-radius: 8px;
-    }
-    
-    .phase-number {
-        font-size: 5rem;
-    }
-    
-    .parallax-section.medium {
-        min-height: 50vh;
-    }
-}
-
-/* ============================================
-   REDUCED MOTION (Accessibility)
-   ============================================ */
-
-@media (prefers-reduced-motion: reduce) {
-    .parallax-image {
-        transform: none !important;
-    }
-    
-    .scroll-arrow {
-        animation: none;
-    }
-    
-    .glass-text {
-        animation: none;
-    }
-}
-
-/* ============================================
-   HIGH CONTRAST MODE (Accessibility)
-   ============================================ */
-
-@media (prefers-contrast: high) {
-    .parallax-overlay {
-        background: rgba(0, 0, 0, 0.8) !important;
-    }
-    
-    .glass-card {
-        background: rgba(0, 0, 0, 0.95);
-        border: 2px solid white;
-    }
-}
+    font-size: 8
