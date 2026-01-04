@@ -4,98 +4,123 @@
 
 const CONFIG = {
     maxDays: 365,
-    parallaxSpeed: 0.4, // Background moves at 40% of scroll speed
     
-    // Theme changes with background images
     themeChanges: [
         { 
             days: 0, 
+            theme: 'theme-start', 
             name: 'Phase 01', 
             subtitle: 'The Beginning',
-            bgClass: 'bg-theme-1'
+            // Placeholder images from Unsplash
+            backgroundImage: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80',
+            overlayColor: 'rgba(17, 0, 34, 0.6)'
         },
         { 
             days: 90, 
+            theme: 'theme-3months', 
             name: 'Phase 02', 
             subtitle: '3 Months Later',
-            bgClass: 'bg-theme-2'
+            backgroundImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80',
+            overlayColor: 'rgba(0, 20, 40, 0.6)'
         },
         { 
             days: 180, 
+            theme: 'theme-6months', 
             name: 'Phase 03', 
             subtitle: '6 Months Later',
-            bgClass: 'bg-theme-3'
+            backgroundImage: 'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80',
+            overlayColor: 'rgba(0, 30, 20, 0.6)'
         },
         { 
             days: 270, 
+            theme: 'theme-9months', 
             name: 'Phase 04', 
-            subtitle: 'The Final Days',
-            bgClass: 'bg-theme-4'
+            subtitle: '9 Months Later',
+            backgroundImage: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1920&q=80',
+            overlayColor: 'rgba(40, 20, 0, 0.6)'
+        },
+        { 
+            days: 365, 
+            theme: 'theme-end', 
+            name: 'Final Phase', 
+            subtitle: 'The End',
+            backgroundImage: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1920&q=80',
+            overlayColor: 'rgba(255, 255, 255, 0.3)'
         }
-    ]
+    ],
+    
+    // Glass effect settings
+    glassEffect: {
+        overlayOpacity: 0.4,
+        blurAmount: 0,  // Set to 0 for performance, use overlay instead
+        noiseOpacity: 0.03
+    }
 };
 
 // ============================================
-// GLOBAL STATE
+// GLOBAL VARIABLES
 // ============================================
 
 let currentDays = 0;
-let currentThemeIndex = 0;
-let lastScrollY = 0;
+let currentTheme = 'theme-start';
+
+window.scrollData = {
+    scrollY: 0,
+    scrollPercent: 0,
+    viewportHeight: window.innerHeight,
+    documentHeight: document.documentElement.scrollHeight
+};
 
 // ============================================
-// PARALLAX SCROLLING
+// TIME DISPLAY UPDATE
 // ============================================
 
-function updateParallax() {
+function updateTimeDisplay() {
+    const timeDisplay = document.getElementById("time-display");
+    const timeZero = document.getElementById("time-zero");
+    
+    if (!timeZero || !timeDisplay) return;
+    
+    const zeroPosition = timeZero.offsetTop;
     const scrollY = window.scrollY;
-    const parallaxLayers = document.querySelectorAll('.parallax-layer');
+    const scrollProgress = Math.min(1, Math.max(0, scrollY / zeroPosition));
     
-    // Move all layers at parallax speed (slower than content)
-    const parallaxOffset = scrollY * CONFIG.parallaxSpeed;
+    currentDays = Math.floor(CONFIG.maxDays * scrollProgress);
+    timeDisplay.textContent = currentDays.toLocaleString();
     
-    parallaxLayers.forEach(layer => {
-        // Use translate3d for GPU acceleration
-        layer.style.transform = `translate3d(0, ${-parallaxOffset}px, 0)`;
-    });
-    
-    lastScrollY = scrollY;
+    updateTheme(currentDays);
 }
 
 // ============================================
-// THEME/BACKGROUND SWITCHING
+// THEME SWITCHING WITH BACKGROUND
 // ============================================
 
 function updateTheme(days) {
-    let newThemeIndex = 0;
+    let newThemeConfig = CONFIG.themeChanges[0];
     
-    // Find which theme should be active
-    for (let i = 0; i < CONFIG.themeChanges.length; i++) {
-        if (days >= CONFIG.themeChanges[i].days) {
-            newThemeIndex = i;
+    for (const themeConfig of CONFIG.themeChanges) {
+        if (days >= themeConfig.days) {
+            newThemeConfig = themeConfig;
         }
     }
     
-    // Only update if theme changed
-    if (newThemeIndex !== currentThemeIndex) {
-        currentThemeIndex = newThemeIndex;
+    if (newThemeConfig.theme !== currentTheme) {
+        currentTheme = newThemeConfig.theme;
         
-        const theme = CONFIG.themeChanges[newThemeIndex];
-        
-        // Update background layers - activate current, deactivate others
-        const parallaxLayers = document.querySelectorAll('.parallax-layer');
-        parallaxLayers.forEach((layer, index) => {
-            if (index <= newThemeIndex) {
-                layer.classList.add('active');
-            } else {
-                layer.classList.remove('active');
-            }
-        });
+        // Remove all theme classes
+        document.body.classList.remove(...CONFIG.themeChanges.map(t => t.theme));
+        document.body.classList.add(newThemeConfig.theme);
         
         // Update chapter display
-        updateChapterDisplay(theme.name, theme.subtitle);
+        updateChapterDisplay(newThemeConfig.name, newThemeConfig.subtitle);
         
-        console.log(`Theme changed to: ${theme.name} at ${days} days`);
+        // Update CSS variables for dynamic overlay color
+        document.documentElement.style.setProperty(
+            '--current-overlay-color', 
+            newThemeConfig.overlayColor
+        );
+        
+        console.log(`Theme: ${newThemeConfig.theme} | Days: ${days}`);
     }
 }
 
@@ -108,39 +133,73 @@ function updateChapterDisplay(name, subtitle) {
 }
 
 // ============================================
-// TIME DISPLAY
-// ============================================
-
-function updateTimeDisplay() {
-    const timeDisplay = document.getElementById("time-display");
-    const timeZero = document.getElementById("time-zero");
-    
-    if (!timeZero || !timeDisplay) return;
-    
-    const zeroPosition = timeZero.offsetTop;
-    const scrollY = window.scrollY;
-    
-    // Calculate scroll progress
-    const scrollProgress = Math.min(1, Math.max(0, scrollY / zeroPosition));
-    
-    // Calculate current days
-    currentDays = Math.floor(CONFIG.maxDays * scrollProgress);
-    
-    // Update display
-    timeDisplay.textContent = currentDays.toLocaleString();
-    
-    // Check for theme changes
-    updateTheme(currentDays);
-}
-
-// ============================================
-// MAIN SCROLL HANDLER
+// SCROLL HANDLER
 // ============================================
 
 function handleScroll() {
     requestAnimationFrame(() => {
-        updateParallax();
+        window.scrollData.scrollY = window.scrollY;
+        window.scrollData.documentHeight = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+        );
+        window.scrollData.scrollPercent = 
+            (window.scrollY / (window.scrollData.documentHeight - window.innerHeight)) * 100;
+        
         updateTimeDisplay();
+    });
+}
+
+// ============================================
+// SECTION OBSERVER
+// ============================================
+
+let sectionObserver;
+let shownElements = new Set();
+
+function initSectionObserver() {
+    const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const section = entry.target;
+            
+            if (entry.isIntersecting) {
+                const onShow = section.getAttribute('data-onshow');
+                if (onShow && !shownElements.has(section)) {
+                    try {
+                        eval(onShow);
+                        shownElements.add(section);
+                    } catch (error) {
+                        console.error('Error executing data-onshow:', error);
+                    }
+                }
+                
+                // Add visible class for CSS animations
+                section.classList.add('section-visible');
+            } else {
+                if (shownElements.has(section)) {
+                    const onLeave = section.getAttribute('data-onleave');
+                    if (onLeave) {
+                        try {
+                            eval(onLeave);
+                        } catch (error) {
+                            console.error('Error executing data-onleave:', error);
+                        }
+                    }
+                    shownElements.delete(section);
+                }
+                section.classList.remove('section-visible');
+            }
+        });
+    }, options);
+
+    document.querySelectorAll('section').forEach(section => {
+        sectionObserver.observe(section);
     });
 }
 
@@ -149,177 +208,193 @@ function handleScroll() {
 // ============================================
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Create parallax container and layers
-    createParallaxLayers();
-    
-    // Create glass overlay
-    createGlassOverlay();
-    
-    // Add scroll listener
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Initial update
+    initSectionObserver();
     handleScroll();
+    document.body.classList.add(CONFIG.themeChanges[0].theme);
     
-    // Set initial theme
-    const firstTheme = CONFIG.themeChanges[0];
-    updateChapterDisplay(firstTheme.name, firstTheme.subtitle);
+    // Refresh parallax after content loads
+    setTimeout(() => {
+        if (window.parallaxEngine) {
+            window.parallaxEngine.refresh();
+        }
+    }, 100);
     
-    // Activate first background
-    const firstLayer = document.querySelector('.parallax-layer');
-    if (firstLayer) firstLayer.classList.add('active');
-    
-    console.log('Initialized with parallax scrolling');
+    console.log('Dimension Diary with Parallax initialized');
 });
 
 // ============================================
-// CREATE PARALLAX LAYERS
-// ============================================
-
-function createParallaxLayers() {
-    const container = document.createElement('div');
-    container.id = 'parallax-container';
-    
-    // Create a layer for each theme
-    CONFIG.themeChanges.forEach((theme, index) => {
-        const layer = document.createElement('div');
-        layer.className = `parallax-layer ${theme.bgClass}`;
-        container.appendChild(layer);
-    });
-    
-    // Insert at beginning of body
-    document.body.insertBefore(container, document.body.firstChild);
-}
-
-// ============================================
-// CREATE GLASS OVERLAY
-// ============================================
-
-function createGlassOverlay() {
-    const overlay = document.createElement('div');
-    overlay.id = 'glass-overlay';
-    document.body.insertBefore(overlay, document.getElementById('content-container'));
-}
-
-// ============================================
-// HTML CONTENT
+// HTML CONTENT WITH PARALLAX SECTIONS
 // ============================================
 
 const HTMLContent = `
-    <!-- INTRO -->
-    <section class="fullscreen intro-section">
-        <div class="intro-logo">
-            <h1>DIMENSION DIARY</h1>
-            <span class="author">Your Name</span>
+    <!-- ==========================================
+         HERO SECTION - Full Screen Parallax
+         ========================================== -->
+    <section class="fullscreen parallax-section" data-parallax data-parallax-speed="0.3">
+        <div class="parallax-background">
+            <div class="parallax-image" style="background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80')"></div>
+            <div class="parallax-overlay"></div>
+            <div class="parallax-noise"></div>
+        </div>
+        <div class="glass-content title-background">
+            <div class="intro-logo">
+                <h1 class="glass-text">DIMENSION DIARY</h1>
+                <span class="author">A Journey Through Time</span>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll to begin</span>
+                <div class="scroll-arrow"></div>
+            </div>
         </div>
     </section>
 
-    <!-- PHASE 1 CONTENT -->
-    <section>
-        <div class="modal">
-            <div class="modal-heading">
+    <!-- ==========================================
+         PHASE 1: DAYS 0-90
+         ========================================== -->
+    <section class="page-flow content-section">
+        <div class="modal rec glass-card">
+            <div class="modal-heading monospace">
+                <p>file://dimension/log_001</p>
                 <p>
-                    <span>Entry <b>001</b></span>
-                    <span>Day <b>1</b></span>
+                    <span class="file-number">Log<b>#001</b></span>
+                    <span class="file-date">Day<b>1</b></span>
                 </p>
             </div>
-            <p class="name">The Beginning</p>
-            <p>First diary entry content here...</p>
-            <p>The experiment begins today.</p>
+            <p class="name">First Entry</p>
+            <p>The dimensional rift opened today. What I saw on the other side... defies description.</p>
+            <p>Time moves differently here. Or perhaps it's my perception that has changed.</p>
         </div>
     </section>
 
-    <section>
-        <div class="modal">
-            <div class="modal-heading">
-                <p>
-                    <span>Entry <b>030</b></span>
-                    <span>Day <b>30</b></span>
-                </p>
+    <!-- Parallax Image Break -->
+    <section class="parallax-section medium" data-parallax data-parallax-speed="0.5">
+        <div class="parallax-background">
+            <div class="parallax-image" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80')"></div>
+            <div class="parallax-overlay"></div>
+            <div class="parallax-noise"></div>
+        </div>
+        <div class="glass-content">
+            <blockquote class="parallax-quote">
+                "Time is not a line. It is a dimension."
+            </blockquote>
+        </div>
+    </section>
+
+    <section class="page-flow content-section">
+        <div class="modal rec glass-card">
+            <div class="modal-heading monospace">
+                <p>file://dimension/log_030</p>
             </div>
-            <p class="name">One Month</p>
-            <p>One month has passed...</p>
+            <p class="name">Day 30</p>
+            <p>One month. The boundaries between dimensions grow thinner each day.</p>
+            <p>I've started to see echoes of other timelines overlapping with this one.</p>
         </div>
     </section>
 
-    <!-- PHASE 2 TITLE -->
-    <section class="fullscreen">
-        <div class="phase-title">
-            <h2>PHASE 02</h2>
-            <p>3 Months Later</p>
+    <!-- ==========================================
+         PHASE 2: DAYS 90-180 (3 Months)
+         ========================================== -->
+    <section class="fullscreen parallax-section phase-transition" data-parallax data-parallax-speed="0.4" id="phase-2">
+        <div class="parallax-background">
+            <div class="parallax-image" style="background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80')"></div>
+            <div class="parallax-overlay" style="background: rgba(0, 20, 40, 0.6)"></div>
+            <div class="parallax-noise"></div>
+        </div>
+        <div class="glass-content title-background">
+            <div class="phase-title">
+                <span class="phase-number">02</span>
+                <h2>THREE MONTHS</h2>
+                <p>The patterns emerge</p>
+            </div>
         </div>
     </section>
 
-    <section>
-        <div class="modal">
-            <div class="modal-heading">
+    <section class="page-flow content-section">
+        <div class="modal rec glass-card">
+            <div class="modal-heading monospace">
+                <p>file://dimension/log_090</p>
                 <p>
-                    <span>Entry <b>090</b></span>
-                    <span>Day <b>90</b></span>
+                    <span class="file-number">Log<b>#090</b></span>
+                    <span class="file-date">Day<b>90</b></span>
                 </p>
             </div>
             <p class="name">Three Months</p>
-            <p>Something changed today...</p>
+            <p>I've learned to navigate the shifts now. Each dimension has its own frequency, its own rhythm.</p>
+            <p>The key is synchronization.</p>
         </div>
     </section>
 
-    <!-- PHASE 3 TITLE -->
-    <section class="fullscreen">
-        <div class="phase-title">
-            <h2>PHASE 03</h2>
-            <p>6 Months Later</p>
-        </div>
-    </section>
-
-    <section>
-        <div class="modal">
-            <div class="modal-heading">
-                <p>
-                    <span>Entry <b>180</b></span>
-                    <span>Day <b>180</b></span>
-                </p>
+    <section class="page-flow content-section">
+        <div class="modal rec glass-card">
+            <div class="modal-heading monospace">
+                <p>file://dimension/log_120</p>
             </div>
-            <p class="name">Half Year</p>
-            <p>Reality feels different now...</p>
+            <p class="name">Day 120</p>
+            <p>Met another traveler today. She's been jumping for years.</p>
+            <p class="italic">"The longer you stay," she said, "the less you remember who you were."</p>
         </div>
     </section>
 
-    <!-- PHASE 4 TITLE -->
-    <section class="fullscreen">
-        <div class="phase-title">
-            <h2>PHASE 04</h2>
-            <p>The Final Days</p>
+    <!-- ==========================================
+         PHASE 3: DAYS 180-270 (6 Months)
+         ========================================== -->
+    <section class="fullscreen parallax-section phase-transition" data-parallax data-parallax-speed="0.4" id="phase-3">
+        <div class="parallax-background">
+            <div class="parallax-image" style="background-image: url('https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80')"></div>
+            <div class="parallax-overlay" style="background: rgba(0, 30, 20, 0.6)"></div>
+            <div class="parallax-noise"></div>
         </div>
-    </section>
-
-    <section>
-        <div class="modal">
-            <div class="modal-heading">
-                <p>
-                    <span>Entry <b>270</b></span>
-                    <span>Day <b>270</b></span>
-                </p>
+        <div class="glass-content title-background">
+            <div class="phase-title">
+                <span class="phase-number">03</span>
+                <h2>SIX MONTHS</h2>
+                <p>Identity fractures</p>
             </div>
-            <p class="name">Nine Months</p>
-            <p>Almost there...</p>
         </div>
     </section>
 
-    <!-- TIME ZERO -->
-    <section class="fullscreen" id="time-zero">
-        <div class="phase-title">
-            <h2>DAY 365</h2>
-            <p>The End</p>
+    <section class="page-flow content-section">
+        <div class="modal rec glass-card">
+            <div class="modal-heading monospace">
+                <p>file://dimension/log_180</p>
+            </div>
+            <p class="name">Day 180</p>
+            <p>Half a year. I can no longer remember my mother's face.</p>
+            <p>But I can see seventeen versions of this room simultaneously.</p>
         </div>
     </section>
 
-    <!-- ENDING -->
-    <section class="fullscreen">
-        <div class="endscreen">
-            <p>終</p>
-            <span>THE END</span>
+    <!-- Parallax Quote Break -->
+    <section class="parallax-section medium" data-parallax data-parallax-speed="0.6">
+        <div class="parallax-background">
+            <div class="parallax-image" style="background-image: url('https://images.unsplash.com/photo-1465101162946-4377e57745c3?w=1920&q=80')"></div>
+            <div class="parallax-overlay"></div>
+            <div class="parallax-noise"></div>
+        </div>
+        <div class="glass-content">
+            <blockquote class="parallax-quote">
+                "We are not lost. We are everywhere at once."
+            </blockquote>
         </div>
     </section>
-`;
 
-document.querySelector('main-content').innerHTML = HTMLContent;
+    <!-- ==========================================
+         PHASE 4: DAYS 270-365 (9 Months)
+         ========================================== -->
+    <section class="fullscreen parallax-section phase-transition" data-parallax data-parallax-speed="0.4" id="phase-4">
+        <div class="parallax-background">
+            <div class="parallax-image" style="background-image: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1920&q=80')"></div>
+            <div class="parallax-overlay" style="background: rgba(40, 20, 0, 0.6)"></div>
+            <div class="parallax-noise"></div>
+        </div>
+        <div class="glass-content title-background">
+            <div class="phase-title">
+                <span class="phase-number">04</span>
+                <h2>NINE MONTHS</h2>
+                <p>The convergence approaches</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="page-flow content-section">
