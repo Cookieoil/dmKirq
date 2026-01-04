@@ -399,6 +399,7 @@ function handleScroll() {
     requestAnimationFrame(updateTimeDisplay);
     
     const windowHeight = window.innerHeight;
+    const scrollY = window.scrollY;
     
     // Background parallax
     const panels = document.querySelectorAll('.bg-panel');
@@ -413,15 +414,22 @@ function handleScroll() {
         }
     });
     
-    // Content parallax - applies to ALL .panel-content elements
+    // Content parallax - MORE NOTICEABLE VERSION
     const contentElements = document.querySelectorAll('.panel-content');
     contentElements.forEach(el => {
         const rect = el.getBoundingClientRect();
         
-        if (rect.top < windowHeight && rect.bottom > 0) {
-            const speed = 0.08;  // Adjust this value to change movement
-            const centerOffset = (rect.top - windowHeight / 2) * speed;
-            el.style.transform = `translate3d(0, ${centerOffset}px, 0)`;
+        if (rect.top < windowHeight + 100 && rect.bottom > -100) {
+            // Distance from viewport center (negative = above center, positive = below)
+            const distanceFromCenter = rect.top + rect.height / 2 - windowHeight / 2;
+            
+            // Speed: higher = more movement
+            const speed = 0.15;
+            
+            // This makes content "lag behind" as you scroll
+            const offset = distanceFromCenter * speed;
+            
+            el.style.transform = `translate3d(0, ${-offset}px, 0)`;
         }
     });
 }
