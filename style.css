@@ -467,16 +467,17 @@ a:hover {
 
 .bg-fixed {
     position: fixed;
-    top: -15vh;           /* Changed from 0 */
+    top: 0;
     left: 0;
     width: 100vw;
-    height: 0vh;        /* Changed from 100vh */
+    height: 100vh;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     z-index: -10;
     will-change: transform;
-    transform: translateZ(0);
+    transform: scale(1.2);  /* Scale up 20% to provide extra coverage */
+    transform-origin: center center;
 }
 
 .bg-overlay {
