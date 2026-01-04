@@ -12,31 +12,31 @@ const CONFIG = {
             days: 0, 
             name: 'Phase 01', 
             subtitle: 'The Beginning',
-            background: 'images/bg-phase-1.jpg'
+            background: 'flower background.png'
         },
         { 
             days: 90, 
             name: 'Phase 02', 
             subtitle: '3 Months Later',
-            background: 'images/bg-phase-2.jpg'
+            background: 'flower background.png'
         },
         { 
             days: 180, 
             name: 'Phase 03', 
             subtitle: '6 Months Later',
-            background: 'images/bg-phase-3.jpg'
+            background: 'flower background.png'
         },
         { 
             days: 270, 
             name: 'Phase 04', 
             subtitle: '9 Months Later',
-            background: 'images/bg-phase-4.jpg'
+            background: 'flower background.png'
         },
         { 
             days: 365, 
             name: 'Final Phase', 
             subtitle: 'The End',
-            background: 'images/bg-phase-5.jpg'
+            background: 'flower background.png'
         }
     ]
 };
