@@ -5,31 +5,73 @@
 @import url("https://fontsapi.zeoseven.com/161/main/result.css");
 
 :root {
-    --font-sans-serif: "Sarasa Gothic SC", "微软雅黑", sans-serif;
+    --font-sans-serif: "Sarasa Gothic SC", sans-serif;
     --font-mono: "JetBrains Mono", "Consolas", monospace;
-    --font-deco: "Alata", "Futura PT", sans-serif;
-
-    /* color palette */
-    --color-dark-layer-1: #000000;
-    --color-dark-layer-2: #0B0B0B;
-    --color-dark-layer-3: #262626;
-    --color-dark-layer-4: #404040;
-    --color-dark-overlay: rgba(15, 15, 15, 0.95);
-
-    --color-light-layer-1: #FFFFFF;
-    --color-light-layer-2: #F2F2F2;
-    --color-light-layer-3: #b1b1b1;
-    --color-light-layer-4: #878787;
-
-    --color-theme-bright: #8e7aff;
-    --color-theme-medium: #7B68EE;
-    --color-theme-dark: #5141ab;
-
-    --color-text-primary: var(--color-light-layer-2);
-    --color-text-secondary: var(--color-light-layer-3);
-    --color-accent: var(--color-theme-bright);
-
+    --font-deco: "Alata", sans-serif;
+    
+    /* Base colors - will be overridden by themes */
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #0B0B0B;
+    --color-bg-tertiary: #262626;
+    --color-text-primary: #F2F2F2;
+    --color-text-secondary: #b1b1b1;
+    --color-accent: #8e7aff;
+    
     --transition-duration: 0.5s;
+}
+
+/* ============================================
+   THEME DEFINITIONS
+   ============================================ */
+
+/* Theme 1: Start (Days 0-90) - Dark Purple */
+body.theme-start {
+    --color-bg-primary: #0a0012;
+    --color-bg-secondary: #120020;
+    --color-bg-tertiary: #1a0030;
+    --color-text-primary: #e8e0ff;
+    --color-text-secondary: #a090c0;
+    --color-accent: #8e7aff;
+}
+
+/* Theme 2: 3 Months (Days 90-180) - Dark Blue */
+body.theme-3months {
+    --color-bg-primary: #000a14;
+    --color-bg-secondary: #001428;
+    --color-bg-tertiary: #002040;
+    --color-text-primary: #e0f0ff;
+    --color-text-secondary: #80a0c0;
+    --color-accent: #4a90ff;
+}
+
+/* Theme 3: 6 Months (Days 180-270) - Dark Green */
+body.theme-6months {
+    --color-bg-primary: #000a08;
+    --color-bg-secondary: #001410;
+    --color-bg-tertiary: #002018;
+    --color-text-primary: #e0ffe8;
+    --color-text-secondary: #80c090;
+    --color-accent: #4aff7a;
+}
+
+/* Theme 4: 9 Months (Days 270-365) - Dark Red/Orange */
+body.theme-9months {
+    --color-bg-primary: #140800;
+    --color-bg-secondary: #281000;
+    --color-bg-tertiary: #401800;
+    --color-text-primary: #ffe8e0;
+    --color-text-secondary: #c09080;
+    --color-accent: #ff7a4a;
+}
+
+/* Theme 5: End (Day 365) - White/Inverted */
+body.theme-end {
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f0f0f0;
+    --color-bg-tertiary: #e0e0e0;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #505050;
+    --color-accent: #4a4aff;
 }
 
 /* ============================================
@@ -44,7 +86,7 @@
 
 html, body {
     font-family: var(--font-sans-serif);
-    background-color: var(--color-dark-layer-1);
+    background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     transition: background-color var(--transition-duration) ease,
                 color var(--transition-duration) ease;
@@ -109,19 +151,6 @@ html, body {
     font-weight: bold;
 }
 
-#content-container {
-    background-color: var(--color-dark-layer-1);
-    background-image: 
-        url("cxyc_general_bg_1.svg"), 
-        url("cxyc_general_bg_ruler.svg"), 
-        url("cxyc_general_bg_2.svg"), 
-        url("cxyc_general_bg_3.svg"); 
-    background-size: 95%, 0.75rem, 100vw, cover;
-    background-position: center center, calc(50% - 1.2rem) center, 25vw 15vh, center center;
-    background-repeat: no-repeat, repeat-y, no-repeat, no-repeat;
-    background-attachment: fixed, scroll, fixed, fixed;
-}
-
 /* ============================================
    SECTIONS
    ============================================ */
@@ -144,125 +173,75 @@ section.page-flow {
    ============================================ */
 
 .intro-section {
-    background-image: url("cxyc_1_textbg.svg"), 
-                      linear-gradient(180deg, var(--color-dark-layer-1) 0%, #00000039 100%);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     flex-direction: column;
+    background: linear-gradient(180deg, 
+        var(--color-bg-primary) 0%, 
+        var(--color-bg-secondary) 100%);
 }
 
-.intro-section::after {
-    content: "Scroll to continue";
-    font-size: 0.75rem;
-    letter-spacing: 0.15rem;
-    position: absolute;
-    bottom: 3rem;
-    color: var(--color-light-layer-3);
-}
-
-.intro-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.intro-logo img {
-    width: min(100%, 30rem);
-    height: auto;
+.intro-logo h1 {
+    font-family: var(--font-deco);
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    color: var(--color-text-primary);
 }
 
 .intro-logo .author {
-    font-family: var(--font-deco);
     font-size: 1rem;
-    letter-spacing: 0.45rem;
-    color: var(--color-light-layer-3);
+    color: var(--color-text-secondary);
+    letter-spacing: 0.3rem;
 }
 
 /* ============================================
    MODAL (Diary Entry Box)
    ============================================ */
+
 .modal {
-    background-color: var(--color-dark-overlay);
-    border: 0.1rem solid var(--color-dark-layer-3);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-bg-tertiary);
     max-width: 40rem;
     width: 100%;
+    transition: background-color var(--transition-duration) ease,
+                border-color var(--transition-duration) ease;
 }
 
-.modal .modal-heading p:first-child {
-    margin: 0;
-    font-size: 0.75rem;
-    padding: 0.1rem 0.2rem;
-    border: 0.1rem solid var(--color-dark-layer-4);
-    color: var(--color-light-layer-3);
-    background-color: var(--color-dark-layer-3);
-    font-family: var(--font-mono);
-}
-
-.modal .modal-heading p:nth-child(2) {
-    background-color: var(--color-dark-layer-2);
+.modal .modal-heading {
+    background-color: var(--color-bg-tertiary);
     padding: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    transition: background-color var(--transition-duration) ease;
+}
+
+.modal .modal-heading p {
+    margin: 0;
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
     flex-wrap: wrap;
 }
 
 .modal .modal-heading span {
-    background-color: var(--color-dark-layer-2);
-    padding: 0.5rem;
-    border: 0.1rem solid var(--color-dark-layer-3);
-    font-family: var(--font-mono);
-    color: var(--color-light-layer-3);
     display: inline-flex;
-    justify-content: space-between;
-    align-items: center;
-    width: calc(50% - 1rem);
-    margin: 0 0.5rem;
+    gap: 0.5rem;
 }
 
 .modal .modal-heading b {
-    color: var(--color-light-layer-1);
+    color: var(--color-accent);
 }
 
 .modal > p {
-    padding: 0.5rem 1.25rem;
-    color: var(--color-light-layer-2);
+    padding: 1rem 1.5rem;
+    line-height: 1.8;
 }
 
 .modal p.name {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    color: var(--color-light-layer-1);
-    display: flex;
-    align-items: center;
-    padding: 0.15rem;
-}
-
-.modal p.name::before,
-.modal p.name::after {
-    content: "";
-    flex: 1 1 auto;
-    border-top: 0.1rem solid var(--color-dark-layer-4);
-    margin: 0 0.5rem;
-}
-
-.modal p.name::before {
-    flex: 0.1 1 auto;
-}
-
-/* dark */
-section.dark {
-    background-image: none;
-    background-color: var(--color-dark-layer-1);
-}
-
-section.dark::before,
-section.dark + section::before {
-    content: "";
-    position: relative;
-    width: 100vw;
-    height: 6rem;
-    background-image: linear-gradient(180deg, var(--color-dark-layer-1) 0%, transparent 100%);
+    color: var(--color-accent);
+    border-bottom: 1px solid var(--color-bg-tertiary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 /* ============================================
@@ -313,7 +292,7 @@ section.dark + section::before {
    ============================================ */
 
 .ending {
-    background-color: var(--color-dark-layer-1);
+    background-color: var(--color-bg-primary);
 }
 
 .endscreen {
