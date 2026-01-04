@@ -1,3 +1,4 @@
+
 /* ============================================
    FONTS - Same as SCP-CN-4000
    ============================================ */
@@ -48,26 +49,26 @@
 }
 
 /* ============================================
-THEME VARIATIONS
-============================================ */
+   THEME VARIATIONS - ACCENT ONLY, NO TEXT COLOR CHANGES
+   ============================================ */
 body.theme-start {
---color-theme-bright: #8e7aff;
+    --color-theme-bright: #8e7aff;
 }
 
 body.theme-3months {
---color-theme-bright: #4a9fff;
+    --color-theme-bright: #4a9fff;
 }
 
 body.theme-6months {
---color-theme-bright: #4aff9f;
+    --color-theme-bright: #4aff9f;
 }
 
 body.theme-9months {
---color-theme-bright: #ff9f4a;
+    --color-theme-bright: #ff9f4a;
 }
 
 body.theme-end {
---color-theme-bright: #4a4aff;
+    --color-theme-bright: #4a4aff;
 }
 
 /* ============================================
@@ -579,14 +580,14 @@ a:hover {
 }
 
 /* ============================================
-   MODAL BOXES (SCP-CN-4000 Style) - DARK
+   MODAL BOXES (SCP-CN-4000 Style)
    ============================================ */
 div.modal {
     background-color: var(--color-dark-overlay);
     border: 0.1rem solid var(--color-dark-layer-3);
     z-index: 10;
     margin: 3rem auto;
-    width: min(40rem, 100%);
+    width: 100%;
 }
 
 div.modal div.modal-heading p:first-child {
@@ -597,7 +598,7 @@ div.modal div.modal-heading p:first-child {
     font-size: 0.75rem;
     padding: 0.1rem 0.2rem;
     border: 0.1rem solid var(--color-dark-layer-4);
-    color: var(--color-text-layer-2);
+    color: var(--color-light-layer-3);
     background-color: var(--color-dark-layer-3);
     font-family: var(--font-mono);
 }
@@ -637,7 +638,7 @@ div.modal.rec div.modal-heading :is(span.file-type, span.file-number, span.file-
     display: inline-flex;
     justify-content: space-between;
     font-family: var(--font-mono);
-    color: var(--color-text-layer-2);
+    color: var(--color-light-layer-3);
     align-items: center;
     font-size: 0.85rem;
 }
@@ -649,6 +650,7 @@ div.modal.rec div.modal-heading p:nth-child(2) span.file-date {
 
 span:is(span.file-type, span.file-number, span.file-date) b {
     text-align: right;
+    color: var(--color-theme-bright);
 }
 
 div.modal > p.name {
@@ -674,20 +676,7 @@ p.name::before {
     flex: 0.1 1 auto;
 }
 
-@media screen and (max-width: 800px) {
-    div.modal.rec div.modal-heading p:nth-child(2) {
-        flex-wrap: wrap;
-    }
-    div.modal.rec div.modal-heading p:nth-child(2) :is(span.file-type, span.file-number, span.file-date) {
-        margin: 0.5rem 0;
-        width: 100%;
-    }
-}
-
-/* ============================================
-   MODAL BOXES - LIGHT (matches Arkring gaze-into)
-   Uses CSS variable overrides like the original
-   ============================================ */
+/* Light Modal (White box, black text) - for final section */
 div.modal--light {
     --color-dark-layer-1: #ffffff;
     --color-dark-layer-2: #ffffff;
@@ -701,8 +690,18 @@ div.modal--light {
     --color-text-layer-2: #2e2e2e;
 }
 
+@media screen and (max-width: 800px) {
+    div.modal.rec div.modal-heading p:nth-child(2) {
+        flex-wrap: wrap;
+    }
+    div.modal.rec div.modal-heading p:nth-child(2) :is(span.file-type, span.file-number, span.file-date) {
+        margin: 0.5rem 0;
+        width: 100%;
+    }
+}
+
 /* ============================================
-   PHASE MARKERS
+   PHASE MARKERS - Same font as 365
    ============================================ */
 .panel-content--phase {
     min-height: 100vh;
@@ -745,7 +744,7 @@ div.modal--light {
 }
 
 /* ============================================
-   FINAL DISPLAY (Day 365)
+   FINAL DISPLAY (Day 365) - Colors change to dark
    ============================================ */
 .panel-content--final {
     min-height: 100vh;
@@ -764,7 +763,7 @@ div.modal--light {
     font-size: 1.5rem;
     font-family: var(--font-deco);
     letter-spacing: 0.6em;
-    color: var(--color-light-layer-4);
+    color: #555555;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
 }
@@ -774,8 +773,8 @@ div.modal--light {
     font-family: var(--font-deco);
     font-weight: 700;
     line-height: 0.85;
-    color: var(--color-light-layer-2);
-    text-shadow: 0 0 80px rgba(255, 255, 255, 0.1);
+    color: #1a1a1a;
+    text-shadow: 0 0 80px rgba(0, 0, 0, 0.1);
 }
 
 .final-display__subtitle {
@@ -783,7 +782,7 @@ div.modal--light {
     font-family: var(--font-deco);
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--color-theme-bright);
+    color: #4a4aff;
     margin-top: 1rem;
 }
 
@@ -813,6 +812,7 @@ div.modal--light {
     font-size: 0.7rem;
     letter-spacing: 0.15em;
     color: var(--color-light-layer-4);
+    transition: color var(--transition);
 }
 
 #overlay-number #time-display {
@@ -822,6 +822,7 @@ div.modal--light {
     letter-spacing: -0.15rem;
     line-height: 1.1;
     color: var(--color-light-layer-2);
+    transition: color var(--transition);
 }
 
 #overlay-chapter {
@@ -840,6 +841,7 @@ div.modal--light {
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     color: var(--color-light-layer-4);
+    transition: color var(--transition);
 }
 
 #overlay-chapter #chapter-name {
@@ -847,6 +849,28 @@ div.modal--light {
     font-family: var(--font-deco);
     font-weight: 600;
     color: var(--color-light-layer-3);
+    transition: color var(--transition);
+}
+
+/* Overlay colors change to dark on theme-end */
+body.theme-end #overlay-number .monospace {
+    color: #878787;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+}
+
+body.theme-end #overlay-number #time-display {
+    color: #1a1a1a;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+}
+
+body.theme-end #overlay-chapter #chapter-name-en {
+    color: #878787;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+}
+
+body.theme-end #overlay-chapter #chapter-name {
+    color: #555555;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
