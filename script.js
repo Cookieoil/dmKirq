@@ -395,9 +395,20 @@ function updateTheme(days) {
 // SCROLL HANDLER
 // ============================================
 
+let ticking = false;
+
 function handleScroll() {
-    requestAnimationFrame(updateTimeDisplay);
-    
+    if (!ticking) {
+        requestAnimationFrame(() => {
+            updateTimeDisplay();
+            updateParallax();
+            ticking = false;
+        });
+        ticking = true;
+    }
+}
+
+function updateParallax() {
     const windowHeight = window.innerHeight;
     const scrollY = window.scrollY;
     
@@ -414,22 +425,41 @@ function handleScroll() {
         }
     });
     
-    // Content parallax - MORE NOTICEABLE VERSION
-    const contentElements = document.querySelectorAll('.panel-content');
-    contentElements.forEach(el => {
+    // Content parallax - FIXED VERSION
+    // Only targets .modal elements, not the containers
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(el => {
         const rect = el.getBoundingClientRect();
         
-        if (rect.top < windowHeight + 100 && rect.bottom > -100) {
-            // Distance from viewport center (negative = above center, positive = below)
-            const distanceFromCenter = rect.top + rect.height / 2 - windowHeight / 2;
+        // Only when visible
+        if (rect.top < windowHeight && rect.bottom > 0) {
+            // How far from center of screen (0 = centered)
+            const viewportCenter = windowHeight / 2;
+            const elementCenter = rect.top + rect.height / 2;
+            const distanceFromCenter = elementCenter - viewportCenter;
             
-            // Speed: higher = more movement
-            const speed = 0.15;
-            
-            // This makes content "lag behind" as you scroll
+            // Subtle parallax - moves slightly slower than scroll
+            const speed = 0.05; // Very subtle
             const offset = distanceFromCenter * speed;
             
-            el.style.transform = `translate3d(0, ${-offset}px, 0)`;
+            el.style.transform = `translate3d(0, ${offset}px, 0)`;
+        }
+    });
+    
+    // Phase markers and hero - slightly more movement
+    const markers = document.querySelectorAll('.phase-marker, .hero-title, .hero-subtitle, .final-display');
+    markers.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        
+        if (rect.top < windowHeight && rect.bottom > 0) {
+            const viewportCenter = windowHeight / 2;
+            const elementCenter = rect.top + rect.height / 2;
+            const distanceFromCenter = elementCenter - viewportCenter;
+            
+            const speed = 0.08;
+            const offset = distanceFromCenter * speed;
+            
+            el.style.transform = `translate3d(0, ${offset}px, 0)`;
         }
     });
 }
