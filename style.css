@@ -1,37 +1,41 @@
 /* ============================================
-   FONTS (Arkring Style)
+   FONTS - Same as SCP-CN-4000
    ============================================ */
 @import url("https://fontsapi.zeoseven.com/161/main/result.css");
+/* Sarasa Gothic SC */
 @import url("data:text/css,%40font-face%7Bfont-family%3A%22ZSFT-hk%22%3Bsrc%3Aurl(%22https%3A%2F%2Ffontsapi.zeoseven.com%2Fhk%2Fmain.woff2%22)%20format(%22woff2%22)%2Curl(%22https%3A%2F%2Ffontsapi-storage.zeoseven.com%2Fhk%2Fmain.woff2%22)%20format(%22woff2%22)%3Bfont-style%3Anormal%3Bfont-weight%3A100%20900%3Bfont-display%3Aswap%3B%7D");
+/* ZSFT-hk (JetBrains Mono) */
 @import url("data:text/css,%40font-face%7Bfont-family%3A%22ZSFT-gc%22%3Bsrc%3Aurl(%22https%3A%2F%2Ffontsapi.zeoseven.com%2Fgc%2Fmain.woff2%22)%20format(%22woff2%22)%2Curl(%22https%3A%2F%2Ffontsapi-storage.zeoseven.com%2Fgc%2Fmain.woff2%22)%20format(%22woff2%22)%3Bfont-style%3Anormal%3Bfont-weight%3A400%3Bfont-display%3Aswap%3B%7D");
+/* ZSFT-gc (Alata) */
 
 /* ============================================
    CSS VARIABLES
    ============================================ */
 :root {
-    /* Fonts */
-    --font-sans: "Sarasa Gothic SC", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans-serif: "Sarasa Gothic SC", -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: "ZSFT-hk", "JetBrains Mono", "Consolas", monospace;
     --font-deco: "ZSFT-gc", "Alata", "Futura PT", "Century Gothic", sans-serif;
+    
+    --font-size: 16px;
+    --line-height: 1.75;
     
     /* Layout */
     --nav-height: 3.25rem;
     --sidebar-width: min(22rem, 75vw);
-    --line-height: 1.75;
 
     /* Transitions */
     --transition: 0.4s ease;
     --transition-duration: 0.3s;
     --transition-duration-fast: 0.15s;
 
-    /* Dark Colors */
+    /* Dark Layer Colors */
     --color-dark-layer-1: #000000;
     --color-dark-layer-2: #0B0B0B;
     --color-dark-layer-3: #262626;
     --color-dark-layer-4: #404040;
     --color-dark-overlay: rgba(15, 15, 15, 0.95);
 
-    /* Light Colors */
+    /* Light Layer Colors */
     --color-light-layer-1: #FFFFFF;
     --color-light-layer-2: #F2F2F2;
     --color-light-layer-3: #b1b1b1;
@@ -42,11 +46,11 @@
     --color-theme-medium: #7B68EE;
     --color-theme-dark: #5141ab;
 
-    /* Text */
+    /* Text Colors */
     --color-text-layer-1: var(--color-light-layer-2);
     --color-text-layer-2: var(--color-light-layer-3);
 
-    /* Fixed Overlay */
+    /* Background Overlay - FIXED, no theme changes */
     --overlay-color: rgba(0, 0, 0, 0.45);
 
     /* Icons */
@@ -75,6 +79,11 @@ body.theme-9months {
 
 body.theme-end {
     --color-theme-bright: #4a4aff;
+    --color-text-layer-1: #1a1a1a;
+    --color-text-layer-2: #555555;
+    --color-dark-overlay: rgba(255, 255, 255, 0.95);
+    --color-dark-layer-3: #eeeeee;
+    --color-dark-layer-4: #d8d8d8;
 }
 
 /* ============================================
@@ -88,19 +97,24 @@ body.theme-end {
 
 html {
     scroll-behavior: smooth;
-    font-size: 16px;
-    font-family: var(--font-sans);
+    font-size: var(--font-size);
+    font-family: var(--font-sans-serif);
     color: var(--color-text-layer-1);
     line-height: var(--line-height);
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 body {
-    font-family: var(--font-sans);
+    font-family: var(--font-sans-serif);
     color: var(--color-text-layer-1);
     line-height: var(--line-height);
-    background-color: var(--color-dark-layer-1);
+    background-color: #000;
     overflow-x: hidden;
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 a {
@@ -145,7 +159,7 @@ a:hover {
     overflow-y: auto;
     background-color: var(--color-dark-layer-2);
     padding: 1rem 1rem 6rem 1rem;
-    z-index: 1000;
+    z-index: 2000;
     transition: left var(--transition-duration) ease-in-out, opacity var(--transition-duration) ease-in-out;
     opacity: 0;
 }
@@ -161,7 +175,7 @@ a:hover {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 999;
+    z-index: 1999;
     display: block;
     pointer-events: none;
 }
@@ -206,7 +220,7 @@ a:hover {
     display: inline-block;
     width: 100%;
     padding: 0.2rem 0.75rem;
-    box-shadow: inset 0.1rem 0 var(--color-dark-layer-3);
+    box-shadow: inset 0.1rem 0 var(--color-dark-layer-3), inset 0 0 var(--color-dark-layer-3);
     transition: box-shadow var(--transition-duration) ease-in-out;
     color: var(--color-text-layer-2);
 }
@@ -381,7 +395,7 @@ a:hover {
     text-decoration: none;
     display: block;
     padding: 0 0.5rem 0 1rem;
-    box-shadow: inset 0.1rem 0 0 var(--color-dark-layer-3);
+    box-shadow: inset 0.1rem 0 0 var(--color-dark-layer-3), inset 0 0 0 var(--color-dark-layer-3);
     transition: all var(--transition-duration) ease-in-out;
 }
 
@@ -397,6 +411,17 @@ a:hover {
 
 #extra-div-1 {
     display: none;
+}
+
+@media screen and (max-width: 700px) {
+    #desktop-navbar {
+        display: flex;
+    }
+    
+    #desktop-navbar-right > ul > li {
+        font-size: 0.75rem;
+        padding: 0 0.15rem;
+    }
 }
 
 @media screen and (min-width: 1000px) {
@@ -443,7 +468,7 @@ a:hover {
 }
 
 /* ============================================
-   MAIN CONTENT
+   MAIN CONTENT AREA
    ============================================ */
 #content-container {
     background-color: var(--color-dark-layer-1);
@@ -519,7 +544,7 @@ a:hover {
 }
 
 /* ============================================
-   CONTENT WRAPPER & SECTIONS
+   CONTENT WRAPPER & PANEL CONTENT
    ============================================ */
 .content-wrapper {
     position: relative;
@@ -537,43 +562,15 @@ a:hover {
     padding: 2rem 0;
 }
 
+/* ============================================
+   HERO SECTION
+   ============================================ */
 .panel-content--hero {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    text-align: center;
-}
-
-.panel-content--phase {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-}
-
-.panel-content--final {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.panel-content--ending {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-/* ============================================
-   HERO SECTION
-   ============================================ */
-.hero-box {
     text-align: center;
 }
 
@@ -582,9 +579,11 @@ a:hover {
     font-family: var(--font-deco);
     font-weight: 700;
     letter-spacing: 0.15em;
-    text-shadow: 0 0 40px rgba(255, 255, 255, 0.2), 0 4px 20px rgba(0, 0, 0, 0.5);
+    text-shadow: 
+        0 0 40px rgba(255, 255, 255, 0.2),
+        0 4px 20px rgba(0, 0, 0, 0.5);
     margin-bottom: 1rem;
-    color: var(--color-light-layer-1);
+    color: var(--color-text-layer-1);
 }
 
 .hero-subtitle {
@@ -596,48 +595,61 @@ a:hover {
 }
 
 /* ============================================
-   MODAL BOXES (Arkring Style)
+   MODAL BOXES (SCP-CN-4000 Style)
    ============================================ */
-.modal {
+div.modal {
     background-color: var(--color-dark-overlay);
     border: 0.1rem solid var(--color-dark-layer-3);
-    margin: 1rem 0;
+    z-index: 10;
+    margin: 1.5rem 0;
     width: 100%;
 }
 
-.modal-heading {
-    font-family: var(--font-mono);
-}
-
-.modal-heading p:first-child {
+div.modal div.modal-heading p:first-child {
     margin: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     font-size: 0.75rem;
-    padding: 0.1rem 0.5rem;
-    border-bottom: 0.1rem solid var(--color-dark-layer-4);
+    padding: 0.1rem 0.2rem;
+    border: 0.1rem solid var(--color-dark-layer-4);
     color: var(--color-text-layer-2);
     background-color: var(--color-dark-layer-3);
+    font-family: var(--font-mono);
 }
 
-.modal-heading p:nth-child(2) {
+div.modal > p {
+    font-size: 1rem;
+    padding: 0.5rem 1.25rem;
+    color: var(--color-light-layer-2);
+    margin: 0;
+}
+
+div.modal > em p {
+    font-style: italic;
+    font-size: 1rem;
+    padding: 0.5rem 2rem;
+    color: var(--color-light-layer-3);
+}
+
+div.modal.rec div.modal-heading p:nth-child(2) {
     background-color: var(--color-dark-layer-2);
     padding: 0.5rem 1rem;
     margin: 0;
+}
+
+div.modal.rec div.modal-heading p:nth-child(2) {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 0.5rem;
 }
 
-.modal-heading .file-number,
-.modal-heading .file-type,
-.modal-heading .file-date {
+div.modal.rec div.modal-heading :is(span.file-type, span.file-number, span.file-date) {
     background-color: var(--color-dark-layer-2);
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem;
     border: 0.1rem solid var(--color-dark-layer-3);
-    width: calc(50% - 0.5rem);
+    width: calc(50% - 1rem);
+    margin: 0 0.5rem;
     display: inline-flex;
     justify-content: space-between;
     font-family: var(--font-mono);
@@ -646,63 +658,80 @@ a:hover {
     font-size: 0.85rem;
 }
 
-.modal-heading .file-date {
+div.modal.rec div.modal-heading p:nth-child(2) span.file-date {
     width: 100%;
+    margin-top: 0.75rem;
 }
 
-.modal-heading .file-number b,
-.modal-heading .file-type b,
-.modal-heading .file-date b {
-    color: var(--color-light-layer-2);
+span:is(span.file-type, span.file-number, span.file-date) b {
     text-align: right;
-}
-
-.modal > p {
-    font-size: 1rem;
-    padding: 0.5rem 1.25rem;
-    margin: 0;
-    color: var(--color-light-layer-2);
-}
-
-.modal > p.title {
-    font-size: 1.25rem;
-    font-weight: bold;
     color: var(--color-theme-bright);
-    padding-top: 1rem;
 }
 
-.modal > p.name {
-    font-size: 1.15rem;
+div.modal > p.name {
+    font-size: 1.25rem;
     font-weight: bold;
     margin: 0.15rem 0;
     display: flex;
     align-items: center;
-    padding: 0.5rem 1.25rem;
+    padding: 0.15rem;
     color: var(--color-light-layer-1);
+    font-family: var(--font-deco);
 }
 
-.modal > p.name::before,
-.modal > p.name::after {
+p.name::before, 
+p.name::after {
     content: "";
     flex: 1 1 auto;
     border-top: 0.1rem solid var(--color-dark-layer-4);
     margin: 0 0.5rem;
 }
 
-.modal > p.name::before {
+p.name::before {
     flex: 0.1 1 auto;
 }
 
-.modal > em p,
-.modal em {
-    font-style: italic;
-    color: var(--color-light-layer-3);
+/* Light theme modal for final section */
+div.modal--light {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
-@media screen and (max-width: 600px) {
-    .modal-heading .file-number,
-    .modal-heading .file-type,
-    .modal-heading .file-date {
+div.modal--light div.modal-heading p:first-child {
+    background-color: #e0e0e0;
+    border-color: #ccc;
+    color: #555;
+}
+
+div.modal--light div.modal.rec div.modal-heading p:nth-child(2) {
+    background-color: #f5f5f5;
+}
+
+div.modal--light div.modal.rec div.modal-heading :is(span.file-type, span.file-number, span.file-date) {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    color: #555;
+}
+
+div.modal--light > p {
+    color: #1a1a1a;
+}
+
+div.modal--light > p.name {
+    color: #1a1a1a;
+}
+
+div.modal--light p.name::before,
+div.modal--light p.name::after {
+    border-color: #ccc;
+}
+
+@media screen and (max-width: 800px) {
+    div.modal.rec div.modal-heading p:nth-child(2) {
+        flex-wrap: wrap;
+    }
+    div.modal.rec div.modal-heading p:nth-child(2) :is(span.file-type, span.file-number, span.file-date) {
+        margin: 0.5rem 0;
         width: 100%;
     }
 }
@@ -710,9 +739,16 @@ a:hover {
 /* ============================================
    PHASE MARKERS
    ============================================ */
+.panel-content--phase {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .phase-marker {
     text-align: center;
-    padding: 4rem 0;
 }
 
 .phase-marker__number {
@@ -724,6 +760,7 @@ a:hover {
     color: transparent;
     -webkit-text-stroke: 2px var(--color-theme-bright);
     opacity: 0.35;
+    transition: -webkit-text-stroke-color var(--transition);
 }
 
 .phase-marker__title {
@@ -733,7 +770,7 @@ a:hover {
     letter-spacing: 0.15em;
     margin-top: -1rem;
     margin-bottom: 0.5rem;
-    color: var(--color-light-layer-1);
+    color: var(--color-text-layer-1);
 }
 
 .phase-marker__subtitle {
@@ -745,8 +782,16 @@ a:hover {
 }
 
 /* ============================================
-   FINAL DISPLAY
+   FINAL DISPLAY (Day 365)
    ============================================ */
+.panel-content--final {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .final-display {
     text-align: center;
 }
@@ -766,8 +811,9 @@ a:hover {
     font-family: var(--font-deco);
     font-weight: 700;
     line-height: 0.85;
-    color: var(--color-light-layer-1);
+    color: var(--color-text-layer-1);
     text-shadow: 0 0 80px rgba(255, 255, 255, 0.2);
+    transition: color var(--transition);
 }
 
 .final-display__subtitle {
@@ -777,11 +823,20 @@ a:hover {
     text-transform: uppercase;
     color: var(--color-theme-bright);
     margin-top: 1rem;
+    transition: color var(--transition);
 }
 
 /* ============================================
    ENDING DISPLAY
    ============================================ */
+.panel-content--ending {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .ending-display {
     text-align: center;
 }
@@ -789,9 +844,11 @@ a:hover {
 .ending-display__symbol {
     display: block;
     font-size: clamp(8rem, 25vw, 12rem);
+    font-family: var(--font-deco);
     font-weight: 100;
     line-height: 1;
     color: var(--color-theme-bright);
+    transition: color var(--transition);
 }
 
 .ending-display__text {
@@ -801,7 +858,7 @@ a:hover {
     font-weight: 700;
     letter-spacing: 0.25em;
     margin-top: 2rem;
-    color: var(--color-light-layer-1);
+    color: var(--color-text-layer-1);
 }
 
 .ending-display__subtext {
@@ -814,11 +871,11 @@ a:hover {
 }
 
 /* ============================================
-   TIME COUNTER OVERLAY
+   TIME COUNTER OVERLAY (Fixed UI)
    ============================================ */
 #overlay {
     position: fixed;
-    z-index: 9999;
+    z-index: 100;
     pointer-events: none;
 }
 
@@ -830,16 +887,18 @@ a:hover {
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
     text-align: right;
     width: 8rem;
+    margin-left: 2.5rem;
 }
 
 #overlay-number span {
     display: block;
+    transition: color var(--transition);
 }
 
 #overlay-number .monospace {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     color: var(--color-light-layer-4);
 }
 
@@ -847,21 +906,23 @@ a:hover {
     font-size: 2rem;
     font-family: var(--font-deco);
     font-weight: 700;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.15rem;
     line-height: 1.1;
     color: var(--color-light-layer-2);
-    margin-top: -0.5rem;
+    margin-top: -1rem;
 }
 
 #overlay-chapter {
     position: fixed;
     top: 1.5rem;
-    left: 2rem;
+    left: 0;
+    margin-left: 2.5rem;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 #overlay-chapter span {
     display: block;
+    transition: color var(--transition);
 }
 
 #overlay-chapter #chapter-name-en {
@@ -872,7 +933,7 @@ a:hover {
 }
 
 #overlay-chapter #chapter-name {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-family: var(--font-deco);
     font-weight: 600;
     color: var(--color-text-layer-2);
@@ -909,27 +970,36 @@ a:hover {
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE DESIGN
    ============================================ */
 @media screen and (max-width: 768px) {
+    .content-wrapper {
+        padding: 0 0.75rem;
+    }
+    
     #overlay-number {
         top: auto;
-        bottom: 2rem;
+        bottom: 5rem;
         left: 1.5rem;
         transform: none;
+        margin-left: 0;
+        text-align: left;
+        width: auto;
     }
-
+    
     #overlay-number #time-display {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
+        margin-top: -0.5rem;
     }
-
+    
     #overlay-chapter {
         top: 1rem;
         left: 1.5rem;
+        margin-left: 0;
     }
-
-    .content-wrapper {
-        padding: 0 0.75rem;
+    
+    .phase-marker__number {
+        font-size: 5rem;
     }
 }
 
@@ -952,4 +1022,17 @@ a:hover {
 
 ::-webkit-scrollbar-thumb {
     background-color: var(--color-light-layer-4);
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    * {
+        transition-duration: 0.01ms !important;
+    }
 }
