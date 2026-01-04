@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Overlay UI -->
     <div id="overlay">
         <div id="overlay-number">
             <span class="monospace">ELAPSED TIME</span>
             <span id="time-display">0</span>
             <span class="monospace">DAYS</span>
         </div>
+        <div id="overlay-chapter">
+            <span class="monospace" id="chapter-name-en">Phase 01 /</span>
+            <span id="chapter-name">The Beginning</span>
+        </div>
     </div>
 
+    <!-- Content -->
     <div id="content-container">
         <main-content></main-content>
     </div>
