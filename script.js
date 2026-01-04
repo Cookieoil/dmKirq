@@ -398,7 +398,6 @@ function updateTheme(days) {
 function handleScroll() {
     requestAnimationFrame(updateTimeDisplay);
     
-    // Parallax background movement
     const panels = document.querySelectorAll('.bg-panel');
     
     panels.forEach(panel => {
@@ -407,12 +406,8 @@ function handleScroll() {
         
         if (bgFixed && rect.top < window.innerHeight && rect.bottom > 0) {
             const progress = -rect.top / (rect.height + window.innerHeight);
-            const offset = (progress - 0.5) * 20;  // Centered movement, smaller range
-            
-            // Clamp offset to prevent black space (-15 to 15 matches our CSS buffer)
-            const clampedOffset = Math.max(-15, Math.min(15, offset));
-            
-            bgFixed.style.transform = `translate3d(0, ${clampedOffset}vh, 0)`;
+            const offset = (progress - 0.5) * 15;  // Reduced: ±7.5vh max movement
+            bgFixed.style.transform = `scale(1.2) translate3d(0, ${offset}vh, 0)`;
         }
     });
 }
