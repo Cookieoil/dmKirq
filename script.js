@@ -406,7 +406,7 @@ function handleScroll() {
         
         if (bgFixed && rect.top < window.innerHeight && rect.bottom > 0) {
             const progress = -rect.top / (rect.height + window.innerHeight);
-            const offset = (progress - 0.5) * 15;  // Reduced: ±7.5vh max movement
+            const offset = (progress - 0.5) * 10;  // Reduced: ±7.5vh max movement
             bgFixed.style.transform = `scale(1.2) translate3d(0, ${offset}vh, 0)`;
         }
     });
