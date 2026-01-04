@@ -398,10 +398,9 @@ function updateTheme(days) {
 function handleScroll() {
     requestAnimationFrame(updateTimeDisplay);
     
-    const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
     
-    // Background parallax (existing)
+    // Background parallax
     const panels = document.querySelectorAll('.bg-panel');
     panels.forEach(panel => {
         const rect = panel.getBoundingClientRect();
@@ -414,14 +413,13 @@ function handleScroll() {
         }
     });
     
-    // Content parallax (new)
-    const contentElements = document.querySelectorAll('.parallax-content');
+    // Content parallax - applies to ALL .panel-content elements
+    const contentElements = document.querySelectorAll('.panel-content');
     contentElements.forEach(el => {
         const rect = el.getBoundingClientRect();
         
-        // Only animate when in viewport
         if (rect.top < windowHeight && rect.bottom > 0) {
-            const speed = parseFloat(el.dataset.speed) || 0.1;
+            const speed = 0.08;  // Adjust this value to change movement
             const centerOffset = (rect.top - windowHeight / 2) * speed;
             el.style.transform = `translate3d(0, ${centerOffset}px, 0)`;
         }
