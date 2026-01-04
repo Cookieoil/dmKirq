@@ -1,3 +1,12 @@
+# Fixed CSS
+
+Here's your corrected CSS with:
+1. ✅ Light modal matching Arkring's `gaze-into` style
+2. ✅ Spacing fixed to match original
+3. ✅ Removed all theme color variations
+4. ✅ Removed phase-specific text colors
+
+```css
 /* ============================================
    FONTS - Same as SCP-CN-4000
    ============================================ */
@@ -45,29 +54,6 @@
 
     --icon-menu: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktbGlzdCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yLjUgMTJhLjUuNSAwIDAgMSAuNS0uNWgxMGEuNS41IDAgMCAxIDAgMUgzYS41LjUgMCAwIDEtLjUtLjV6bTAtNGEuNS41IDAgMCAxIC41LS41aDEwYS41LjUgMCAwIDEgMCAxSDNhLjUuNSAwIDAgMS0uNS0uNXptMC00YS41LjUgMCAwIDEgLjUtLjVoMTBhLjUuNSAwIDAgMSAwIDFIM2EuNS41IDAgMCAxLS41LS41eiIvPgo8L3N2Zz4=");
     --darkmode-filter: invert(1) hue-rotate(180deg);
-}
-
-/* ============================================
-   THEME VARIATIONS - ACCENT ONLY, NO TEXT COLOR CHANGES
-   ============================================ */
-body.theme-start {
-    --color-theme-bright: #8e7aff;
-}
-
-body.theme-3months {
-    --color-theme-bright: #4a9fff;
-}
-
-body.theme-6months {
-    --color-theme-bright: #4aff9f;
-}
-
-body.theme-9months {
-    --color-theme-bright: #ff9f4a;
-}
-
-body.theme-end {
-    --color-theme-bright: #4a4aff;
 }
 
 /* ============================================
@@ -579,14 +565,14 @@ a:hover {
 }
 
 /* ============================================
-   MODAL BOXES (SCP-CN-4000 Style)
+   MODAL BOXES (SCP-CN-4000 Style) - DARK
    ============================================ */
 div.modal {
     background-color: var(--color-dark-overlay);
     border: 0.1rem solid var(--color-dark-layer-3);
     z-index: 10;
-    margin: 1.5rem 0;
-    width: 100%;
+    margin: 3rem auto;
+    width: min(40rem, 100%);
 }
 
 div.modal div.modal-heading p:first-child {
@@ -597,7 +583,7 @@ div.modal div.modal-heading p:first-child {
     font-size: 0.75rem;
     padding: 0.1rem 0.2rem;
     border: 0.1rem solid var(--color-dark-layer-4);
-    color: var(--color-light-layer-3);
+    color: var(--color-text-layer-2);
     background-color: var(--color-dark-layer-3);
     font-family: var(--font-mono);
 }
@@ -637,7 +623,7 @@ div.modal.rec div.modal-heading :is(span.file-type, span.file-number, span.file-
     display: inline-flex;
     justify-content: space-between;
     font-family: var(--font-mono);
-    color: var(--color-light-layer-3);
+    color: var(--color-text-layer-2);
     align-items: center;
     font-size: 0.85rem;
 }
@@ -649,7 +635,6 @@ div.modal.rec div.modal-heading p:nth-child(2) span.file-date {
 
 span:is(span.file-type, span.file-number, span.file-date) b {
     text-align: right;
-    color: var(--color-theme-bright);
 }
 
 div.modal > p.name {
@@ -675,45 +660,6 @@ p.name::before {
     flex: 0.1 1 auto;
 }
 
-/* Light Modal (White box, black text) - for final section */
-div.modal--light {
-    background-color: rgba(255, 255, 255, 0.95);
-    border-color: #d8d8d8;
-}
-
-div.modal--light div.modal-heading p:first-child {
-    background-color: #eeeeee;
-    border-color: #d8d8d8;
-    color: #555555;
-}
-
-div.modal--light div.modal-heading p:nth-child(2) {
-    background-color: #ffffff;
-}
-
-div.modal--light div.modal-heading :is(span.file-type, span.file-number, span.file-date) {
-    background-color: #ffffff;
-    border-color: #eeeeee;
-    color: #555555;
-}
-
-div.modal--light div.modal-heading :is(span.file-type, span.file-number, span.file-date) b {
-    color: #4a4aff;
-}
-
-div.modal--light > p {
-    color: #1a1a1a;
-}
-
-div.modal--light > p.name {
-    color: #1a1a1a;
-}
-
-div.modal--light p.name::before,
-div.modal--light p.name::after {
-    border-color: #d8d8d8;
-}
-
 @media screen and (max-width: 800px) {
     div.modal.rec div.modal-heading p:nth-child(2) {
         flex-wrap: wrap;
@@ -725,7 +671,24 @@ div.modal--light p.name::after {
 }
 
 /* ============================================
-   PHASE MARKERS - Same font as 365
+   MODAL BOXES - LIGHT (matches Arkring gaze-into)
+   Uses CSS variable overrides like the original
+   ============================================ */
+div.modal--light {
+    --color-dark-layer-1: #ffffff;
+    --color-dark-layer-2: #ffffff;
+    --color-dark-layer-3: #eeeeee;
+    --color-dark-layer-4: #d8d8d8;
+    --color-dark-overlay: rgb(255 255 255 / 95%);
+    --color-light-layer-1: #000000;
+    --color-light-layer-2: #1f1f1f;
+    --color-light-layer-3: #2e2e2e;
+    --color-light-layer-4: #4e4e4e;
+    --color-text-layer-2: #2e2e2e;
+}
+
+/* ============================================
+   PHASE MARKERS
    ============================================ */
 .panel-content--phase {
     min-height: 100vh;
@@ -768,7 +731,7 @@ div.modal--light p.name::after {
 }
 
 /* ============================================
-   FINAL DISPLAY (Day 365) - Colors change to dark
+   FINAL DISPLAY (Day 365)
    ============================================ */
 .panel-content--final {
     min-height: 100vh;
@@ -787,7 +750,7 @@ div.modal--light p.name::after {
     font-size: 1.5rem;
     font-family: var(--font-deco);
     letter-spacing: 0.6em;
-    color: #555555;
+    color: var(--color-light-layer-4);
     text-transform: uppercase;
     margin-bottom: 0.5rem;
 }
@@ -797,8 +760,8 @@ div.modal--light p.name::after {
     font-family: var(--font-deco);
     font-weight: 700;
     line-height: 0.85;
-    color: #1a1a1a;
-    text-shadow: 0 0 80px rgba(0, 0, 0, 0.1);
+    color: var(--color-light-layer-2);
+    text-shadow: 0 0 80px rgba(255, 255, 255, 0.1);
 }
 
 .final-display__subtitle {
@@ -806,7 +769,7 @@ div.modal--light p.name::after {
     font-family: var(--font-deco);
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #4a4aff;
+    color: var(--color-theme-bright);
     margin-top: 1rem;
 }
 
@@ -836,7 +799,6 @@ div.modal--light p.name::after {
     font-size: 0.7rem;
     letter-spacing: 0.15em;
     color: var(--color-light-layer-4);
-    transition: color var(--transition);
 }
 
 #overlay-number #time-display {
@@ -846,7 +808,6 @@ div.modal--light p.name::after {
     letter-spacing: -0.15rem;
     line-height: 1.1;
     color: var(--color-light-layer-2);
-    transition: color var(--transition);
 }
 
 #overlay-chapter {
@@ -865,7 +826,6 @@ div.modal--light p.name::after {
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     color: var(--color-light-layer-4);
-    transition: color var(--transition);
 }
 
 #overlay-chapter #chapter-name {
@@ -873,28 +833,6 @@ div.modal--light p.name::after {
     font-family: var(--font-deco);
     font-weight: 600;
     color: var(--color-light-layer-3);
-    transition: color var(--transition);
-}
-
-/* Overlay colors change to dark on theme-end */
-body.theme-end #overlay-number .monospace {
-    color: #878787;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
-}
-
-body.theme-end #overlay-number #time-display {
-    color: #1a1a1a;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
-}
-
-body.theme-end #overlay-chapter #chapter-name-en {
-    color: #878787;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
-}
-
-body.theme-end #overlay-chapter #chapter-name {
-    color: #555555;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
@@ -989,3 +927,44 @@ body.theme-end #overlay-chapter #chapter-name {
         transition-duration: 0.01ms !important;
     }
 }
+```
+
+---
+
+## Summary of Changes
+
+| Issue | Fix |
+|-------|-----|
+| **Light modal didn't match** | Changed `div.modal--light` to use CSS variable overrides (same technique as Arkring's `section.gaze-into`) instead of hardcoded colors |
+| **Spacing mismatch** | Changed modal margin from `1.5rem 0` to `3rem auto` to match original |
+| **Theme color variations** | Deleted all `body.theme-start`, `body.theme-3months`, `body.theme-6months`, `body.theme-9months`, `body.theme-end` rules |
+| **Overlay color changes** | Deleted all `body.theme-end #overlay-*` rules that changed text colors |
+
+### How the Light Modal Now Works
+
+Instead of this (hardcoded):
+```css
+div.modal--light {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: #d8d8d8;
+}
+/* ...more hardcoded values... */
+```
+
+It now uses variable overrides (matches Arkring):
+```css
+div.modal--light {
+    --color-dark-layer-1: #ffffff;
+    --color-dark-layer-2: #ffffff;
+    --color-dark-layer-3: #eeeeee;
+    --color-dark-layer-4: #d8d8d8;
+    --color-dark-overlay: rgb(255 255 255 / 95%);
+    --color-light-layer-1: #000000;
+    --color-light-layer-2: #1f1f1f;
+    --color-light-layer-3: #2e2e2e;
+    --color-light-layer-4: #4e4e4e;
+    --color-text-layer-2: #2e2e2e;
+}
+```
+
+This way all the existing modal styles automatically apply with inverted colors — exactly like Arkring does it.
