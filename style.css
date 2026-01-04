@@ -446,15 +446,6 @@ a:hover {
 }
 
 /* ============================================
-   parallax content
-   ============================================ */
-
-.parallax-content {
-    will-change: transform;
-    transition: transform 0.1s ease-out;  /* Optional: smooths the movement */
-}
-
-/* ============================================
    BACKGROUND PANEL SYSTEM
    ============================================ */
 .bg-panel {
@@ -532,7 +523,20 @@ a:hover {
     z-index: 10;
     width: 100%;
     padding: 2rem 0;
+}
+
+/* Parallax-enabled elements */
+.modal,
+.phase-marker,
+.hero-title,
+.hero-subtitle,
+.final-display {
     will-change: transform;
+}
+
+/* Remove transform from panel-content to prevent scroll blocking */
+.panel-content {
+    transform: none !important;
 }
 
 /* ============================================
