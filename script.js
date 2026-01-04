@@ -9,11 +9,11 @@ const CONFIG = {
     // Theme change milestones (in days)
     // Each milestone triggers a theme change
     themeChanges: [
-        { days: 0, name: 'Phase 01', subtitle: 'Tháng 2' },
-        { days: 90, name: 'Phase 02', subtitle: 'Tháng 3' },
-        { days: 180, name: 'Phase 03', subtitle: 'Tháng 6' },
-        { days: 270, name: 'Phase 04', subtitle: 'Tháng vân vân' },
-        { days: 365, name: 'Final Phase', subtitle: 'Tháng 12' }
+        { days: 0, theme: 'theme-start', name: 'Phase 01', subtitle: 'The Beginning' },
+        { days: 90, theme: 'theme-3months', name: 'Phase 02', subtitle: '3 Months Later' },
+        { days: 180, theme: 'theme-6months', name: 'Phase 03', subtitle: '6 Months Later' },
+        { days: 270, theme: 'theme-9months', name: 'Phase 04', subtitle: '9 Months Later' },
+        { days: 365, theme: 'theme-end', name: 'Final Phase', subtitle: 'The End' }
     ]
 };
 
@@ -68,16 +68,14 @@ function updateTimeDisplay() {
 // ============================================
 
 function updateTheme(days) {
-    let currentMilestone = CONFIG.milestones[0];
+    let newTheme = CONFIG.themeChanges[0];
     
-    for (const milestone of CONFIG.milestones) {
-        if (days >= milestone.days) {
-            currentMilestone = milestone;
+    // Find the appropriate theme for current day count
+    for (const themeConfig of CONFIG.themeChanges) {
+        if (days >= themeConfig.days) {
+            newTheme = themeConfig;
         }
     }
-    
-    updateChapterDisplay(currentMilestone.name, currentMilestone.subtitle);
-}
     
     // Only update if theme changed
     if (newTheme.theme !== currentTheme) {
@@ -203,9 +201,9 @@ document.addEventListener("DOMContentLoaded", function() {
 const HTMLContent = `
     <!-- INTRO SECTION -->
     <section class="fullscreen intro-section">
-    <div class="intro-logo">
-        <img src="cxyc_title.svg" alt="Title">
-        <span class="decofont author">2026</span>
+        <div class="intro-logo">
+            <h1>DIMENSION DIARY</h1>
+            <span class="author">Your Name</span>
         </div>
     </section>
 
@@ -213,14 +211,15 @@ const HTMLContent = `
     <section class="page-flow" data-onshow="console.log('Phase 1 visible')">
         <div class="modal rec">
             <div class="modal-heading monospace">
-                <p>box một</p>
+                <p>file://diary/entry_001</p>
                 <p>
-                    <span class="file-number">hộp<b>1</b></span>
+                    <span class="file-number">Entry<b>001</b></span>
                     <span class="file-date">Day<b>1</b></span>
                 </p>
             </div>
-            <p class="name">Ghi lung tung thử nghiệm</p>
-            <p>ghi lung tung thử nghiệm 0-90</p>
+            <p class="name">Researcher Notes</p>
+            <p>This is where your first diary entry goes...</p>
+            <p>The experiment begins today. I don't know what to expect.</p>
         </div>
     </section>
 
@@ -228,10 +227,10 @@ const HTMLContent = `
     <section class="page-flow">
         <div class="modal rec">
             <div class="modal-heading monospace">
-                <p>box 2</p>
+                <p>file://diary/entry_002</p>
             </div>
-            <p class="name">Ghi lung tung thử nghiệm</p>
-            <p>ghi lung tung thử nghiệm 0-90</p>
+            <p class="name">Day 30</p>
+            <p>One month has passed. Things are starting to change...</p>
         </div>
     </section>
 
@@ -246,10 +245,10 @@ const HTMLContent = `
     <section class="page-flow">
         <div class="modal rec">
             <div class="modal-heading monospace">
-                <p>ghi lung tung thử nghiệm </p>
+                <p>file://diary/entry_090</p>
             </div>
             <p class="name">Day 90</p>
-            <p>ghi lung tung thử nghiệm </p>
+            <p>Three months. The first dimensional shift occurred today...</p>
         </div>
     </section>
 
@@ -264,10 +263,10 @@ const HTMLContent = `
     <section class="page-flow">
         <div class="modal rec">
             <div class="modal-heading monospace">
-                <p>ghi lung tung thử nghiệm </p>
+                <p>file://diary/entry_180</p>
             </div>
             <p class="name">Day 180</p>
-            <p>ghi lung tung thử nghiệm </p>
+            <p>Half a year. Reality feels different now...</p>
         </div>
     </section>
 
@@ -282,8 +281,8 @@ const HTMLContent = `
     <!-- ENDING -->
     <section class="fullscreen ending">
         <div class="endscreen">
-            <p>DM KIRQ</p>
-            <span>Lì xì đê</span>
+            <p>終</p>
+            <span>THE END</span>
         </div>
     </section>
 `;
