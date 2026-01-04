@@ -467,10 +467,10 @@ a:hover {
 
 .bg-fixed {
     position: fixed;
-    top: 0;
+    top: -10vh;           /* Changed from 0 */
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 120vh;        /* Changed from 100vh */
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
