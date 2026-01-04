@@ -1,12 +1,3 @@
-# Fixed CSS
-
-Here's your corrected CSS with:
-1. ✅ Light modal matching Arkring's `gaze-into` style
-2. ✅ Spacing fixed to match original
-3. ✅ Removed all theme color variations
-4. ✅ Removed phase-specific text colors
-
-```css
 /* ============================================
    FONTS - Same as SCP-CN-4000
    ============================================ */
@@ -927,44 +918,3 @@ div.modal--light {
         transition-duration: 0.01ms !important;
     }
 }
-```
-
----
-
-## Summary of Changes
-
-| Issue | Fix |
-|-------|-----|
-| **Light modal didn't match** | Changed `div.modal--light` to use CSS variable overrides (same technique as Arkring's `section.gaze-into`) instead of hardcoded colors |
-| **Spacing mismatch** | Changed modal margin from `1.5rem 0` to `3rem auto` to match original |
-| **Theme color variations** | Deleted all `body.theme-start`, `body.theme-3months`, `body.theme-6months`, `body.theme-9months`, `body.theme-end` rules |
-| **Overlay color changes** | Deleted all `body.theme-end #overlay-*` rules that changed text colors |
-
-### How the Light Modal Now Works
-
-Instead of this (hardcoded):
-```css
-div.modal--light {
-    background-color: rgba(255, 255, 255, 0.95);
-    border-color: #d8d8d8;
-}
-/* ...more hardcoded values... */
-```
-
-It now uses variable overrides (matches Arkring):
-```css
-div.modal--light {
-    --color-dark-layer-1: #ffffff;
-    --color-dark-layer-2: #ffffff;
-    --color-dark-layer-3: #eeeeee;
-    --color-dark-layer-4: #d8d8d8;
-    --color-dark-overlay: rgb(255 255 255 / 95%);
-    --color-light-layer-1: #000000;
-    --color-light-layer-2: #1f1f1f;
-    --color-light-layer-3: #2e2e2e;
-    --color-light-layer-4: #4e4e4e;
-    --color-text-layer-2: #2e2e2e;
-}
-```
-
-This way all the existing modal styles automatically apply with inverted colors — exactly like Arkring does it.
