@@ -1,28 +1,107 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimension Diary</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="theme-start">
-    
-    <!-- TIME COUNTER OVERLAY -->
+<body>
+
+    <!-- SIDEBAR -->
+    <nav id="side-bar">
+        <div class="side-block">
+            <p class="heading">Navigation</p>
+            <div class="menu-item"><a href="https://scp-wiki-cn.wikidot.com/">SCP Foundation CN</a></div>
+            <div class="menu-item"><a href="https://scp-wiki-cn.wikidot.com/scp-series">SCP Series</a></div>
+            <div class="menu-item"><a href="https://scp-wiki-cn.wikidot.com/foundation-tales">Tales</a></div>
+        </div>
+        <div class="side-block">
+            <p class="heading">Resources</p>
+            <div class="menu-item"><a href="#">Test Link 1</a></div>
+            <div class="menu-item"><a href="#">Test Link 2</a></div>
+            <div class="menu-item"><a href="#">Test Link 3</a></div>
+        </div>
+    </nav>
+    <div id="close-side-bar" onclick="toggleSidebar()"></div>
+
+    <!-- OVERLAY UI -->
     <div id="overlay">
         <div id="overlay-number">
-            <span class="monospace">ELAPSED TIME</span>
+            <span class="monospace">ELAPSED</span>
             <span id="time-display">0</span>
             <span class="monospace">DAYS</span>
         </div>
         <div id="overlay-chapter">
-            <span class="monospace" id="chapter-name-en">Phase 01 /</span>
+            <span class="monospace" id="chapter-name-en">Part 01 /</span>
             <span id="chapter-name">The Beginning</span>
+        </div>
+        <div id="overlay-label">
+            <span class="decofont">DIMENSION DIARY</span>
         </div>
     </div>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main id="main-content-area"></main>
+    <!-- MAIN CONTENT -->
+    <div id="content-container">
+        <main id="main-content"></main>
+    </div>
+
+    <!-- DESKTOP NAVBAR (Bottom) -->
+    <nav id="desktop-navbar">
+        <div id="desktop-navbar-left">
+            <button id="desktop-toggle-sidebar" class="desktop-navbar-button icon" onclick="toggleSidebar()"></button>
+            <button id="desktop-search" class="desktop-navbar-button icon"></button>
+            <span id="desktop-navbar-title"><a href="https://scp-wiki-cn.wikidot.com/">DIMENSION DIARY</a></span>
+        </div>
+        <div id="desktop-navbar-center">
+            <div id="desktop-navbar-logo"></div>
+        </div>
+        <div id="desktop-navbar-right">
+            <ul>
+                <li onclick="showBottomNavBar('desktop-navbar-menu-1')">
+                    Menu 1
+                    <ul id="desktop-navbar-menu-1">
+                        <li><a href="https://scp-wiki-cn.wikidot.com/">SCP Wiki CN Home</a></li>
+                        <li><a href="#">Test Link</a></li>
+                        <li><a href="#">Test Link</a></li>
+                    </ul>
+                </li>
+                <li onclick="showBottomNavBar('desktop-navbar-menu-2')">
+                    Menu 2
+                    <ul id="desktop-navbar-menu-2">
+                        <li><a href="#">Test Link</a></li>
+                        <li><a href="#">Test Link</a></li>
+                        <li><a href="#">Test Link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MOBILE NAVBAR (Top) -->
+    <div id="mobile-navbar">
+        <button id="mobile-toggle-sidebar" class="icon" onclick="toggleSidebar()"></button>
+        <ul>
+            <li id="mobile-navbar-item-1" onclick="showMobileNavbar('mobile-navbar-item-1')">Menu 1</li>
+            <li id="mobile-navbar-item-2" onclick="showMobileNavbar('mobile-navbar-item-2')">Menu 2</li>
+        </ul>
+        <div id="mobile-navbar-list">
+            <ul>
+                <li for="mobile-navbar-item-1">
+                    <ul>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/">SCP Wiki CN</a></li>
+                        <li><a href="#">Test Link</a></li>
+                    </ul>
+                </li>
+                <li for="mobile-navbar-item-2">
+                    <ul>
+                        <li><a href="#">Test Link</a></li>
+                        <li><a href="#">Test Link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
