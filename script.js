@@ -1,5 +1,5 @@
 // ============================================
-// NAVBAR FUNCTIONS (from SCP-CN-4000)
+// NAVBAR FUNCTIONS
 // ============================================
 
 function showBottomNavBar(id) {
@@ -31,41 +31,6 @@ function toggleSidebar() {
 
     let closeSideBar = document.getElementById("close-side-bar");
     closeSideBar.classList.toggle("open");
-}
-
-function showMobileNavbar(id) {
-    let mobileNavbar = document.getElementById("mobile-navbar");
-    let mobileNavbarItems = mobileNavbar.querySelectorAll("li[id^='mobile-navbar-item-']");
-    mobileNavbarItems.forEach(item => {
-        item.classList.remove("selected");
-    });
-    document.getElementById(id).classList.add("selected");
-
-    let mobileNavContainer = document.getElementById("mobile-navbar-list");
-    let ContainerItems = mobileNavContainer.querySelectorAll("li[for^='mobile-navbar-item-']");
-    let selectedItem = mobileNavContainer.querySelector(`li[for="${id}"]`);
-    
-    mobileNavbarItems.forEach(item => {
-        ContainerItems.forEach(item => {
-            item.classList.remove("selected");
-        });
-    });
-    selectedItem.classList.toggle("selected");
-
-    document.addEventListener("click", function(event) {
-        if (!event.target.closest("#mobile-navbar")) {
-            mobileNavbarItems.forEach(item => {
-                item.classList.remove("selected");
-            });
-            mobileNavContainer.classList.add("fadeout");
-            ContainerItems.forEach(item => {
-                setTimeout(() => {
-                    item.classList.remove("selected");
-                    mobileNavContainer.classList.remove("fadeout");
-                }, 150);
-            });
-        }
-    });
 }
 
 // ============================================
@@ -127,52 +92,54 @@ const HTMLContent = `
                     <h1 class="hero-title">DIMENSION DIARY</h1>
                     <p class="hero-subtitle">A Journey Through Time</p>
                 </div>
-                <div class="scroll-indicator">
-                    <span>Scroll to begin</span>
-                    <div class="scroll-arrow"></div>
+            </div>
+            
+            <div class="panel-content">
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_001</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-001</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 1</b></span>
+                        </p>
+                    </div>
+                    <p class="title">First Entry</p>
+                    <p>The dimensional rift opened today. What I saw on the other side... defies description.</p>
+                    <p>Time moves differently here. Or perhaps it's my perception that has changed.</p>
                 </div>
             </div>
             
             <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_001</span>
-                        <span class="diary-card__day">Day 1</span>
-                    </header>
-                    <h2 class="diary-card__title">First Entry</h2>
-                    <p>The dimensional rift opened today. What I saw on the other side... defies description.</p>
-                    <p>Time moves differently here. Or perhaps it's my perception that has changed.</p>
-                </article>
-            </div>
-            
-            <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_030</span>
-                        <span class="diary-card__day">Day 30</span>
-                    </header>
-                    <h2 class="diary-card__title">One Month</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_030</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-030</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 30</b></span>
+                        </p>
+                    </div>
+                    <p class="title">One Month</p>
                     <p>The boundaries between dimensions grow thinner each day.</p>
                     <p>I've started to see echoes of other timelines overlapping with this one.</p>
-                </article>
+                </div>
             </div>
             
             <div class="panel-content">
-                <blockquote class="floating-quote">
-                    "Time is not a line. It is a dimension."
-                </blockquote>
-            </div>
-            
-            <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_060</span>
-                        <span class="diary-card__day">Day 60</span>
-                    </header>
-                    <h2 class="diary-card__title">Two Months</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_060</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-060</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 60</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Two Months</p>
                     <p>I've learned to recognize the shimmer at the edges of reality.</p>
                     <p>Each dimension has its own color, its own taste.</p>
-                </article>
+                </div>
             </div>
         </div>
     </section>
@@ -195,33 +162,36 @@ const HTMLContent = `
             </div>
             
             <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_090</span>
-                        <span class="diary-card__day">Day 90</span>
-                    </header>
-                    <h2 class="diary-card__title">Quarter Year</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_090</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-090</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 90</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Quarter Year</p>
                     <p>I've learned to navigate the shifts now. Each dimension has its own frequency, its own rhythm.</p>
                     <p>The key is synchronization.</p>
-                </article>
+                </div>
             </div>
             
             <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_120</span>
-                        <span class="diary-card__day">Day 120</span>
-                    </header>
-                    <h2 class="diary-card__title">Contact</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_120</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-120</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 120</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Contact</p>
                     <p>Met another traveler today. She's been jumping for years.</p>
-                    <p><em>"The longer you stay," she said, "the less you remember who you were."</em></p>
-                </article>
-            </div>
-            
-            <div class="panel-content">
-                <blockquote class="floating-quote">
-                    "We are echoes of choices never made."
-                </blockquote>
+                    <p class="name">Unknown Traveler</p>
+                    <p><em>"The longer you stay, the less you remember who you were."</em></p>
+                </div>
             </div>
         </div>
     </section>
@@ -244,33 +214,35 @@ const HTMLContent = `
             </div>
             
             <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_180</span>
-                        <span class="diary-card__day">Day 180</span>
-                    </header>
-                    <h2 class="diary-card__title">Halfway</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_180</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-180</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 180</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Halfway</p>
                     <p>Half a year. I can no longer remember my mother's face.</p>
                     <p>But I can see seventeen versions of this room simultaneously.</p>
-                </article>
+                </div>
             </div>
             
             <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_210</span>
-                        <span class="diary-card__day">Day 210</span>
-                    </header>
-                    <h2 class="diary-card__title">Fragmentation</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_210</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-210</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 210</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Fragmentation</p>
                     <p>Which memories are mine? Which belong to the other versions of me?</p>
                     <p>The boundaries are dissolving.</p>
-                </article>
-            </div>
-            
-            <div class="panel-content">
-                <blockquote class="floating-quote">
-                    "I am not one. I am many."
-                </blockquote>
+                </div>
             </div>
         </div>
     </section>
@@ -293,39 +265,51 @@ const HTMLContent = `
             </div>
             
             <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_270</span>
-                        <span class="diary-card__day">Day 270</span>
-                    </header>
-                    <h2 class="diary-card__title">Convergence</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_270</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-270</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 270</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Convergence</p>
                     <p>The timelines are collapsing into one. I can feel the convergence.</p>
                     <p>All paths lead to a single point.</p>
-                </article>
+                </div>
             </div>
             
             <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_300</span>
-                        <span class="diary-card__day">Day 300</span>
-                    </header>
-                    <h2 class="diary-card__title">Understanding</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_300</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-300</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 300</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Understanding</p>
                     <p>I understand now. The journey was never about reaching a destination.</p>
                     <p>It was about becoming something that could exist in all dimensions at once.</p>
-                </article>
+                </div>
             </div>
             
             <div class="panel-content">
-                <article class="diary-card">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_330</span>
-                        <span class="diary-card__day">Day 330</span>
-                    </header>
-                    <h2 class="diary-card__title">Preparation</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_330</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-330</b></span>
+                            <span class="file-type">Type <b>DIARY ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 330</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Preparation</p>
                     <p>The final transformation is near. I am ready.</p>
                     <p>Or rather, all versions of me are ready.</p>
-                </article>
+                </div>
             </div>
         </div>
     </section>
@@ -348,16 +332,20 @@ const HTMLContent = `
             </div>
             
             <div class="panel-content">
-                <article class="diary-card diary-card--light">
-                    <header class="diary-card__header">
-                        <span class="diary-card__file">file://dimension/log_365</span>
-                        <span class="diary-card__day">Day 365</span>
-                    </header>
-                    <h2 class="diary-card__title">Final Entry</h2>
+                <div class="modal rec">
+                    <div class="modal-heading monospace">
+                        <p>file://dimension/log_365</p>
+                        <p>
+                            <span class="file-number">File No. <b>LOG-365</b></span>
+                            <span class="file-type">Type <b>FINAL ENTRY</b></span>
+                            <span class="file-date">Date <b>Day 365</b></span>
+                        </p>
+                    </div>
+                    <p class="title">Final Entry</p>
                     <p>It is done.</p>
                     <p>I am no longer bound by a single thread of time. I exist in all moments, all places, all possibilities.</p>
                     <p>This diary ends here. But I continue everywhere.</p>
-                </article>
+                </div>
             </div>
             
             <div class="panel-content panel-content--ending">
@@ -381,9 +369,7 @@ function updateTimeDisplay() {
     const timeDisplay = document.getElementById("time-display");
     const timeZero = document.getElementById("time-zero");
     
-    if (!timeZero || !timeDisplay) {
-        return;
-    }
+    if (!timeZero || !timeDisplay) return;
     
     const zeroPosition = timeZero.offsetTop;
     if (zeroPosition <= 0) return;
