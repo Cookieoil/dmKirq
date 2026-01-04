@@ -7,18 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- PARALLAX BACKGROUND LAYERS -->
-    <div id="parallax-container">
-        <div class="parallax-layer parallax-bg-1"></div>
-        <div class="parallax-layer parallax-bg-2"></div>
-        <div class="parallax-layer parallax-bg-3"></div>
-        <div class="parallax-layer parallax-overlay"></div>
-    </div>
-
-    <!-- GLASS OVERLAY -->
-    <div id="glass-overlay"></div>
-
-    <!-- TIME DISPLAY OVERLAY -->
+    <!-- ============================================
+         OVERLAY (Time Display - Fixed Position)
+         ============================================ -->
     <div id="overlay">
         <div id="overlay-number">
             <span class="monospace">ELAPSED TIME</span>
@@ -29,21 +20,19 @@
             <span class="monospace" id="chapter-name-en">Phase 01 /</span>
             <span id="chapter-name">The Beginning</span>
         </div>
-        <div id="overlay-label">
-            <span class="decofont">DIMENSION DIARY</span>
-        </div>
     </div>
 
-    <!-- RULER/GRID DECORATION -->
-    <div id="ruler-decoration"></div>
-
-    <!-- MAIN CONTENT -->
+    <!-- ============================================
+         MAIN CONTENT CONTAINER
+         ============================================ -->
     <div id="content-container">
         <main-content>
             <!-- Content injected by JavaScript -->
         </main-content>
     </div>
 
+    <!-- Scripts (order matters!) -->
+    <script src="parallax.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
