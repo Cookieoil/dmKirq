@@ -49,29 +49,6 @@
 }
 
 /* ============================================
-   THEME VARIATIONS - ACCENT ONLY, NO TEXT COLOR CHANGES
-   ============================================ */
-body.theme-start {
-    --color-theme-bright: #8e7aff;
-}
-
-body.theme-3months {
-    --color-theme-bright: #4a9fff;
-}
-
-body.theme-6months {
-    --color-theme-bright: #4aff9f;
-}
-
-body.theme-9months {
-    --color-theme-bright: #ff9f4a;
-}
-
-body.theme-end {
-    --color-theme-bright: #4a4aff;
-}
-
-/* ============================================
    RESET & BASE
    ============================================ */
 *, *::before, *::after {
@@ -850,27 +827,6 @@ div.modal--light {
     font-weight: 600;
     color: var(--color-light-layer-3);
     transition: color var(--transition);
-}
-
-/* Overlay colors change to dark on theme-end */
-body.theme-end #overlay-number .monospace {
-    color: #878787;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
-}
-
-body.theme-end #overlay-number #time-display {
-    color: #1a1a1a;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
-}
-
-body.theme-end #overlay-chapter #chapter-name-en {
-    color: #878787;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
-}
-
-body.theme-end #overlay-chapter #chapter-name {
-    color: #555555;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
