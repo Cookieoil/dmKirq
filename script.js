@@ -49,7 +49,7 @@ const CONFIG = {
     ],
     
     backgrounds: [
-        'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1920&q=80',
+        'flower  background.png',
         'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80', 
         'https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1920&q=80',
         'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1920&q=80',
