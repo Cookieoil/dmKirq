@@ -398,16 +398,32 @@ function updateTheme(days) {
 function handleScroll() {
     requestAnimationFrame(updateTimeDisplay);
     
-    const panels = document.querySelectorAll('.bg-panel');
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
     
+    // Background parallax (existing)
+    const panels = document.querySelectorAll('.bg-panel');
     panels.forEach(panel => {
         const rect = panel.getBoundingClientRect();
         const bgFixed = panel.querySelector('.bg-fixed');
         
-        if (bgFixed && rect.top < window.innerHeight && rect.bottom > 0) {
-            const progress = -rect.top / (rect.height + window.innerHeight);
-            const offset = (progress - 0.5) * 10;    // Reduced: ±7.5vh max moveme
+        if (bgFixed && rect.top < windowHeight && rect.bottom > 0) {
+            const progress = -rect.top / (rect.height + windowHeight);
+            const offset = (progress - 0.5) * 15;
             bgFixed.style.transform = `scale(1.2) translate3d(0, ${offset}vh, 0)`;
+        }
+    });
+    
+    // Content parallax (new)
+    const contentElements = document.querySelectorAll('.parallax-content');
+    contentElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        
+        // Only animate when in viewport
+        if (rect.top < windowHeight && rect.bottom > 0) {
+            const speed = parseFloat(el.dataset.speed) || 0.1;
+            const centerOffset = (rect.top - windowHeight / 2) * speed;
+            el.style.transform = `translate3d(0, ${centerOffset}px, 0)`;
         }
     });
 }
