@@ -40,13 +40,12 @@ function toggleSidebar() {
 const CONFIG = {
     maxDays: 365,
     
-    // Theme changes now only update the chapter name, no color changes
     themeChanges: [
-        { days: 0, name: 'Phase 01', subtitle: 'The Beginning' },
-        { days: 90, name: 'Phase 02', subtitle: '3 Months Later' },
-        { days: 180, name: 'Phase 03', subtitle: '6 Months Later' },
-        { days: 270, name: 'Phase 04', subtitle: '9 Months Later' },
-        { days: 365, name: 'Final Phase', subtitle: 'The End' }
+        { days: 0, theme: 'theme-start', name: 'Phase 01', subtitle: 'The Beginning' },
+        { days: 90, theme: 'theme-3months', name: 'Phase 02', subtitle: '3 Months Later' },
+        { days: 180, theme: 'theme-6months', name: 'Phase 03', subtitle: '6 Months Later' },
+        { days: 270, theme: 'theme-9months', name: 'Phase 04', subtitle: '9 Months Later' },
+        { days: 365, theme: 'theme-end', name: 'Final Phase', subtitle: 'The End' }
     ],
     
     backgrounds: [
@@ -71,11 +70,11 @@ const CONFIG = {
 // ============================================
 
 let currentDays = 0;
-let currentPhaseName = 'Phase 01';
+let currentTheme = 'theme-start';
 let contentLoaded = false;
 
 // ============================================
-// HTML CONTENT (SCP-CN-4000 style boxes)
+// HTML CONTENT
 // ============================================
 
 const HTMLContent = `
@@ -361,31 +360,34 @@ function updateTimeDisplay() {
     currentDays = Math.floor(CONFIG.maxDays * scrollProgress);
     timeDisplay.textContent = currentDays.toLocaleString();
     
-    updateChapterName(currentDays);
+    updateTheme(currentDays);
 }
 
 // ============================================
-// CHAPTER NAME UPDATE (No color changes)
+// THEME SWITCHING
 // ============================================
 
-function updateChapterName(days) {
-    let newConfig = CONFIG.themeChanges[0];
+function updateTheme(days) {
+    let newThemeConfig = CONFIG.themeChanges[0];
     
-    for (const config of CONFIG.themeChanges) {
-        if (days >= config.days) {
-            newConfig = config;
+    for (const themeConfig of CONFIG.themeChanges) {
+        if (days >= themeConfig.days) {
+            newThemeConfig = themeConfig;
         }
     }
     
-    if (newConfig.name !== currentPhaseName) {
-        currentPhaseName = newConfig.name;
+    if (newThemeConfig.theme !== currentTheme) {
+        currentTheme = newThemeConfig.theme;
+        
+        CONFIG.themeChanges.forEach(t => document.body.classList.remove(t.theme));
+        document.body.classList.add(newThemeConfig.theme);
         
         const nameEl = document.getElementById("chapter-name-en");
         const subtitleEl = document.getElementById("chapter-name");
-        if (nameEl) nameEl.textContent = newConfig.name + " /";
-        if (subtitleEl) subtitleEl.textContent = newConfig.subtitle;
+        if (nameEl) nameEl.textContent = newThemeConfig.name + " /";
+        if (subtitleEl) subtitleEl.textContent = newThemeConfig.subtitle;
         
-        console.log(`Day ${days} → ${newConfig.name}`);
+        console.log(`Day ${days} → ${newThemeConfig.theme}`);
     }
 }
 
