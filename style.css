@@ -1,22 +1,73 @@
 /* ============================================
    FONTS
    ============================================ */
-
-@import url("https://fontsapi.zeoseven.com/161/main/result.css");
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-    --font-sans-serif: "Sarasa Gothic SC", sans-serif;
-    --font-mono: "JetBrains Mono", "Consolas", monospace;
-    --font-deco: "Alata", sans-serif;
+    --font-sans: 'Space Grotesk', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
     
-    --color-text-primary: #F2F2F2;
-    --color-text-secondary: #b1b1b1;
+    /* Base Colors */
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #0a0a0a;
+    --color-bg-tertiary: #1a1a1a;
+    --color-text-primary: #f0f0f0;
+    --color-text-secondary: #888888;
     --color-accent: #8e7aff;
     
-    --parallax-speed: 0.4; /* Background moves at 40% of scroll speed */
+    /* Glass Effect */
+    --glass-bg: rgba(10, 10, 10, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    
+    /* Dynamic Overlay (changed by JS) */
+    --current-overlay-color: rgba(17, 0, 34, 0.6);
+    
+    /* Transitions */
+    --transition-slow: 0.6s ease;
+    --transition-medium: 0.3s ease;
+    --transition-fast: 0.15s ease;
 }
 
-* {
+/* ============================================
+   THEME VARIATIONS
+   ============================================ */
+
+body.theme-start {
+    --color-accent: #8e7aff;
+    --current-overlay-color: rgba(17, 0, 34, 0.6);
+}
+
+body.theme-3months {
+    --color-accent: #4a9fff;
+    --current-overlay-color: rgba(0, 20, 40, 0.6);
+}
+
+body.theme-6months {
+    --color-accent: #4aff9f;
+    --current-overlay-color: rgba(0, 30, 20, 0.6);
+}
+
+body.theme-9months {
+    --color-accent: #ff9f4a;
+    --current-overlay-color: rgba(40, 20, 0, 0.6);
+}
+
+body.theme-end {
+    --color-bg-primary: #f0f0f0;
+    --color-bg-secondary: #ffffff;
+    --color-text-primary: #0a0a0a;
+    --color-text-secondary: #555555;
+    --color-accent: #4a4aff;
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --current-overlay-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   BASE RESET
+   ============================================ */
+
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -27,346 +78,212 @@ html {
 }
 
 body {
-    font-family: var(--font-sans-serif);
+    font-family: var(--font-sans);
+    background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
-    min-height: 100vh;
+    line-height: 1.7;
     overflow-x: hidden;
-    background: #000;
+    transition: background-color var(--transition-slow),
+                color var(--transition-slow);
 }
 
 /* ============================================
-   PARALLAX BACKGROUND SYSTEM
+   PARALLAX SYSTEM
    ============================================ */
 
-/* Container for all parallax backgrounds */
-#parallax-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    overflow: hidden;
-}
-
-/* Individual parallax layer */
-.parallax-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120%; /* Extra height for parallax movement */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    will-change: transform;
-    transition: opacity 0.8s ease;
-}
-
-/* Theme backgrounds - stacked, controlled by opacity */
-.parallax-layer.bg-theme-1 {
-    background-image: url('https://picsum.photos/id/1018/1920/1080'); /* Mountain lake */
-    z-index: 1;
-}
-
-.parallax-layer.bg-theme-2 {
-    background-image: url('https://picsum.photos/id/1015/1920/1080'); /* River */
-    z-index: 2;
-    opacity: 0;
-}
-
-.parallax-layer.bg-theme-3 {
-    background-image: url('https://picsum.photos/id/1039/1920/1080'); /* Waterfall */
-    z-index: 3;
-    opacity: 0;
-}
-
-.parallax-layer.bg-theme-4 {
-    background-image: url('https://picsum.photos/id/1036/1920/1080'); /* Ocean */
-    z-index: 4;
-    opacity: 0;
-}
-
-/* Active state - layer becomes visible */
-.parallax-layer.active {
-    opacity: 1;
-}
-
-/* ============================================
-   GLASS EFFECT (Depth Perception)
-   ============================================ */
-
-/*
-   This creates depth by:
-   1. Very subtle blur (not frosted, just enough for depth)
-   2. Slight color shift for atmospheric perspective
-   3. Thin highlight edge suggesting glass surface
-*/
-
-#glass-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    
-    /* Subtle depth effect */
-    background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.05) 50%,
-        rgba(0, 0, 0, 0.1) 100%
-    );
-    
-    /* Very light blur - creates depth without losing detail */
-    backdrop-filter: blur(0.5px);
-    -webkit-backdrop-filter: blur(0.5px);
-}
-
-/* Optional: subtle refraction effect at edges */
-#glass-overlay::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(
-        ellipse at center,
-        transparent 60%,
-        rgba(255, 255, 255, 0.02) 100%
-    );
-}
-
-/* ============================================
-   CONTENT LAYER
-   ============================================ */
-
-#content-container {
+.parallax-section {
     position: relative;
-    z-index: 10;
-}
-
-/* ============================================
-   TIME OVERLAY
-   ============================================ */
-
-#overlay {
-    position: fixed;
-    z-index: 100;
-    pointer-events: none;
-}
-
-#overlay-number {
-    position: fixed;
-    top: 50vh;
-    left: 2rem;
-    transform: translateY(-50%);
-}
-
-#overlay-number span {
-    display: block;
-    color: var(--color-text-secondary);
-    font-size: 0.85rem;
-    font-family: var(--font-mono);
-}
-
-#overlay-number #time-display {
-    font-size: 2.5rem;
-    font-family: var(--font-deco);
-    font-weight: bold;
-    color: var(--color-text-primary);
-    letter-spacing: -0.1rem;
-}
-
-#overlay-chapter {
-    position: fixed;
-    top: 1.5rem;
-    left: 2rem;
-}
-
-#overlay-chapter span {
-    display: block;
-    font-family: var(--font-deco);
-}
-
-#overlay-chapter #chapter-name-en {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-}
-
-#overlay-chapter #chapter-name {
-    font-size: 1.2rem;
-    color: var(--color-text-primary);
-    font-weight: bold;
-}
-
-/* ============================================
-   SECTIONS
-   ============================================ */
-
-section {
-    min-height: 100vh;
-    padding: 4rem 2rem;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-section.fullscreen {
+.parallax-section.fullscreen {
     min-height: 100vh;
 }
 
-/* ============================================
-   MODAL (Diary Entry)
-   ============================================ */
+.parallax-section.medium {
+    min-height: 60vh;
+}
 
-.modal {
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    max-width: 40rem;
+/* Parallax Background Container */
+.parallax-background {
+    position: absolute;
+    top: -20%; /* Extra space for parallax movement */
+    left: 0;
     width: 100%;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    height: 140%; /* Extra height for parallax movement */
+    z-index: 0;
+    pointer-events: none;
 }
 
-.modal .modal-heading {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.5rem 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* The Actual Image - This gets transformed by JS */
+.parallax-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: transform; /* GPU hint */
+    transform: translate3d(0, 0, 0); /* Force GPU layer */
 }
 
-.modal .modal-heading p {
-    margin: 0;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+/* Glass Overlay - The "behind glass" effect */
+.parallax-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--current-overlay-color);
+    transition: background var(--transition-slow);
+    z-index: 1;
 }
 
-.modal .modal-heading span {
-    display: inline-flex;
-    gap: 0.5rem;
-}
-
-.modal .modal-heading b {
-    color: var(--color-accent);
-}
-
-.modal > p {
-    padding: 1rem 1.5rem;
-    line-height: 1.8;
-}
-
-.modal p.name {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--color-accent);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 0.5rem;
-    margin: 0 1.5rem;
+/* Noise/Grain Texture - Reduces banding */
+.parallax-noise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    opacity: 0.03;
+    pointer-events: none;
+    /* CSS noise pattern - no image needed */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
 }
 
 /* ============================================
-   TITLE SECTIONS (Simple, no box)
+   GLASS CONTENT (Floating above parallax)
    ============================================ */
 
-.phase-title {
+.glass-content {
+    position: relative;
+    z-index: 10;
+    padding: 2rem;
+}
+
+.title-background {
     text-align: center;
+}
+
+/* Glass Text Effect */
+.glass-text {
+    font-size: clamp(2rem, 8vw, 5rem);
+    font-weight: 700;
+    letter-spacing: 0.3em;
     color: var(--color-text-primary);
+    text-shadow: 
+        0 0 40px rgba(255, 255, 255, 0.3),
+        0 0 80px rgba(255, 255, 255, 0.1);
+    animation: glassTextGlow 3s ease-in-out infinite alternate;
 }
 
-.phase-title h2 {
-    font-family: var(--font-deco);
-    font-size: 4rem;
-    font-weight: bold;
-    letter-spacing: 0.3rem;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-}
-
-.phase-title p {
-    font-size: 1.2rem;
-    color: var(--color-text-secondary);
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+@keyframes glassTextGlow {
+    from { text-shadow: 0 0 40px rgba(255, 255, 255, 0.3), 0 0 80px rgba(255, 255, 255, 0.1); }
+    to { text-shadow: 0 0 60px rgba(255, 255, 255, 0.4), 0 0 120px rgba(255, 255, 255, 0.2); }
 }
 
 /* ============================================
-   INTRO
+   GLASS CARD (Modal with glass effect)
    ============================================ */
 
-.intro-section {
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: var(--glass-shadow);
+    max-width: 42rem;
+    width: 100%;
+    transition: 
+        background var(--transition-slow),
+        border-color var(--transition-slow),
+        transform var(--transition-medium);
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   INTRO / HERO SECTION
+   ============================================ */
+
+.intro-logo {
+    display: flex;
     flex-direction: column;
-    text-align: center;
+    align-items: center;
+    gap: 1rem;
 }
 
 .intro-logo h1 {
-    font-family: var(--font-deco);
-    font-size: 3rem;
-    letter-spacing: 0.5rem;
-    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+    margin: 0;
 }
 
 .intro-logo .author {
     font-size: 1rem;
+    letter-spacing: 0.4em;
     color: var(--color-text-secondary);
-    letter-spacing: 0.3rem;
+    text-transform: uppercase;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeInUp 1s ease 1s both;
+}
+
+.scroll-indicator span {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+}
+
+.scroll-arrow {
+    width: 24px;
+    height: 24px;
+    border-right: 2px solid var(--color-text-secondary);
+    border-bottom: 2px solid var(--color-text-secondary);
+    transform: rotate(45deg);
+    animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); opacity: 1; }
+    50% { transform: rotate(45deg) translateY(10px); opacity: 0.5; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================
-   ENDING
+   CONTENT SECTIONS
    ============================================ */
 
-.endscreen {
-    text-align: center;
-}
-
-.endscreen p {
-    font-size: 5rem;
-    font-weight: bold;
-}
-
-.endscreen span {
-    font-family: var(--font-deco);
-    font-size: 1.5rem;
-    letter-spacing: 0.5rem;
-    color: var(--color-text-secondary);
+.content-section {
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    background: var(--color-bg-primary);
+    transition: background var(--transition-slow);
 }
 
 /* ============================================
-   MOBILE
-   ============================================ */
-
-@media screen and (max-width: 768px) {
-    #overlay-number {
-        top: auto;
-        bottom: 2rem;
-        left: 1rem;
-    }
-    
-    #overlay-number #time-display {
-        font-size: 1.8rem;
-    }
-    
-    #overlay-chapter {
-        left: 1rem;
-        top: 1rem;
-    }
-    
-    .intro-logo h1 {
-        font-size: 1.8rem;
-        letter-spacing: 0.2rem;
-    }
-    
-    .phase-title h2 {
-        font-size: 2.5rem;
-    }
-    
-    section {
-        padding: 2rem 1rem;
-    }
-}
+   MODAL STYLING
