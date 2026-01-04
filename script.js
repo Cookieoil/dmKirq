@@ -40,12 +40,13 @@ function toggleSidebar() {
 const CONFIG = {
     maxDays: 365,
     
+    // Theme changes now only update the chapter name, no color changes
     themeChanges: [
-        { days: 0, theme: 'theme-start', name: 'Phase 01', subtitle: 'The Beginning' },
-        { days: 90, theme: 'theme-3months', name: 'Phase 02', subtitle: '3 Months Later' },
-        { days: 180, theme: 'theme-6months', name: 'Phase 03', subtitle: '6 Months Later' },
-        { days: 270, theme: 'theme-9months', name: 'Phase 04', subtitle: '9 Months Later' },
-        { days: 365, theme: 'theme-end', name: 'Final Phase', subtitle: 'The End' }
+        { days: 0, name: 'Phase 01', subtitle: 'The Beginning' },
+        { days: 90, name: 'Phase 02', subtitle: '3 Months Later' },
+        { days: 180, name: 'Phase 03', subtitle: '6 Months Later' },
+        { days: 270, name: 'Phase 04', subtitle: '9 Months Later' },
+        { days: 365, name: 'Final Phase', subtitle: 'The End' }
     ],
     
     backgrounds: [
@@ -70,7 +71,7 @@ const CONFIG = {
 // ============================================
 
 let currentDays = 0;
-let currentTheme = 'theme-start';
+let currentPhaseName = 'Phase 01';
 let contentLoaded = false;
 
 // ============================================
@@ -333,14 +334,6 @@ const HTMLContent = `
                     <p>This diary ends here. But I continue everywhere.</p>
                 </div>
             </div>
-            
-            <div class="panel-content panel-content--ending">
-                <div class="ending-display">
-                    <span class="ending-display__symbol">∞</span>
-                    <span class="ending-display__text">I AM EVERYWHERE</span>
-                    <span class="ending-display__subtext">THE END IS THE BEGINNING</span>
-                </div>
-            </div>
         </div>
     </section>
 `;
@@ -368,34 +361,31 @@ function updateTimeDisplay() {
     currentDays = Math.floor(CONFIG.maxDays * scrollProgress);
     timeDisplay.textContent = currentDays.toLocaleString();
     
-    updateTheme(currentDays);
+    updateChapterName(currentDays);
 }
 
 // ============================================
-// THEME SWITCHING
+// CHAPTER NAME UPDATE (No color changes)
 // ============================================
 
-function updateTheme(days) {
-    let newThemeConfig = CONFIG.themeChanges[0];
+function updateChapterName(days) {
+    let newConfig = CONFIG.themeChanges[0];
     
-    for (const themeConfig of CONFIG.themeChanges) {
-        if (days >= themeConfig.days) {
-            newThemeConfig = themeConfig;
+    for (const config of CONFIG.themeChanges) {
+        if (days >= config.days) {
+            newConfig = config;
         }
     }
     
-    if (newThemeConfig.theme !== currentTheme) {
-        currentTheme = newThemeConfig.theme;
-        
-        CONFIG.themeChanges.forEach(t => document.body.classList.remove(t.theme));
-        document.body.classList.add(newThemeConfig.theme);
+    if (newConfig.name !== currentPhaseName) {
+        currentPhaseName = newConfig.name;
         
         const nameEl = document.getElementById("chapter-name-en");
         const subtitleEl = document.getElementById("chapter-name");
-        if (nameEl) nameEl.textContent = newThemeConfig.name + " /";
-        if (subtitleEl) subtitleEl.textContent = newThemeConfig.subtitle;
+        if (nameEl) nameEl.textContent = newConfig.name + " /";
+        if (subtitleEl) subtitleEl.textContent = newConfig.subtitle;
         
-        console.log(`Day ${days} → ${newThemeConfig.theme}`);
+        console.log(`Day ${days} → ${newConfig.name}`);
     }
 }
 
