@@ -6,101 +6,188 @@
     <title>Dimension Diary</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
+<body class="theme-start">
+    
     <!-- SIDEBAR -->
     <nav id="side-bar">
         <div class="side-block">
-            <p class="heading">Navigation</p>
-            <div class="menu-item"><a href="https://scp-wiki-cn.wikidot.com/">SCP Foundation CN</a></div>
-            <div class="menu-item"><a href="https://scp-wiki-cn.wikidot.com/scp-series">SCP Series</a></div>
-            <div class="menu-item"><a href="https://scp-wiki-cn.wikidot.com/foundation-tales">Tales</a></div>
+            <p class="heading">SCP Foundation</p>
+            <div class="menu-item">
+                <a href="https://scp-wiki-cn.wikidot.com/">Home</a>
+            </div>
+            <div class="menu-item">
+                <a href="https://scp-wiki-cn.wikidot.com/guide-hub">Guide Hub</a>
+            </div>
+            <div class="menu-item">
+                <a href="https://scp-wiki-cn.wikidot.com/faq">FAQ</a>
+            </div>
         </div>
         <div class="side-block">
-            <p class="heading">Resources</p>
-            <div class="menu-item"><a href="#">Test Link 1</a></div>
-            <div class="menu-item"><a href="#">Test Link 2</a></div>
-            <div class="menu-item"><a href="#">Test Link 3</a></div>
+            <p class="heading">SCP Series</p>
+            <div class="menu-item scp-series">
+                <a href="https://scp-wiki-cn.wikidot.com/scp-series">I</a>
+                <a href="https://scp-wiki-cn.wikidot.com/scp-series-2">II</a>
+                <a href="https://scp-wiki-cn.wikidot.com/scp-series-3">III</a>
+                <a href="https://scp-wiki-cn.wikidot.com/scp-series-4">IV</a>
+                <a href="https://scp-wiki-cn.wikidot.com/scp-series-5">V</a>
+                <a href="https://scp-wiki-cn.wikidot.com/scp-series-6">VI</a>
+                <a href="https://scp-wiki-cn.wikidot.com/scp-series-7">VII</a>
+                <a href="https://scp-wiki-cn.wikidot.com/scp-series-8">VIII</a>
+            </div>
+        </div>
+        <div class="side-block">
+            <p class="heading">Tales & Canon</p>
+            <div class="menu-item">
+                <a href="https://scp-wiki-cn.wikidot.com/foundation-tales">Foundation Tales</a>
+            </div>
+            <div class="menu-item">
+                <a href="https://scp-wiki-cn.wikidot.com/canon-hub">Canon Hub</a>
+            </div>
+            <div class="menu-item">
+                <a href="https://scp-wiki-cn.wikidot.com/groups-of-interest">Groups of Interest</a>
+            </div>
+        </div>
+        <div class="side-block">
+            <p class="heading">Community</p>
+            <div class="menu-item">
+                <a href="https://scp-wiki-cn.wikidot.com/forum:start">Forum</a>
+            </div>
+            <div class="menu-item">
+                <a href="https://scp-wiki-cn.wikidot.com/chat-guide">Chat Guide</a>
+            </div>
         </div>
     </nav>
     <div id="close-side-bar" onclick="toggleSidebar()"></div>
 
-    <!-- OVERLAY UI -->
-    <div id="overlay">
-        <div id="overlay-number">
-            <span class="monospace">ELAPSED</span>
-            <span id="time-display">0</span>
-            <span class="monospace">DAYS</span>
-        </div>
-        <div id="overlay-chapter">
-            <span class="monospace" id="chapter-name-en">Part 01 /</span>
-            <span id="chapter-name">The Beginning</span>
-        </div>
-        <div id="overlay-label">
-            <span class="decofont">DIMENSION DIARY</span>
-        </div>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="content-container">
-        <main id="main-content"></main>
-    </div>
-
-    <!-- DESKTOP NAVBAR (Bottom) -->
-    <nav id="desktop-navbar">
+    <!-- DESKTOP NAVBAR -->
+    <div id="desktop-navbar">
         <div id="desktop-navbar-left">
-            <button id="desktop-toggle-sidebar" class="desktop-navbar-button icon" onclick="toggleSidebar()"></button>
-            <button id="desktop-search" class="desktop-navbar-button icon"></button>
-            <span id="desktop-navbar-title"><a href="https://scp-wiki-cn.wikidot.com/">DIMENSION DIARY</a></span>
+            <button class="desktop-navbar-button icon" id="desktop-toggle-sidebar" onclick="toggleSidebar()"></button>
+            <span id="desktop-navbar-title"><a href="https://scp-wiki-cn.wikidot.com/">ARKRING DATABASE</a></span>
         </div>
         <div id="desktop-navbar-center">
             <div id="desktop-navbar-logo"></div>
         </div>
         <div id="desktop-navbar-right">
             <ul>
-                <li onclick="showBottomNavBar('desktop-navbar-menu-1')">
-                    Menu 1
-                    <ul id="desktop-navbar-menu-1">
-                        <li><a href="https://scp-wiki-cn.wikidot.com/">SCP Wiki CN Home</a></li>
-                        <li><a href="#">Test Link</a></li>
-                        <li><a href="#">Test Link</a></li>
+                <li onclick="showBottomNavBar('desktop-navbar-scp')">
+                    SCP Files
+                    <ul id="desktop-navbar-scp">
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series">Series I (001-999)</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-2">Series II (1000-1999)</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-3">Series III (2000-2999)</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-4">Series IV (3000-3999)</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-5">Series V (4000-4999)</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-6">Series VI (5000-5999)</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-7">Series VII (6000-6999)</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-8">Series VIII (7000-7999)</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-001">SCP-001 Proposals</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/joke-scps">Joke SCPs</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/archived-scps">Archived SCPs</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-ex">Explained SCPs</a></li>
                     </ul>
                 </li>
-                <li onclick="showBottomNavBar('desktop-navbar-menu-2')">
-                    Menu 2
-                    <ul id="desktop-navbar-menu-2">
-                        <li><a href="#">Test Link</a></li>
-                        <li><a href="#">Test Link</a></li>
-                        <li><a href="#">Test Link</a></li>
+                <li onclick="showBottomNavBar('desktop-navbar-tales')">
+                    Tales
+                    <ul id="desktop-navbar-tales">
+                        <li><a href="https://scp-wiki-cn.wikidot.com/foundation-tales">Foundation Tales</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/series-archive">Series Archive</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/canon-hub">Canon Hub</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/incident-reports-eye-witness-interviews-and-டிட்">Incident Reports</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/creepy-pasta">Creepypasta Archive</a></li>
+                    </ul>
+                </li>
+                <li onclick="showBottomNavBar('desktop-navbar-info')">
+                    Information
+                    <ul id="desktop-navbar-info">
+                        <li><a href="https://scp-wiki-cn.wikidot.com/about-the-scp-foundation">About the Foundation</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/object-classes">Object Classes</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/security-clearance-levels">Security Clearance</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/secure-facilities-locations">Secure Facilities</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/task-forces">Task Forces</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/groups-of-interest">Groups of Interest</a></li>
+                    </ul>
+                </li>
+                <li onclick="showBottomNavBar('desktop-navbar-community')">
+                    Community
+                    <ul id="desktop-navbar-community">
+                        <li><a href="https://scp-wiki-cn.wikidot.com/guide-hub">Guide Hub</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/forum:start">Forum</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/chat-guide">Chat Guide</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/contribute">How to Contribute</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/faq">FAQ</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
-    </nav>
+    </div>
+    <div id="extra-div-1"></div>
 
-    <!-- MOBILE NAVBAR (Top) -->
+    <!-- MOBILE NAVBAR -->
     <div id="mobile-navbar">
         <button id="mobile-toggle-sidebar" class="icon" onclick="toggleSidebar()"></button>
         <ul>
-            <li id="mobile-navbar-item-1" onclick="showMobileNavbar('mobile-navbar-item-1')">Menu 1</li>
-            <li id="mobile-navbar-item-2" onclick="showMobileNavbar('mobile-navbar-item-2')">Menu 2</li>
+            <li id="mobile-navbar-item-scp" onclick="showMobileNavbar('mobile-navbar-item-scp')">SCP</li>
+            <li id="mobile-navbar-item-tales" onclick="showMobileNavbar('mobile-navbar-item-tales')">Tales</li>
+            <li id="mobile-navbar-item-info" onclick="showMobileNavbar('mobile-navbar-item-info')">Info</li>
+            <li id="mobile-navbar-item-community" onclick="showMobileNavbar('mobile-navbar-item-community')">More</li>
         </ul>
         <div id="mobile-navbar-list">
             <ul>
-                <li for="mobile-navbar-item-1">
+                <li for="mobile-navbar-item-scp">
                     <ul>
-                        <li><a href="https://scp-wiki-cn.wikidot.com/">SCP Wiki CN</a></li>
-                        <li><a href="#">Test Link</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series">Series I</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-2">Series II</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-3">Series III</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-4">Series IV</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-5">Series V</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-series-6">Series VI</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/scp-001">SCP-001</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/joke-scps">Jokes</a></li>
                     </ul>
                 </li>
-                <li for="mobile-navbar-item-2">
+                <li for="mobile-navbar-item-tales">
                     <ul>
-                        <li><a href="#">Test Link</a></li>
-                        <li><a href="#">Test Link</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/foundation-tales">Foundation Tales</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/canon-hub">Canon Hub</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/series-archive">Series Archive</a></li>
+                    </ul>
+                </li>
+                <li for="mobile-navbar-item-info">
+                    <ul>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/about-the-scp-foundation">About</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/object-classes">Object Classes</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/groups-of-interest">GOIs</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/task-forces">Task Forces</a></li>
+                    </ul>
+                </li>
+                <li for="mobile-navbar-item-community">
+                    <ul>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/guide-hub">Guide Hub</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/forum:start">Forum</a></li>
+                        <li><a href="https://scp-wiki-cn.wikidot.com/faq">FAQ</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
+    </div>
+
+    <!-- TIME COUNTER OVERLAY -->
+    <div id="overlay">
+        <div id="overlay-number">
+            <span class="monospace">ELAPSED TIME</span>
+            <span id="time-display">0</span>
+            <span class="monospace">DAYS</span>
+        </div>
+        <div id="overlay-chapter">
+            <span class="monospace" id="chapter-name-en">Phase 01 /</span>
+            <span id="chapter-name">The Beginning</span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <div id="content-container">
+        <main id="main-content-area"></main>
     </div>
 
     <script src="script.js"></script>
