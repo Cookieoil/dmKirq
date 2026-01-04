@@ -48,6 +48,29 @@
 }
 
 /* ============================================
+THEME VARIATIONS
+============================================ */
+body.theme-start {
+--color-theme-bright: #8e7aff;
+}
+
+body.theme-3months {
+--color-theme-bright: #4a9fff;
+}
+
+body.theme-6months {
+--color-theme-bright: #4aff9f;
+}
+
+body.theme-9months {
+--color-theme-bright: #ff9f4a;
+}
+
+body.theme-end {
+--color-theme-bright: #4a4aff;
+}
+
+/* ============================================
    RESET & BASE
    ============================================ */
 *, *::before, *::after {
