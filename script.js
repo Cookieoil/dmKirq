@@ -397,6 +397,23 @@ function updateTheme(days) {
 
 function handleScroll() {
     requestAnimationFrame(updateTimeDisplay);
+    
+    // Parallax background movement
+    const scrollY = window.scrollY;
+    const panels = document.querySelectorAll('.bg-panel');
+    
+    panels.forEach(panel => {
+        const rect = panel.getBoundingClientRect();
+        const bgFixed = panel.querySelector('.bg-fixed');
+        
+        if (bgFixed && rect.top < window.innerHeight && rect.bottom > 0) {
+            // Calculate how far through the panel we've scrolled (0 to 1)
+            const progress = -rect.top / (rect.height + window.innerHeight);
+            // Adjust multiplier (20-50) for more/less movement
+            const offset = progress * 40; 
+            bgFixed.style.transform = `translate3d(0, ${offset}vh, 0)`;
+        }
+    });
 }
 
 // ============================================
