@@ -88,52 +88,52 @@ const HTMLContent = `
         
         <div class="content-wrapper">
             <div class="panel-content panel-content--hero">
-                <h1 class="hero-title">DIMENSION DIARY</h1>
-                <p class="hero-subtitle">A Journey Through Time</p>
+                <h1 class="hero-title">Mọt SCP 01</h1>
+                <p class="hero-subtitle">Mọt SCP 02</p>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_001</p>
+                        <p>file://Mọt SCP/log_001</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-001</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
                     <p class="name">Day 1</p>
-                    <p>The dimensional rift opened today. What I saw on the other side... defies description.</p>
-                    <p>Time moves differently here. Or perhaps it's my perception that has changed.</p>
+                    <p>Mọt SCP 04.</p>
+                    <p>Mọt SCP 04.</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_030</p>
+                        <p>file://Mọt SCP/log_030</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-030</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 30 - One Month</p>
-                    <p>The boundaries between dimensions grow thinner each day.</p>
-                    <p>I've started to see echoes of other timelines overlapping with this one.</p>
+                    <p class="name">Day 30</p>
+                    <p>Mọt SCP 05.</p>
+                    <p>Mọt SCP 05.</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_060</p>
+                        <p>file://Mọt SCP/log_060</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-060</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 60 - Two Months</p>
-                    <p>I've learned to recognize the shimmer at the edges of reality.</p>
-                    <p>Each dimension has its own color, its own taste.</p>
+                    <p class="name">Day 60</p>
+                    <p>Mọt SCP 06.</p>
+                    <p>Mọt SCP 06.</p>
                 </div>
             </div>
         </div>
@@ -151,38 +151,38 @@ const HTMLContent = `
             <div class="panel-content panel-content--phase">
                 <div class="phase-marker">
                     <span class="phase-marker__number">02</span>
-                    <h2 class="phase-marker__title">THREE MONTHS</h2>
-                    <p class="phase-marker__subtitle">The patterns emerge</p>
+                    <h2 class="phase-marker__title">Mọt SCP 07</h2>
+                    <p class="phase-marker__subtitle">Mọt SCP 08</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_090</p>
+                        <p>file://Mọt SCP/log_090</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-090</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 90 - Quarter Year</p>
-                    <p>I've learned to navigate the shifts now. Each dimension has its own frequency, its own rhythm.</p>
-                    <p>The key is synchronization.</p>
+                    <p class="name">Day 90</p>
+                    <p>Mọt SCP 09.</p>
+                    <p>Mọt SCP 09.</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_120</p>
+                        <p>file://Mọt SCP/log_120</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-120</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 120 - Contact</p>
-                    <p>Met another traveler today. She's been jumping for years.</p>
-                    <p><em>"The longer you stay," she said, "the less you remember who you were."</em></p>
+                    <p class="name">Day 120</p>
+                    <p>Mọt SCP 10.</p>
+                    <p><em>Mọt SCP 10.</em></p>
                 </div>
             </div>
         </div>
@@ -200,38 +200,38 @@ const HTMLContent = `
             <div class="panel-content panel-content--phase">
                 <div class="phase-marker">
                     <span class="phase-marker__number">03</span>
-                    <h2 class="phase-marker__title">SIX MONTHS</h2>
-                    <p class="phase-marker__subtitle">Identity fractures</p>
+                    <h2 class="phase-marker__title">Mọt SCP 11</h2>
+                    <p class="phase-marker__subtitle">Mọt SCP 12</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_180</p>
+                        <p>file://Mọt SCP/log_180</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-180</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 180 - Halfway</p>
-                    <p>Half a year. I can no longer remember my mother's face.</p>
-                    <p>But I can see seventeen versions of this room simultaneously.</p>
+                    <p class="name">Day 180</p>
+                    <p>Mọt SCP 13.</p>
+                    <p>Mọt SCP 13.</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_210</p>
+                        <p>file://Mọt SCP/log_210</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-210</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 210 - Fragmentation</p>
-                    <p>Which memories are mine? Which belong to the other versions of me?</p>
-                    <p>The boundaries are dissolving.</p>
+                    <p class="name">Day 210</p>
+                    <p>Mọt SCP 14.</p>
+                    <p>Mọt SCP 14.</p>
                 </div>
             </div>
         </div>
@@ -249,53 +249,53 @@ const HTMLContent = `
             <div class="panel-content panel-content--phase">
                 <div class="phase-marker">
                     <span class="phase-marker__number">04</span>
-                    <h2 class="phase-marker__title">NINE MONTHS</h2>
-                    <p class="phase-marker__subtitle">The convergence approaches</p>
+                    <h2 class="phase-marker__title">Mọt SCP 15</h2>
+                    <p class="phase-marker__subtitle">Mọt SCP 16</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_270</p>
+                        <p>file://Mọt SCP/log_270</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-270</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 270 - Convergence</p>
-                    <p>The timelines are collapsing into one. I can feel the convergence.</p>
-                    <p>All paths lead to a single point.</p>
+                    <p class="name">Day 270</p>
+                    <p>Mọt SCP 17.</p>
+                    <p>Mọt SCP 17.</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_300</p>
+                        <p>file://Mọt SCP/log_300</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-300</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
                     <p class="name">Day 300 - Understanding</p>
-                    <p>I understand now. The journey was never about reaching a destination.</p>
-                    <p>It was about becoming something that could exist in all dimensions at once.</p>
+                    <p>Mọt SCP 18.</p>
+                    <p>Mọt SCP 18.</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_330</p>
+                        <p>file://Mọt SCP/log_330</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-330</b></span>
                             <span class="file-type">Type<b>Journal Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 330 - Preparation</p>
-                    <p>The final transformation is near. I am ready.</p>
-                    <p>Or rather, all versions of me are ready.</p>
+                    <p class="name">Day 330</p>
+                    <p>Mọt SCP 19.</p>
+                    <p>Mọt SCP 19.</p>
                 </div>
             </div>
         </div>
@@ -314,23 +314,23 @@ const HTMLContent = `
                 <div class="final-display">
                     <span class="final-display__label">DAY</span>
                     <h1 class="final-display__number">365</h1>
-                    <p class="final-display__subtitle">The Convergence</p>
+                    <p class="final-display__subtitle">Mọt SCP 20</p>
                 </div>
             </div>
             
             <div class="panel-content">
                 <div class="modal rec modal--light">
                     <div class="modal-heading monospace">
-                        <p>file://dimension/log_365</p>
+                        <p>file://Mọt SCP/log_365</p>
                         <p>
                             <span class="file-number">File No.<b>LOG-365</b></span>
                             <span class="file-type">Type<b>Final Entry</b></span>
                         </p>
                     </div>
-                    <p class="name">Day 365 - Final Entry</p>
-                    <p>It is done.</p>
-                    <p>I am no longer bound by a single thread of time. I exist in all moments, all places, all possibilities.</p>
-                    <p>This diary ends here. But I continue everywhere.</p>
+                    <p class="name">Day 365</p>
+                    <p>Mọt SCP 21.</p>
+                    <p>Mọt SCP 21.</p>
+                    <p>Mọt SCP 21.</p>
                 </div>
             </div>
         </div>
