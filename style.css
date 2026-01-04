@@ -1,52 +1,111 @@
 /* ============================================
-   FONTS & IMPORTS
+   IMPORTS & FONTS
    ============================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ============================================
-   CSS CUSTOM PROPERTIES
+   CSS CUSTOM PROPERTIES (Variables)
    ============================================ */
-
 :root {
-    /* Typography */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-display: 'Inter', sans-serif;
+    /* Fonts */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
     
-    /* Colors */
-    --color-white: #ffffff;
-    --color-white-90: rgba(255, 255, 255, 0.9);
-    --color-white-70: rgba(255, 255, 255, 0.7);
-    --color-white-50: rgba(255, 255, 255, 0.5);
-    --color-white-20: rgba(255, 255, 255, 0.2);
-    --color-white-10: rgba(255, 255, 255, 0.1);
-    --color-white-05: rgba(255, 255, 255, 0.05);
+    /* Base Colors (overridden by themes) */
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #0a0a0a;
+    --color-bg-tertiary: #1a1a1a;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #a0a0a0;
+    --color-accent: #8e7aff;
+    --color-accent-glow: rgba(142, 122, 255, 0.3);
     
-    --color-black: #000000;
-    --color-black-90: rgba(0, 0, 0, 0.9);
-    --color-black-70: rgba(0, 0, 0, 0.7);
-    --color-black-50: rgba(0, 0, 0, 0.5);
-    --color-black-30: rgba(0, 0, 0, 0.3);
-    
-    /* Glass Effect */
-    --glass-blur: 20px;
-    --glass-bg: rgba(0, 0, 0, 0.3);
+    /* Glass Effect Variables */
+    --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: 20px;
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     
     /* Transitions */
     --transition-fast: 0.2s ease;
     --transition-medium: 0.4s ease;
     --transition-slow: 0.8s ease;
-    
-    /* Spacing */
-    --nav-height: 4rem;
+    --transition-theme: 1s ease;
 }
 
 /* ============================================
-   RESET & BASE STYLES
+   THEME DEFINITIONS
    ============================================ */
 
+/* Theme 1: Start (Days 0-90) - Deep Purple/Cosmic */
+body.theme-start {
+    --color-bg-primary: #0a0012;
+    --color-bg-secondary: #120020;
+    --color-bg-tertiary: #1a0030;
+    --color-text-primary: #f0e8ff;
+    --color-text-secondary: #9080b0;
+    --color-accent: #a78bfa;
+    --color-accent-glow: rgba(167, 139, 250, 0.4);
+    --glass-bg: rgba(167, 139, 250, 0.08);
+    --glass-border: rgba(167, 139, 250, 0.2);
+}
+
+/* Theme 2: 3 Months (Days 90-180) - Deep Blue/Ocean */
+body.theme-3months {
+    --color-bg-primary: #000a14;
+    --color-bg-secondary: #001428;
+    --color-bg-tertiary: #002040;
+    --color-text-primary: #e0f4ff;
+    --color-text-secondary: #6090b0;
+    --color-accent: #38bdf8;
+    --color-accent-glow: rgba(56, 189, 248, 0.4);
+    --glass-bg: rgba(56, 189, 248, 0.08);
+    --glass-border: rgba(56, 189, 248, 0.2);
+}
+
+/* Theme 3: 6 Months (Days 180-270) - Deep Green/Forest */
+body.theme-6months {
+    --color-bg-primary: #000a06;
+    --color-bg-secondary: #00140c;
+    --color-bg-tertiary: #002014;
+    --color-text-primary: #e0fff0;
+    --color-text-secondary: #60b090;
+    --color-accent: #4ade80;
+    --color-accent-glow: rgba(74, 222, 128, 0.4);
+    --glass-bg: rgba(74, 222, 128, 0.08);
+    --glass-border: rgba(74, 222, 128, 0.2);
+}
+
+/* Theme 4: 9 Months (Days 270-365) - Deep Red/Warning */
+body.theme-9months {
+    --color-bg-primary: #140606;
+    --color-bg-secondary: #280c0c;
+    --color-bg-tertiary: #401414;
+    --color-text-primary: #fff0e8;
+    --color-text-secondary: #b08060;
+    --color-accent: #f87171;
+    --color-accent-glow: rgba(248, 113, 113, 0.4);
+    --glass-bg: rgba(248, 113, 113, 0.08);
+    --glass-border: rgba(248, 113, 113, 0.2);
+}
+
+/* Theme 5: End (Day 365) - Light/Inverted */
+body.theme-end {
+    --color-bg-primary: #fafafa;
+    --color-bg-secondary: #f0f0f0;
+    --color-bg-tertiary: #e0e0e0;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #606060;
+    --color-accent: #6366f1;
+    --color-accent-glow: rgba(99, 102, 241, 0.3);
+    --glass-bg: rgba(0, 0, 0, 0.05);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -55,213 +114,89 @@
 
 html {
     scroll-behavior: smooth;
-    /* Prevent horizontal overflow from fixed backgrounds */
-    overflow-x: hidden;
 }
 
 body {
-    font-family: var(--font-primary);
-    color: var(--color-white);
-    background-color: var(--color-black);
-    line-height: 1.6;
+    font-family: var(--font-sans);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    line-height: 1.7;
+    min-height: 100vh;
     overflow-x: hidden;
-    /* Enable smooth scrolling without snap */
-    scroll-behavior: smooth;
-}
-
-/* Optional: Uncomment for scroll snapping */
-/*
-html {
-    scroll-snap-type: y proximity;
-}
-*/
-
-/* ============================================
-   NOISE/GRAIN TEXTURE OVERLAY (Optional)
-   ============================================ */
-
-body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Add your noise.png texture here */
-    /* background-image: url('images/noise.png'); */
-    background-repeat: repeat;
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: 10000;
+    transition: 
+        background-color var(--transition-theme),
+        color var(--transition-theme);
 }
 
 /* ============================================
-   FIXED NAVIGATION
+   OVERLAY (Fixed Time Display)
    ============================================ */
-
-#fixed-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--nav-height);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    z-index: 9999;
-    
-    /* Glassmorphism for nav */
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border-bottom: 1px solid var(--glass-border);
-}
-
-.nav-logo {
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: var(--color-white-90);
-}
-
-.nav-links {
-    display: flex;
-    gap: 2rem;
-}
-
-.nav-links a {
-    color: var(--color-white-70);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    transition: color var(--transition-fast);
-}
-
-.nav-links a:hover {
-    color: var(--color-white);
-}
-
-@media (max-width: 768px) {
-    #fixed-nav {
-        padding: 0 1rem;
-    }
-    
-    .nav-links {
-        display: none; /* Hide on mobile, could add hamburger menu */
-    }
-}
-
-/* ============================================
-   TIME COUNTER OVERLAY
-   ============================================ */
-
 #overlay {
     position: fixed;
-    z-index: 9998;
+    z-index: 1000;
     pointer-events: none;
 }
 
 #overlay-number {
     position: fixed;
-    left: 2rem;
     top: 50%;
+    left: 2.5rem;
     transform: translateY(-50%);
     text-align: left;
 }
 
-#overlay-number .label,
-#overlay-number .unit {
+#overlay-number span {
     display: block;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    color: var(--color-white-50);
-    text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.1em;
+    transition: color var(--transition-theme);
 }
 
 #overlay-number #time-display {
-    display: block;
     font-size: 3rem;
     font-weight: 700;
-    color: var(--color-white);
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
     line-height: 1;
     margin: 0.25rem 0;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 30px var(--color-accent-glow);
+    transition: color var(--transition-theme), text-shadow var(--transition-theme);
 }
 
 #overlay-chapter {
     position: fixed;
-    bottom: 2rem;
-    left: 2rem;
+    top: 2rem;
+    left: 2.5rem;
 }
 
 #overlay-chapter span {
     display: block;
+    transition: color var(--transition-theme);
 }
 
-#chapter-name-en {
+#overlay-chapter #chapter-name-en {
+    font-family: var(--font-mono);
     font-size: 0.75rem;
-    font-weight: 500;
+    color: var(--color-text-secondary);
     letter-spacing: 0.1em;
-    color: var(--color-white-50);
+    text-transform: uppercase;
 }
 
-#chapter-name {
-    font-size: 1rem;
+#overlay-chapter #chapter-name {
+    font-size: 1.25rem;
     font-weight: 600;
-    color: var(--color-white-90);
+    color: var(--color-text-primary);
+    margin-top: 0.25rem;
 }
 
-#scroll-indicator {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    text-align: right;
-    transition: opacity var(--transition-medium);
-}
-
-#scroll-indicator span {
-    display: block;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    color: var(--color-white-50);
-    margin-bottom: 0.5rem;
-}
-
-.scroll-arrow {
-    width: 20px;
-    height: 20px;
-    margin-left: auto;
-    border-right: 2px solid var(--color-white-50);
-    border-bottom: 2px solid var(--color-white-50);
-    transform: rotate(45deg);
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0) rotate(45deg);
-    }
-    40% {
-        transform: translateY(10px) rotate(45deg);
-    }
-    60% {
-        transform: translateY(5px) rotate(45deg);
-    }
-}
-
-/* Hide scroll indicator after scrolling */
-body.scrolled #scroll-indicator {
-    opacity: 0;
-}
-
+/* Mobile overlay adjustments */
 @media (max-width: 768px) {
     #overlay-number {
-        left: 1rem;
         top: auto;
-        bottom: 5rem;
+        bottom: 2rem;
+        left: 1.5rem;
     }
     
     #overlay-number #time-display {
@@ -269,369 +204,80 @@ body.scrolled #scroll-indicator {
     }
     
     #overlay-chapter {
-        bottom: 1rem;
-        left: 1rem;
-    }
-    
-    #scroll-indicator {
-        display: none;
+        left: 1.5rem;
+        top: 1.5rem;
     }
 }
 
 /* ============================================
-   PARALLAX STACKING SECTIONS
+   SECTION BASE STYLES
    ============================================ */
-
-.parallax-section {
+section {
     position: relative;
     width: 100%;
+}
+
+section.fullscreen {
     min-height: 100vh;
-    
-    /* KEY: Use CSS variable for stacking order */
-    z-index: calc(var(--section-index) * 10);
-    
-    /* Flexbox for centering content */
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    /* Ensure sections stack properly */
-    /* margin-top: -1px; */ /* Prevents gap between sections */
-    
-    /* Optional: Scroll snap */
-    /* scroll-snap-align: start; */
+}
+
+section.page-flow {
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    background-color: var(--color-bg-primary);
+    transition: background-color var(--transition-theme);
 }
 
 /* ============================================
-   FIXED/STICKY BACKGROUND IMAGE
+   PARALLAX SECTIONS
    ============================================ */
-
-.section-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    
-    /* Background image (set via data-bg attribute in JS) */
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    
-    /* KEY: Fixed attachment creates parallax effect */
-    background-attachment: fixed;
-    
-    /* Darken overlay for readability */
-    /* Applied via pseudo-element below */
+.parallax-section {
+    position: relative;
+    overflow: hidden;
 }
 
-/* Dark overlay on background */
-.section-background::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.4) 0%,
-        rgba(0, 0, 0, 0.2) 50%,
-        rgba(0, 0, 0, 0.6) 100%
-    );
-}
-
-/* Mobile: Fixed background doesn't work well, use scroll */
-@media (max-width: 768px) {
-    .section-background {
-        background-attachment: scroll;
-    }
-}
-
-/* ============================================
-   GLASSMORPHISM CONTAINER
-   ============================================ */
-
-.glass-container {
+.parallax-section .parallax-content {
     position: relative;
     z-index: 2;
-    width: 90%;
-    max-width: 600px;
-    padding: 3rem;
-    
-    /* Glassmorphism Effect */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   GLASSMORPHISM EFFECTS
+   ============================================ */
+
+/* Standard Glass Panel */
+.glass-panel {
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
-    
-    /* Glass border and shadow */
     border: 1px solid var(--glass-border);
     border-radius: 16px;
     box-shadow: var(--glass-shadow);
-    
-    /* Animation on scroll */
-    opacity: 0;
-    transform: translateY(30px);
     transition: 
-        opacity var(--transition-slow),
-        transform var(--transition-slow);
+        background var(--transition-theme),
+        border-color var(--transition-theme),
+        box-shadow var(--transition-theme);
 }
 
-/* Visible state (triggered by JS) */
-.glass-container.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Alternative: Always visible */
-.parallax-section:first-child .glass-container {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.glass-content {
-    text-align: center;
-}
-
-/* ============================================
-   TYPOGRAPHY IN GLASS CONTAINERS
-   ============================================ */
-
-.phase-label {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    color: var(--color-white-70);
-    margin-bottom: 1rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--color-white-20);
-    border-radius: 20px;
-}
-
-.section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--color-white);
-    margin-bottom: 0.5rem;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.section-title.giant {
-    font-size: 6rem;
-    line-height: 1;
-}
-
-.section-subtitle {
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 0.2em;
-    color: var(--color-white-70);
-    margin-bottom: 1rem;
-}
-
-.divider {
-    width: 60px;
-    height: 2px;
-    background: var(--color-white-50);
-    margin: 1.5rem auto;
-}
-
-.section-description {
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--color-white-90);
-    max-width: 450px;
-    margin: 0 auto;
-}
-
-@media (max-width: 768px) {
-    .glass-container {
-        padding: 2rem;
-        margin: var(--nav-height) 1rem 2rem;
-    }
-    
-    .section-title {
-        font-size: 1.8rem;
-    }
-    
-    .section-title.giant {
-        font-size: 4rem;
-    }
-    
-    .section-description {
-        font-size: 0.9rem;
-    }
-}
-
-/* ============================================
-   FINAL GLASS CONTAINER (Different style)
-   ============================================ */
-
-.glass-container.final {
+/* Light Glass Panel (more visible) */
+.glass-panel-light {
     background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* ============================================
-   TIME ZERO MARKER
-   ============================================ */
-
-#time-zero {
-    position: relative;
-    height: 1px;
-    z-index: 100;
-}
-
-/* ============================================
-   CREDITS SECTION
-   ============================================ */
-
-.credits-section {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-black);
-    z-index: calc(var(--section-index) * 10);
-}
-
-.credits-content {
-    text-align: center;
-}
-
-.credits-content h2 {
-    font-size: 8rem;
-    font-weight: 700;
-    color: var(--color-white);
-    margin-bottom: 1rem;
-}
-
-.credits-content p {
-    font-size: 1.5rem;
-    font-weight: 300;
-    letter-spacing: 0.5em;
-    color: var(--color-white-70);
-}
-
-.credits-divider {
-    width: 100px;
-    height: 1px;
-    background: var(--color-white-30);
-    margin: 3rem auto;
-}
-
-.credits-author {
-    font-size: 0.9rem !important;
-    letter-spacing: 0.2em !important;
-    color: var(--color-white-50) !important;
-}
-
-/* ============================================
-   PHASE-SPECIFIC BACKGROUND OVERRIDES
-   Each phase can have a unique color tint
-   ============================================ */
-
-#phase-1 .section-background::after {
-    background: linear-gradient(
-        180deg,
-        rgba(30, 0, 50, 0.5) 0%,
-        rgba(0, 0, 0, 0.3) 50%,
-        rgba(30, 0, 50, 0.6) 100%
-    );
-}
-
-#phase-2 .section-background::after {
-    background: linear-gradient(
-        180deg,
-        rgba(0, 30, 60, 0.5) 0%,
-        rgba(0, 0, 0, 0.3) 50%,
-        rgba(0, 30, 60, 0.6) 100%
-    );
-}
-
-#phase-3 .section-background::after {
-    background: linear-gradient(
-        180deg,
-        rgba(0, 50, 30, 0.5) 0%,
-        rgba(0, 0, 0, 0.3) 50%,
-        rgba(0, 50, 30, 0.6) 100%
-    );
-}
-
-#phase-4 .section-background::after {
-    background: linear-gradient(
-        180deg,
-        rgba(60, 30, 0, 0.5) 0%,
-        rgba(0, 0, 0, 0.3) 50%,
-        rgba(60, 30, 0, 0.6) 100%
-    );
-}
-
-#ending .section-background::after {
-    background: linear-gradient(
-        180deg,
-        rgba(50, 0, 0, 0.5) 0%,
-        rgba(0, 0, 0, 0.3) 50%,
-        rgba(50, 0, 0, 0.6) 100%
-    );
-}
-
-/* ============================================
-   SCROLLBAR STYLING
-   ============================================ */
-
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--color-black);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--color-white-30);
-    border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--color-white-50);
-}
-
-/* ============================================
-   SELECTION STYLING
-   ============================================ */
-
-::selection {
-    background: var(--color-white-30);
-    color: var(--color-white);
-}
-
-/* ============================================
-   ANIMATIONS
-   ============================================ */
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Initial page load animation */
-.parallax-section:first-child .glass-container {
-    animation: fadeInUp 1s ease 0.5s forwards;
-}
+/* Inverted Glass (for
