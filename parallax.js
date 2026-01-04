@@ -6,28 +6,28 @@
 class ParallaxEngine {
     constructor(options = {}) {
         this.config = {
-            // How much the background "lags" behind scroll (0.5 = half speed)
             parallaxSpeed: options.parallaxSpeed || 0.5,
-            // Enable/disable parallax
             enabled: options.enabled !== false,
-            // Use GPU acceleration
             useGPU: options.useGPU !== false,
-            // Throttle scroll events (ms)
             throttle: options.throttle || 10
         };
         
         this.parallaxElements = [];
         this.ticking = false;
         this.lastScrollY = 0;
-        
-        if (this.config.enabled) {
-            this.init();
-        }
+        this.initialized = false;
     }
     
     init() {
+        if (this.initialized) return;
+        
         // Find all parallax containers
         this.parallaxElements = document.querySelectorAll('[data-parallax]');
+        
+        if (this.parallaxElements.length === 0) {
+            console.warn('No parallax elements found. Make sure content is loaded first.');
+            return;
+        }
         
         // Bind scroll event
         window.addEventListener('scroll', () => this.onScroll(), { passive: true });
@@ -35,6 +35,7 @@ class ParallaxEngine {
         
         // Initial update
         this.update();
+        this.initialized = true;
         
         console.log(`Parallax initialized with ${this.parallaxElements.length} elements`);
     }
@@ -56,6 +57,8 @@ class ParallaxEngine {
     }
     
     update() {
+        if (!this.config.enabled) return;
+        
         const scrollY = this.lastScrollY;
         const viewportHeight = window.innerHeight;
         
@@ -82,7 +85,6 @@ class ParallaxEngine {
             const speed = parseFloat(container.dataset.parallaxSpeed) || this.config.parallaxSpeed;
             
             // Calculate translation
-            // The background moves slower than content, creating depth
             const maxOffset = elementHeight * speed;
             const offset = (scrollProgress - 0.5) * maxOffset;
             
@@ -90,23 +92,20 @@ class ParallaxEngine {
             const parallaxImage = container.querySelector('.parallax-image');
             if (parallaxImage) {
                 if (this.config.useGPU) {
-                    // GPU-accelerated transform
                     parallaxImage.style.transform = `translate3d(0, ${offset}px, 0)`;
                 } else {
-                    // Fallback
                     parallaxImage.style.transform = `translateY(${offset}px)`;
                 }
             }
         });
     }
     
-    // Public method to add new parallax elements dynamically
     refresh() {
         this.parallaxElements = document.querySelectorAll('[data-parallax]');
         this.update();
+        console.log(`Parallax refreshed: ${this.parallaxElements.length} elements`);
     }
     
-    // Enable/disable parallax
     toggle(enabled) {
         this.config.enabled = enabled;
         if (enabled) {
@@ -115,13 +114,9 @@ class ParallaxEngine {
     }
 }
 
-// Initialize parallax engine globally
-window.parallaxEngine = null;
-
-document.addEventListener('DOMContentLoaded', () => {
-    window.parallaxEngine = new ParallaxEngine({
-        parallaxSpeed: 0.4,
-        enabled: true,
-        useGPU: true
-    });
+// Create global instance but DON'T initialize yet
+window.parallaxEngine = new ParallaxEngine({
+    parallaxSpeed: 0.4,
+    enabled: true,
+    useGPU: true
 });
